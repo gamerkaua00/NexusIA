@@ -188,7 +188,7 @@
                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-8 h-8 rounded-lg">
                     <div>
                         <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">NeuroNexus</h1>
-                        <p class="text-[10px] text-[var(--text-secondary)]">V3.5 | PWA Ready</p>
+                        <p class="text-[10px] text-[var(--text-secondary)]">V3.6 | Memory + PWA</p>
                     </div>
                 </div>
                 <button onclick="toggleSidebar()" class="md:hidden text-gray-400 p-2"><i class="fas fa-times fa-lg"></i></button>
@@ -200,7 +200,12 @@
                     <option value="default">⚡ Padrão (Full Stack)</option>
                     <option value="security">🔒 Strict Security (OWASP)</option>
                     <option value="architect">🏛️ Software Architect</option>
-                    <option value="data">📊 Data & Analytics</option>
+                    <option value="db_opt">🗄️ Otimização SQL/NoSQL</option>
+                    <option value="api_contract">📜 Contrato API (OpenAPI)</option>
+                    <option value="iac">☁️ Infra as Code (IaC)</option>
+                    <option value="perf">🚀 Performance & Algo</option>
+                    <option value="a11y">♿ Acessibilidade (WCAG)</option>
+                    <option value="docs">📚 Documentação Formal</option>
                 </select>
             </div>
 
@@ -275,12 +280,12 @@
                 <div id="chat-container" class="flex-1 overflow-y-auto p-2 md:p-8 space-y-6 scroll-smooth pb-32">
                     <div class="flex flex-col items-center justify-center h-full text-center space-y-4 opacity-50" id="welcome-screen">
                         <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-24 h-24 mb-4 rounded-2xl shadow-2xl animate-pulse">
-                        <h2 class="text-2xl font-bold">NeuroNexus V3.5</h2>
+                        <h2 class="text-2xl font-bold">NeuroNexus V3.6</h2>
                         <p class="max-w-md text-sm px-4">Ambiente de Execução Real, Análise Técnica e Gestão de Contexto.</p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm w-full max-w-lg px-4">
                             <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)] active:bg-gray-700 transition" onclick="fillPrompt('Crie um script Python para análise de dados e execute-o')">🐍 Executar Python (RESE)</div>
-                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)] active:bg-gray-700 transition" onclick="fillPrompt('Gere um gráfico de vendas do último trimestre usando Chart.js')">📊 Gerar Gráfico (JS)</div>
-                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)] active:bg-gray-700 transition" onclick="fillPrompt('Crie um PDF com um relatório simples e me mostre o código')">📄 Gerar PDF (jsPDF)</div>
+                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)] active:bg-gray-700 transition" onclick="fillPrompt('Use o moa_memory.py para salvar este chat na memória permanente')">🧠 Testar Memória (RAG)</div>
+                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)] active:bg-gray-700 transition" onclick="fillPrompt('Gere um DDL para uma tabela de usuários em PostgreSQL')">🗄️ SQL Mode</div>
                             <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)] active:bg-gray-700 transition" onclick="fillPrompt('Desenhe um diagrama simples de rede neural em SVG')">🎨 Criar Imagem (SVG)</div>
                         </div>
                     </div>
@@ -587,6 +592,13 @@
 
             const theme = localStorage.getItem('neuroNexusTheme') || 'default';
             setTheme(theme);
+            
+            const mode = localStorage.getItem('neuroNexusWorkflow') || 'default';
+            const wfSelect = document.getElementById('workflow-mode');
+            if(wfSelect) {
+                wfSelect.value = mode;
+                currentWorkflowMode = mode;
+            }
         }
 
         function loadDefaultKeys() {
@@ -615,6 +627,16 @@
 
             updateStatus("Online");
             closeSettings();
+        }
+        
+        function updateWorkflowMode() {
+            const wfSelect = document.getElementById('workflow-mode');
+            if(wfSelect) {
+                currentWorkflowMode = wfSelect.value;
+                localStorage.setItem('neuroNexusWorkflow', currentWorkflowMode);
+                // Opcional: Notificar no chat
+                // addMessageToChat('model', `Modo de Workflow alterado para: **${wfSelect.options[wfSelect.selectedIndex].text}**. Ajustando foco.`);
+            }
         }
 
         function updateStatus(txt) { 
@@ -894,18 +916,87 @@ if __name__ == "__main__":
         asyncio.run(main_test())
 `;
 
+        // --- NEW MEMORY MODULE CODE (SIMULATED RAG) ---
+        const MOA_MEMORY_CODE = `import json
+import os
+import time
+from typing import List, Dict
+from difflib import SequenceMatcher
+
+# Simulação de RAG (Retrieval-Augmented Generation) para Ambiente Browser (Pyodide)
+# Em produção, usaríamos ChromaDB + SentenceTransformers.
+# Aqui usamos 'difflib' para similaridade de string para demonstrar o conceito sem dependências pesadas.
+
+class ProjectMemory:
+    def __init__(self, project_name="NeuroNexus_Project"):
+        self.memory_file = f"{project_name}_memory.json"
+        self.memories = []
+        self.load_memory()
+
+    def load_memory(self):
+        if os.path.exists(self.memory_file):
+            try:
+                with open(self.memory_file, 'r') as f:
+                    self.memories = json.load(f)
+            except:
+                self.memories = []
+        else:
+            self.memories = []
+
+    def _calculate_similarity(self, a, b):
+        return SequenceMatcher(None, a, b).ratio()
+
+    def store_conversation(self, interaction_id: str, text_content: str, tags: List[str] = None):
+        """Armazena um novo fragmento de conhecimento."""
+        entry = {
+            "id": interaction_id,
+            "content": text_content,
+            "tags": tags or [],
+            "timestamp": time.time()
+        }
+        self.memories.append(entry)
+        self._save_memory()
+        print(f"[ProjectMemory] Indexado ID: {interaction_id}")
+
+    def _save_memory(self):
+        with open(self.memory_file, 'w') as f:
+            json.dump(self.memories, f)
+
+    def retrieve_context(self, user_query: str, k=3):
+        """Recupera contexto relevante baseado em similaridade."""
+        print(f"[ProjectMemory] Buscando contexto para: '{user_query}'...")
+        
+        if not self.memories:
+            return "Nenhuma memória armazenada ainda."
+
+        scored_memories = []
+        for mem in self.memories:
+            # Score simples baseado em similaridade de texto + match de tags
+            score = self._calculate_similarity(user_query.lower(), mem['content'].lower())
+            scored_memories.append((score, mem))
+        
+        # Ordena por relevância
+        scored_memories.sort(key=lambda x: x[0], reverse=True)
+        
+        # Filtra top K com threshold mínimo
+        top_k = [m[1]['content'] for m in scored_memories[:k] if m[0] > 0.1]
+        
+        if not top_k:
+            return "Nenhum contexto relevante encontrado na memória com score suficiente."
+        
+        return "\\n--- CONTEXTO RECUPERADO ---\\n".join(top_k)
+
+# Instância Global para uso no terminal
+memory_system = ProjectMemory()
+print("[ProjectMemory] Sistema de Memória RAG (Simulado) Inicializado.")
+`;
+
         const GAP_ANALYSIS_STRATEGY = `
-STATUS: NEURONEXUS V3.5 (PWA FIXED).
-Módulos MOA.Decide e MOA.Resilience foram integrados ao código Python na memória.
+STATUS: NEURONEXUS V3.6 (MEMORY + MODES).
+Novos Modos: SQL, OpenAPI, IaC, Performance, A11y, Docs.
+Sistema RAG: moa_memory.py carregado e pronto para uso no terminal.
 
-COMPONENTES ATIVOS:
-1. MOA.Flow: Scheduler Assíncrono (I.1).
-2. MOA.Predict: Cálculo de E-Score (I.2).
-3. MOA.Decide: Branching automático (EXECUTE/OPTIMIZE/FAIL) (I.3).
-4. MOA.Resilience: Checkpoint e Rollback automáticos em falha (I.4).
-5. Frontend: Suporte a Chart.js (Gráficos), jsPDF (Docs) e SVG (Imagens).
-
-AÇÃO RECOMENDADA: Faça o upload para o GitHub. A versão está completa e segura.
+AÇÃO RECOMENDADA: O sistema agora pode "lembrar" decisões. Use 'memory_system.store_conversation()' para salvar dados críticos.
         `;
 
         // --- 4. EVENT LISTENERS ---
@@ -932,8 +1023,8 @@ AÇÃO RECOMENDADA: Faça o upload para o GitHub. A versão está completa e seg
 
             try {
                 if (terminal) {
-                    terminal.innerText = "NeuroNexus OS v3.5 Booting...\n";
-                    terminal.innerText += "> Loading MOA.Decide & Resilience... OK\n";
+                    terminal.innerText = "NeuroNexus OS v3.6 Booting...\n";
+                    terminal.innerText += "> Loading MOA Modules... OK\n";
                     terminal.innerText += "> Initializing Pyodide WASM Kernel...\n";
                 }
 
@@ -944,16 +1035,22 @@ AÇÃO RECOMENDADA: Faça o upload para o GitHub. A versão está completa e seg
                 
                 pyodide.FS.writeFile("moa_flow_scheduler.py", MOA_SCHEDULER_CODE);
                 pyodide.FS.writeFile("test_moa_flow.py", TEST_MOA_FLOW_CODE);
+                pyodide.FS.writeFile("moa_memory.py", MOA_MEMORY_CODE); // Loading Memory Module
 
                 updateProjectContext('moa_flow_scheduler.py', MOA_SCHEDULER_CODE);
                 updateProjectContext('test_moa_flow.py', TEST_MOA_FLOW_CODE);
+                updateProjectContext('moa_memory.py', MOA_MEMORY_CODE);
                 
+                // Auto-run memory init
+                await pyodide.runPythonAsync(MOA_MEMORY_CODE);
+
                 if (statusDot) statusDot.className = "w-2 h-2 rounded-full bg-green-500";
                 if (statusText) statusText.innerText = "Python Ready (RESE)";
                 
                 if (terminal) {
                     terminal.innerText += "> Python Kernel Ready.\n";
                     terminal.innerText += "> MOA Full Stack: LOADED.\n";
+                    terminal.innerText += "> RAG Memory System: ONLINE.\n";
                     terminal.innerText += "> System Ready.\n";
                 }
                 
@@ -1033,25 +1130,36 @@ AÇÃO RECOMENDADA: Faça o upload para o GitHub. A versão está completa e seg
 
                 const fileContext = JSON.stringify(Object.keys(projectFiles));
                 const githubKey = localStorage.getItem('neuroNexusGithub') || "Não configurado";
+                
+                // --- DYNAMIC MODE INSTRUCTION ---
                 let modeInstruction = "Modo: Padrão (Full Stack Senior).";
-                if(currentWorkflowMode === 'security') modeInstruction = "MODO STRICT SECURITY (OWASP). Seja paranoico com validação.";
-                else if(currentWorkflowMode === 'data') modeInstruction = "MODO DATA SCIENTIST. Use Python e Chart.js.";
+                switch(currentWorkflowMode) {
+                    case 'security': modeInstruction = "MODO: Strict Security (OWASP). Valide tudo."; break;
+                    case 'architect': modeInstruction = "MODO: Arquiteto de Software. Foco em padrões, escalabilidade e trade-offs."; break;
+                    case 'db_opt': modeInstruction = "MODO: Otimização de Banco de Dados. Gere DDLs, use EXPLAIN, sugira índices."; break;
+                    case 'api_contract': modeInstruction = "MODO: Contrato de API. Gere OpenAPI/Swagger specs."; break;
+                    case 'iac': modeInstruction = "MODO: Infra as Code. Gere Terraform, Dockerfiles, K8s manifests."; break;
+                    case 'perf': modeInstruction = "MODO: Performance. Analise Big O, sugira otimizações de loops e memória."; break;
+                    case 'a11y': modeInstruction = "MODO: Acessibilidade. Verifique WCAG, ARIA e contrastes."; break;
+                    case 'docs': modeInstruction = "MODO: Documentação. Gere JSDoc, Docstrings e READMEs formais."; break;
+                }
+
                 
                 // --- FIXED SYSTEM PROMPT: TEACHING AI TO USE TOOLS ---
                 const systemPromptText = `
-System: Você é NeuroNexus V3.5, uma IA de desenvolvimento Full Stack Senior e Gerente de Projetos.
-Você conversa de forma amigável, profissional e técnica. Você sabe criticar seu próprio código.
+System: Você é NeuroNexus V3.6, uma IA Full Stack Senior, Gerente de Projetos e Especialista em Memória RAG.
 
 === SUAS CAPACIDADES TÉCNICAS ===
-1. **Python (RESE):** Você pode gerar e rodar Python via Pyodide. Use para lógica complexa ou análise de dados.
-2. **Gráficos (Chart.js):** Se pedirem um gráfico, gere um código HTML completo (apenas o conteúdo do <body> ou <script>) usando Chart.js (já incluído via CDN). Exemplo: crie um <canvas id="myChart"></canvas> e o script correspondente.
-3. **PDFs (jsPDF):** Se pedirem um PDF, gere código JavaScript que usa 'window.jspdf' (já incluído) para criar o doc e salvar (.save()).
-4. **Imagens/Diagramas:** Se pedirem imagens ou diagramas, gere código **SVG Inline** limpo e bonito. Não use URLs de imagens externas pois quebram.
-5. **Auto-Correção:** Se você gerar código, analise-o brevemente após a geração.
+1. **Python (RESE):** Gere e rode Python. Use 'moa_memory.py' para persistir dados importantes.
+   - Para salvar algo na memória: "Use memory_system.store_conversation('id', 'texto')".
+   - Para lembrar algo: "Use memory_system.retrieve_context('tema')".
+2. **Gráficos (Chart.js):** Gere código HTML completo com Chart.js.
+3. **PDFs (jsPDF):** Gere código JS para PDFs.
+4. **Imagens/Diagramas:** Gere SVG Inline.
 
 === CONTEXTO ATUAL ===
 Arquivos na memória: ${fileContext}
-Modo: ${modeInstruction}
+${modeInstruction}
 
 Se o usuário for casual, seja casual. Se for técnico, seja preciso. Se houver erro no código do usuário, aponte e corrija.
                 `;
@@ -1175,7 +1283,7 @@ Se o usuário for casual, seja casual. Se for técnico, seja preciso. Se houver 
                 <p class="max-w-md">Ambiente de Execução Real, Análise Técnica e Gestão de Contexto.</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm w-full max-w-lg">
                     <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Crie um script Python para análise de dados e execute-o')">🐍 Executar Python (RESE)</div>
-                    <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Execute o arquivo test_moa_flow.py no Terminal')">🧪 Testar I.2 (MOA.Predict)</div>
+                    <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Use o moa_memory.py para salvar este chat na memória permanente')">🧠 Testar Memória (RAG)</div>
                 </div>
             </div>
         `;
