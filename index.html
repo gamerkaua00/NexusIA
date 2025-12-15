@@ -9,6 +9,8 @@
     <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Manifest Base64 atualizado -->
     <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIk5ldXJvTmV4dXMgQUkiLAogICJzaG9ydF9uYW1lIjogIk5ldXJvQUkiLAogICJzdGFydF91cmwiOiAiLi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwZjE3MmEiLAogICJ0aGVtZV9jb2xvciI6ICIjMGYxNzJhIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9jZG4tanRpZmYtY29sb3IuYWktYXJ0LWdlbmVyYXRvci5uZXQvNjUvcGhvbmUvNjRiODhhYTMtZTVmZi00NjIyLWFhMmQtYjg1NDc2ZmY4OWM1LndlYnAiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3dlYnAiCiAgICB9CiAgXQp9">
 
     <!-- Libraries -->
@@ -26,9 +28,9 @@
 
     <style>
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
         /* Themes */
@@ -72,19 +74,28 @@
             font-family: 'Inter', system-ui, sans-serif;
             transition: background-color 0.3s, color 0.3s;
             overflow: hidden; 
+            overscroll-behavior: none; /* Prevent pull-to-refresh on mobile */
         }
 
-        .layout-container { display: flex; height: 100vh; width: 100vw; overflow: hidden; }
+        .layout-container { 
+            display: flex; 
+            height: 100vh; 
+            /* Fallback for mobile browsers */
+            height: 100dvh; 
+            width: 100vw; 
+            overflow: hidden; 
+        }
 
         /* Markdown Styles */
         .prose pre { background: var(--code-bg) !important; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; position: relative; }
-        .prose code { font-family: 'Fira Code', monospace; font-size: 0.9em; }
+        .prose code { font-family: 'Fira Code', monospace; font-size: 0.85em; }
         .prose p { margin-bottom: 0.75rem; line-height: 1.6; }
         .prose img { max-width: 100%; border-radius: 0.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; border: 1px solid rgba(255,255,255,0.1); }
 
         .glass-panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -98,7 +109,7 @@
             background-color: var(--terminal-bg);
             color: var(--terminal-text);
             padding: 10px;
-            font-size: 0.85rem;
+            font-size: 0.80rem;
             height: 100%;
             overflow-y: auto;
             white-space: pre-wrap;
@@ -119,9 +130,13 @@
         @media (max-width: 767px) {
             #canvas-panel {
                 position: fixed; top: 0; right: 0; bottom: 0; width: 100%;
-                transform: translateX(100%); z-index: 50;
+                transform: translateX(100%); z-index: 60; /* Higher Z-index for mobile overlap */
             }
             .canvas-open-mobile #canvas-panel { transform: translateX(0); }
+            
+            /* Mobile Optimization */
+            .prose { font-size: 0.95rem; }
+            #user-input { font-size: 16px; /* Prevent iOS zoom */ }
         }
 
         /* Loader */
@@ -140,18 +155,18 @@
     <div class="layout-container">
         
         <!-- Sidebar -->
-        <aside id="sidebar" class="flex-shrink-0 w-64 bg-[var(--bg-secondary)] border-r border-gray-700 flex flex-col z-40 transition-transform duration-300 absolute md:relative h-full -translate-x-full md:translate-x-0">
+        <aside id="sidebar" class="flex-shrink-0 w-64 bg-[var(--bg-secondary)] border-r border-gray-700 flex flex-col z-50 transition-transform duration-300 absolute md:relative h-full -translate-x-full md:translate-x-0">
             <div class="p-6 border-b border-gray-700 flex justify-between items-center">
                 <div>
                     <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">NeuroNexus</h1>
-                    <p class="text-xs text-[var(--text-secondary)] mt-1">V3.3 | Agentic IDE</p>
+                    <p class="text-xs text-[var(--text-secondary)] mt-1">V3.3.3 | Stable</p>
                 </div>
-                <button onclick="toggleSidebar()" class="md:hidden text-gray-400"><i class="fas fa-times"></i></button>
+                <button onclick="toggleSidebar()" class="md:hidden text-gray-400 p-2"><i class="fas fa-times fa-lg"></i></button>
             </div>
 
             <div class="p-4 border-b border-gray-700">
                 <label class="text-[10px] uppercase text-[var(--text-secondary)] font-bold tracking-wider">Workflow Mode</label>
-                <select id="workflow-mode" onchange="updateWorkflowMode()" class="w-full mt-1 bg-[var(--bg-primary)] text-[var(--text-primary)] text-xs border border-gray-600 rounded p-2">
+                <select id="workflow-mode" onchange="updateWorkflowMode()" class="w-full mt-1 bg-[var(--bg-primary)] text-[var(--text-primary)] text-xs border border-gray-600 rounded p-2 focus:outline-none focus:border-[var(--accent)]">
                     <option value="default">⚡ Padrão (Full Stack)</option>
                     <option value="security">🔒 Strict Security (OWASP)</option>
                     <option value="architect">🏛️ Software Architect</option>
@@ -167,7 +182,7 @@
                 </div>
                 
                 <div class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 mt-4">Chats</div>
-                <button onclick="newChat()" class="w-full text-left p-3 rounded-lg bg-[var(--accent)] text-white hover:opacity-90 transition flex items-center gap-2">
+                <button onclick="newChat()" class="w-full text-left p-3 rounded-lg bg-[var(--accent)] text-white hover:opacity-90 transition flex items-center gap-2 active:scale-95 transform duration-150">
                     <i class="fas fa-plus"></i> Novo Chat
                 </button>
                 <div id="history-items-container" class="space-y-1 mt-2"></div>
@@ -178,14 +193,14 @@
                     <div class="w-2 h-2 rounded-full bg-yellow-500" id="python-status-dot"></div>
                     <span class="text-xs text-[var(--text-secondary)]" id="python-status-text">Carregando Pyodide...</span>
                 </div>
-                <button onclick="openSettings()" class="w-full p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition text-sm flex items-center justify-center gap-2">
+                <button onclick="openSettings()" class="w-full p-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition text-sm flex items-center justify-center gap-2 active:bg-gray-500">
                     <i class="fas fa-cog"></i> Configs & Chaves
                 </button>
             </div>
         </aside>
 
         <!-- Overlay -->
-        <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
+        <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black bg-opacity-70 z-40 hidden backdrop-blur-sm"></div>
 
         <!-- Main Wrapper -->
         <div class="flex-1 flex relative overflow-hidden w-full">
@@ -194,11 +209,11 @@
             <main id="main-chat-area" class="flex-1 flex flex-col h-full min-w-0 bg-[var(--bg-primary)]">
                 
                 <!-- Mobile Header -->
-                <div class="md:hidden flex items-center justify-between p-4 glass-panel border-b border-gray-700 z-20">
+                <div class="md:hidden flex items-center justify-between p-4 glass-panel border-b border-gray-700 z-20 sticky top-0">
                     <h1 class="text-lg font-bold text-[var(--text-primary)]">NeuroNexus</h1>
-                    <div class="flex gap-3">
-                        <button onclick="toggleCanvas()" id="mobile-canvas-btn" class="text-gray-300 hidden"><i class="fas fa-code"></i></button>
-                        <button onclick="toggleSidebar()" class="text-gray-300"><i class="fas fa-bars"></i></button>
+                    <div class="flex gap-4">
+                        <button onclick="toggleCanvas()" id="mobile-canvas-btn" class="text-gray-300 active:text-white"><i class="fas fa-code fa-lg"></i></button>
+                        <button onclick="toggleSidebar()" class="text-gray-300 active:text-white"><i class="fas fa-bars fa-lg"></i></button>
                     </div>
                 </div>
 
@@ -207,27 +222,27 @@
                     <div class="flex flex-col items-center justify-center h-full text-center space-y-4 opacity-50" id="welcome-screen">
                         <i class="fas fa-network-wired text-6xl text-[var(--accent)] mb-4"></i>
                         <h2 class="text-2xl font-bold">NeuroNexus Project Manager</h2>
-                        <p class="max-w-md">Ambiente de Execução Real, Análise Técnica e Gestão de Contexto.</p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm w-full max-w-lg">
-                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Crie um script Python para análise de dados e execute-o')">🐍 Executar Python (RESE)</div>
-                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Execute o arquivo test_moa_flow.py no Terminal')">🧪 Testar I.2 (MOA.Predict)</div>
+                        <p class="max-w-md text-sm px-4">Ambiente de Execução Real, Análise Técnica e Gestão de Contexto.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm w-full max-w-lg px-4">
+                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)] active:bg-gray-700 transition" onclick="fillPrompt('Crie um script Python para análise de dados e execute-o')">🐍 Executar Python (RESE)</div>
+                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)] active:bg-gray-700 transition" onclick="fillPrompt('Execute o arquivo test_moa_flow.py no Terminal')">🧪 Testar I.2 (MOA.Predict)</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Input Area -->
-                <div class="p-4 z-10">
+                <div class="p-3 md:p-4 z-10 w-full">
                     <div class="max-w-4xl mx-auto glass-panel rounded-2xl p-2 shadow-lg flex flex-col gap-2 relative">
                         <div id="attachment-preview" class="hidden px-2 py-1 flex gap-2 overflow-x-auto"></div>
-                        <div class="flex items-end gap-2 p-2">
-                            <button onclick="document.getElementById('file-upload').click()" class="p-2 text-[var(--text-secondary)] hover:text-[var(--accent)] transition" title="Anexar (Logs, Imagens, Arquivos)">
-                                <i class="fas fa-paperclip text-xl"></i>
+                        <div class="flex items-end gap-2 p-1">
+                            <button onclick="document.getElementById('file-upload').click()" class="p-3 text-[var(--text-secondary)] hover:text-[var(--accent)] transition" title="Anexar (Logs, Imagens, Arquivos)">
+                                <i class="fas fa-paperclip text-lg"></i>
                             </button>
                             <input type="file" id="file-upload" class="hidden" multiple accept="image/*,.pdf,.txt,.js,.py,.html,.css,.log,.json" onchange="handleFileUpload(this)">
                             
-                            <textarea id="user-input" rows="1" class="flex-1 bg-transparent border-0 focus:ring-0 text-[var(--text-primary)] resize-none max-h-32 py-2 text-sm md:text-base" placeholder="Instrução para o Co-piloto..." oninput="autoResize(this)" onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }"></textarea>
+                            <textarea id="user-input" rows="1" class="flex-1 bg-transparent border-0 focus:ring-0 text-[var(--text-primary)] resize-none max-h-32 py-3 text-base" placeholder="Instrução para o Co-piloto..." oninput="autoResize(this)" onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }"></textarea>
                             
-                            <button onclick="sendMessage()" class="p-2 bg-[var(--accent)] text-white rounded-xl hover:opacity-90 transition shadow-lg w-10 h-10 flex items-center justify-center">
+                            <button onclick="sendMessage()" class="p-3 bg-[var(--accent)] text-white rounded-xl hover:opacity-90 active:scale-95 transition shadow-lg w-12 h-12 flex items-center justify-center">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </div>
@@ -238,23 +253,24 @@
             <!-- Canvas/Terminal Panel -->
             <div id="canvas-panel" class="bg-[var(--bg-secondary)] flex flex-col h-full shadow-2xl">
                 <!-- Header -->
-                <div class="flex items-center justify-between p-2 md:p-3 border-b border-gray-700 bg-[var(--bg-primary)]">
+                <div class="flex items-center justify-between p-3 border-b border-gray-700 bg-[var(--bg-primary)]">
                     <div class="flex items-center gap-2">
+                        <button onclick="toggleCanvas()" class="md:hidden text-gray-400 mr-2"><i class="fas fa-arrow-left"></i></button>
                         <i class="fas fa-layer-group text-[var(--accent)]"></i>
-                        <span class="font-bold text-sm md:text-base">Workspace</span>
+                        <span class="font-bold text-sm">Workspace</span>
                     </div>
                     
                     <!-- Tabs -->
                     <div class="flex bg-gray-800 rounded p-1 gap-1">
                         <button onclick="switchTab('code')" id="tab-code" class="px-3 py-1 text-xs rounded bg-[var(--bg-secondary)] text-white shadow">Code</button>
-                        <button onclick="switchTab('preview')" id="tab-preview" class="px-3 py-1 text-xs rounded text-gray-400 hover:text-white">Web Preview</button>
+                        <button onclick="switchTab('preview')" id="tab-preview" class="px-3 py-1 text-xs rounded text-gray-400 hover:text-white">Preview</button>
                         <button onclick="switchTab('terminal')" id="tab-terminal" class="px-3 py-1 text-xs rounded text-gray-400 hover:text-white flex items-center gap-1"><i class="fas fa-terminal"></i> RESE</button>
                     </div>
 
                     <div class="flex gap-2">
-                        <button onclick="executeCode()" id="btn-run-code" class="text-green-500 hover:text-green-400 hidden" title="Executar Python"><i class="fas fa-play"></i></button>
-                        <button onclick="copyCode()" class="text-gray-400 hover:text-white" title="Copiar"><i class="far fa-copy"></i></button>
-                        <button onclick="toggleCanvas()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+                        <button onclick="executeCode()" id="btn-run-code" class="text-green-500 hover:text-green-400 hidden p-1" title="Executar Python"><i class="fas fa-play"></i></button>
+                        <button onclick="copyCode()" class="text-gray-400 hover:text-white p-1" title="Copiar"><i class="far fa-copy"></i></button>
+                        <button onclick="toggleCanvas()" class="text-gray-400 hover:text-white hidden md:block p-1"><i class="fas fa-times"></i></button>
                     </div>
                 </div>
 
@@ -274,7 +290,7 @@
                             <span>Python 3.10 (Pyodide Wasm)</span>
                             <span onclick="clearTerminal()" class="cursor-pointer hover:text-white">Limpar</span>
                         </div>
-                        <div id="terminal-output" class="terminal-output">NeuroNexus Environment Initializing...</div>
+                        <div id="terminal-output" class="terminal-output p-2">NeuroNexus Environment Initializing...</div>
                     </div>
                 </div>
             </div>
@@ -283,36 +299,27 @@
     </div>
 
     <!-- Settings Modal -->
-    <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-80 z-[60] hidden flex items-center justify-center p-4">
+    <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-80 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-[var(--bg-secondary)] rounded-2xl w-full max-w-lg shadow-2xl border border-gray-700 flex flex-col max-h-[90vh]">
             <div class="p-4 border-b border-gray-700 flex justify-between items-center">
-                <h2 class="text-xl font-bold">Configurações do Sistema</h2>
-                <button onclick="closeSettings()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+                <h2 class="text-xl font-bold">Configurações</h2>
+                <button onclick="closeSettings()" class="text-gray-400 hover:text-white p-2"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-6 overflow-y-auto space-y-6">
                 <!-- Keys Section -->
                 <div>
                     <h3 class="font-semibold mb-2 text-[var(--accent)]"><i class="fas fa-key"></i> Chaves de API (Gemini)</h3>
-                    <textarea id="api-keys-input" class="w-full h-24 bg-[var(--bg-primary)] border border-gray-600 rounded p-2 text-xs font-mono text-gray-300" placeholder="Cole suas chaves API aqui..."></textarea>
+                    <textarea id="api-keys-input" class="w-full h-24 bg-[var(--bg-primary)] border border-gray-600 rounded p-2 text-xs font-mono text-gray-300 focus:border-[var(--accent)] focus:outline-none" placeholder="Cole suas chaves API aqui..."></textarea>
                     
                     <h3 class="font-semibold mb-2 mt-4 text-green-500"><i class="fas fa-plug"></i> Integrações (Opcional)</h3>
-                    <p class="text-[10px] text-gray-400 mb-1">Armazenado apenas no localStorage. Usado para gerar scripts de conexão.</p>
-                    <input type="text" id="github-key" class="w-full bg-[var(--bg-primary)] border border-gray-600 rounded p-2 text-xs mb-2" placeholder="GitHub Token (para CI/CD)">
-                    <input type="text" id="db-conn" class="w-full bg-[var(--bg-primary)] border border-gray-600 rounded p-2 text-xs" placeholder="String de Conexão DB (para snippets)">
+                    <p class="text-[10px] text-gray-400 mb-1">Armazenado localmente.</p>
+                    <input type="text" id="github-key" class="w-full bg-[var(--bg-primary)] border border-gray-600 rounded p-2 text-xs mb-2 focus:border-[var(--accent)] focus:outline-none" placeholder="GitHub Token">
+                    <input type="text" id="db-conn" class="w-full bg-[var(--bg-primary)] border border-gray-600 rounded p-2 text-xs focus:border-[var(--accent)] focus:outline-none" placeholder="String de Conexão DB">
                     
                     <div class="flex justify-between mt-4">
-                        <button onclick="loadDefaultKeys()" class="text-xs text-[var(--accent)] hover:underline">Restaurar Padrão</button>
+                        <button onclick="loadDefaultKeys()" class="text-xs text-[var(--accent)] hover:underline p-2">Restaurar Padrão</button>
                         <button onclick="saveKeys()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-xs">Salvar</button>
                     </div>
-                </div>
-                <!-- Model Selection -->
-                <div>
-                    <h3 class="font-semibold mb-2 text-[var(--accent)]"><i class="fas fa-robot"></i> Modelo Gemini</h3>
-                    <select id="model-select" class="w-full bg-[var(--bg-primary)] border border-gray-600 rounded p-2 text-sm text-[var(--text-primary)]">
-                        <option value="gemini-2.5-flash-preview-09-2025" selected>Gemini 2.5 Flash</option>
-                        <option value="gemini-2.0-flash-exp">Gemini 2.0 Flash Exp</option>
-                        <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
-                    </select>
                 </div>
                 <!-- Appearance -->
                 <div>
@@ -324,7 +331,7 @@
                     </div>
                 </div>
                 <div>
-                    <button onclick="clearMemory()" class="w-full p-2 border border-red-500 text-red-500 rounded hover:bg-red-500 hover:text-white transition text-sm"><i class="fas fa-trash"></i> Limpar Memória</button>
+                    <button onclick="clearMemory()" class="w-full p-3 border border-red-500 text-red-500 rounded hover:bg-red-500 hover:text-white transition text-sm active:bg-red-600"><i class="fas fa-trash"></i> Limpar Memória</button>
                 </div>
             </div>
         </div>
@@ -336,7 +343,7 @@
         
         // Globals
         const DEFAULT_KEYS_OBFUSCATED = "QUl6YVN5QkxmTDlIQ1JUZjdNODUtSHJLV2pSSElkUC1vTFY0RGpjCkFJemFTeURPVVZpQ0wzWFlOaXNQZjRzYUpDTWdjQWxOeW50emx0dwpBSXphU3lCYjZyTEhwYmxIdkUxZGY4VU83anBJNlBmZzNyUmVMbzAKQUl6YVN5QXgwR0s2eVBuLUhFX3NZQWF1Rmd6X0J2MXBXQzR4SXhJCkFJemFTeUNVTi1QWDBjN1NhSnpNNUlKVWJWWmRPemlWdFVQb0FVMApBSXphU3lETXFvQkNqZjQ2RVo0WGhsdFNiZlJwNWZYeFFwRzRLZUEKQUl6YVN5QjEtLTlZQjRWOEFxbWpHYUFsbEUxZkwwMjA0MFZGaHZz";
-        const DEFAULT_GITHUB_KEY = "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";
+        const DEFAULT_GITHUB_KEY = ""; 
 
         let apiKeys = [];
         let currentKeyIndex = 0;
@@ -364,7 +371,6 @@
                 item.className = "p-1 hover:bg-gray-700 rounded cursor-pointer truncate flex items-center gap-2";
                 item.innerHTML = `<i class="fas fa-file-code text-[var(--accent)]"></i> ${f}`;
                 item.onclick = () => {
-                    // Load file into viewer
                     if(projectFiles[f]) {
                         currentCode = projectFiles[f];
                         currentLang = f.endsWith('.py') ? 'python' : 'html';
@@ -375,7 +381,6 @@
                             hljs.highlightElement(codeEl);
                         }
                         
-                        // Force Code Tab
                         switchTab('code');
                         forceOpenCanvas();
                         const runBtn = document.getElementById('btn-run-code');
@@ -440,8 +445,7 @@
             
             let storedGithub = localStorage.getItem('neuroNexusGithub');
             if (!storedGithub) {
-                storedGithub = DEFAULT_GITHUB_KEY;
-                localStorage.setItem('neuroNexusGithub', storedGithub);
+                 storedGithub = "";
             }
             
             const ghInput = document.getElementById('github-key');
@@ -460,7 +464,7 @@
                 if(keysInput) keysInput.value = atob(DEFAULT_KEYS_OBFUSCATED);
                 
                 const ghInput = document.getElementById('github-key');
-                if(ghInput) ghInput.value = DEFAULT_GITHUB_KEY;
+                if(ghInput) ghInput.value = ""; // Default empty
                 saveKeys();
             } catch(e) {}
         }
@@ -509,7 +513,6 @@
                 attachHTML = `<div class="mb-2 flex gap-2 flex-wrap justify-end">${attachs.map(a => `<span class="text-xs bg-gray-700 px-2 py-1 rounded">📎 ${a.name || 'Anexo'}</span>`).join('')}</div>`;
             }
 
-            // Safe parsing using marked (if available)
             let htmlContent = text;
             if (typeof marked !== 'undefined' && marked.parse) {
                 try {
@@ -525,7 +528,6 @@
             container.appendChild(div);
             container.scrollTop = container.scrollHeight;
             
-            // Safe highlight
             if (typeof hljs !== 'undefined') {
                 div.querySelectorAll('pre code').forEach((block) => hljs.highlightElement(block));
             }
@@ -564,8 +566,6 @@
             
             const textArea = document.createElement("textarea");
             textArea.value = currentCode;
-            
-            // Ensure it's not visible but part of DOM
             textArea.style.position = "fixed";
             textArea.style.left = "-9999px";
             textArea.style.top = "0";
@@ -585,7 +585,7 @@
             document.body.removeChild(textArea);
         }
 
-        // --- 2. PYTHON CODE STRINGS (Updated with MOA.Decide & MOA.Resilience) ---
+        // --- 2. PYTHON CODE STRINGS ---
         const MOA_SCHEDULER_CODE = `import asyncio
 import time
 import math
@@ -783,7 +783,6 @@ if __name__ == "__main__":
         asyncio.run(main_test())
 `;
 
-        // --- 3. SYSTEM STRATEGY ---
         const GAP_ANALYSIS_STRATEGY = `
 STATUS: NEURONEXUS V3.3 (AUTONOMOUS RELEASE).
 Módulos MOA.Decide e MOA.Resilience foram integrados ao código Python na memória.
@@ -815,13 +814,11 @@ AÇÃO RECOMENDADA: Faça o upload para o GitHub. A versão está completa e seg
 
         // --- 5. LOGIC & API ---
         async function initPyodide() {
-            // Null check for robustness (Fix for "Cannot set properties of null")
             const terminal = document.getElementById('terminal-output');
             const statusDot = document.getElementById('python-status-dot');
             const statusText = document.getElementById('python-status-text');
 
             try {
-                // Simulate boot log for Immersion
                 if (terminal) {
                     terminal.innerText = "NeuroNexus OS v3.3 Booting...\\n";
                     terminal.innerText += "> Loading MOA.Decide & Resilience... OK\\n";
@@ -833,11 +830,9 @@ AÇÃO RECOMENDADA: Faça o upload para o GitHub. A versão está completa e seg
                 pyodide = await loadPyodide();
                 await pyodide.loadPackage("micropip"); 
                 
-                // --- WRITE PROTOTYPES TO FILESYSTEM ---
                 pyodide.FS.writeFile("moa_flow_scheduler.py", MOA_SCHEDULER_CODE);
                 pyodide.FS.writeFile("test_moa_flow.py", TEST_MOA_FLOW_CODE);
 
-                // --- LOAD INTO MEMORY UI ---
                 updateProjectContext('moa_flow_scheduler.py', MOA_SCHEDULER_CODE);
                 updateProjectContext('test_moa_flow.py', TEST_MOA_FLOW_CODE);
                 
@@ -874,7 +869,6 @@ AÇÃO RECOMENDADA: Faça o upload para o GitHub. A versão está completa e seg
             if(terminal) terminal.innerText += `\\n> Executando script...\\n`;
 
             try {
-                // Redirect stdout to our terminal
                 pyodide.setStdout({ batched: (msg) => { 
                     if(terminal) terminal.innerText += msg + "\\n"; 
                 } });
@@ -908,7 +902,6 @@ AÇÃO RECOMENDADA: Faça o upload para o GitHub. A versão está completa e seg
             while (attempts < maxAttempts) {
                 let key = getNextKey();
                 
-                // Fallback attempt to reload keys if missing
                 if (!key) {
                     loadSettings();
                     key = getNextKey();
@@ -964,7 +957,51 @@ REGRAS:
             }
         }
 
-        // --- RESTORED SEND MESSAGE FUNCTION ---
+        // === RESTORED & FIXED FUNCTIONS (V3.3.3) ===
+
+        function processArtifacts(text) {
+            const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
+            let match;
+            let lastCode = null;
+            let lastLang = null;
+
+            while ((match = codeBlockRegex.exec(text)) !== null) {
+                const lang = (match[1] || 'text').toLowerCase();
+                const code = match[2];
+                if (lang !== 'text' && lang !== 'bash') {
+                    const fakeName = `artifact_${Date.now()}.${lang === 'python' ? 'py' : lang}`;
+                    updateProjectContext(fakeName, code);
+                }
+                if (lang === 'html' || lang === 'python' || !lastCode) {
+                    lastLang = lang;
+                    lastCode = code;
+                }
+            }
+
+            if (lastCode) {
+                currentCode = lastCode;
+                currentLang = lastLang;
+                const codeEl = document.getElementById('code-content');
+                if (codeEl) {
+                    codeEl.className = `language-${currentLang}`;
+                    codeEl.textContent = currentCode;
+                    hljs.highlightElement(codeEl);
+                }
+                forceOpenCanvas();
+                const runBtn = document.getElementById('btn-run-code');
+                if (currentLang === 'python') {
+                    switchTab('code');
+                    if(runBtn) runBtn.classList.remove('hidden');
+                } else if (currentLang === 'html') {
+                    switchTab('preview');
+                    if(runBtn) runBtn.classList.add('hidden');
+                } else {
+                    switchTab('code');
+                    if(runBtn) runBtn.classList.add('hidden');
+                }
+            }
+        }
+
         async function sendMessage() {
             const inputEl = document.getElementById('user-input');
             const msg = inputEl.value.trim();
@@ -998,66 +1035,14 @@ REGRAS:
                 removeLoader(loaderId);
                 chatHistory.push({ role: "model", parts: [{ text: responseText }] });
                 addMessageToChat('model', responseText);
-                
                 processArtifacts(responseText);
-
             } catch (error) {
                 removeLoader(loaderId);
                 addMessageToChat('model', `⚠️ **Erro:** ${error.message}`);
             }
         }
 
-        // --- RESTORED PROCESS ARTIFACTS FUNCTION ---
-        function processArtifacts(text) {
-            const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
-            let match;
-            let lastCode = null;
-            let lastLang = null;
-
-            while ((match = codeBlockRegex.exec(text)) !== null) {
-                const lang = (match[1] || 'text').toLowerCase();
-                const code = match[2];
-                // Update Project Memory
-                if (lang !== 'text' && lang !== 'bash') {
-                    const fakeName = `artifact_${Date.now()}.${lang === 'python' ? 'py' : lang}`;
-                    updateProjectContext(fakeName, code);
-                }
-
-                if (lang === 'html' || lang === 'python' || !lastCode) {
-                    lastLang = lang;
-                    lastCode = code;
-                }
-            }
-
-            if (lastCode) {
-                currentCode = lastCode;
-                currentLang = lastLang;
-                
-                const codeEl = document.getElementById('code-content');
-                if (codeEl) {
-                    codeEl.className = `language-${currentLang}`;
-                    codeEl.textContent = currentCode;
-                    hljs.highlightElement(codeEl);
-                }
-
-                forceOpenCanvas();
-
-                // Logic for Tab Switching based on Lang
-                const runBtn = document.getElementById('btn-run-code');
-                if (currentLang === 'python') {
-                    switchTab('code'); // Show code first
-                    if(runBtn) runBtn.classList.remove('hidden'); // Show Run button
-                } else if (currentLang === 'html') {
-                    switchTab('preview');
-                    if(runBtn) runBtn.classList.add('hidden');
-                } else {
-                    switchTab('code');
-                    if(runBtn) runBtn.classList.add('hidden');
-                }
-            }
-        }
-
-        // START NEW CHAT FIX - Restoring the Welcome Screen
+        // START NEW CHAT FIX
         const WELCOME_CONTENT = `
             <div class="flex flex-col items-center justify-center h-full text-center space-y-4 opacity-50" id="welcome-screen">
                 <i class="fas fa-network-wired text-6xl text-[var(--accent)] mb-4"></i>
@@ -1075,14 +1060,8 @@ REGRAS:
             projectFiles = {};
             renderProjectFiles();
             const chatC = document.getElementById('chat-container');
-            
-            // Restoring welcome content properly
-            if(chatC) {
-                chatC.innerHTML = WELCOME_CONTENT; 
-            }
-            
+            if(chatC) chatC.innerHTML = WELCOME_CONTENT;
             document.body.classList.remove('canvas-open', 'canvas-open-mobile');
-            
             attachments = [];
             const attachPrev = document.getElementById('attachment-preview');
             if(attachPrev) {
@@ -1090,7 +1069,6 @@ REGRAS:
                 attachPrev.classList.add('hidden');
             }
         }
-        // END NEW CHAT FIX
 
         function clearMemory() { if(confirm("Limpar?")) { newChat(); alert("Limpo."); } }
         function fillPrompt(txt) { const el = document.getElementById('user-input'); if(el) { el.value = txt; el.focus(); } }
@@ -1135,19 +1113,14 @@ REGRAS:
 
         function copyCode() {
             if (!currentCode) return;
-            
             const textArea = document.createElement("textarea");
             textArea.value = currentCode;
-            
-            // Ensure it's not visible but part of DOM
             textArea.style.position = "fixed";
             textArea.style.left = "-9999px";
             textArea.style.top = "0";
-            
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
-            
             try {
                 document.execCommand('copy');
                 alert("Código copiado!");
@@ -1155,7 +1128,6 @@ REGRAS:
                 console.error('Erro ao copiar', err);
                 alert("Erro ao copiar código. Permissão negada.");
             }
-            
             document.body.removeChild(textArea);
         }
     </script>
