@@ -10,12 +10,15 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="NeuroNexus">
     
-    <!-- iOS Icons -->
-    <link rel="apple-touch-icon" href="https://cdn-jtiff-color.ai-art-generator.net/65/phone/64b88aa3-e5ff-4622-aa2d-b85476ff89c5.webp">
+    <!-- Custom NeuroNexus Icon (SVG Base64) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=">
     
-    <!-- Manifest Base64 atualizado -->
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIk5ldXJvTmV4dXMgQUkiLAogICJzaG9ydF9uYW1lIjogIk5ldXJvQUkiLAogICJzdGFydF91cmwiOiAiLi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwZjE3MmEiLAogICJ0aGVtZV9jb2xvciI6ICIjMGYxNzJhIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9jZG4tanRpZmYtY29sb3IuYWktYXJ0LWdlbmVyYXRvci5uZXQvNjUvcGhvbmUvNjRiODhhYTMtZTVmZi00NjIyLWFhMmQtYjg1NDc2ZmY4OWM1LndlYnAiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3dlYnAiCiAgICB9CiAgXQp9">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=">
+
+    <!-- Manifest Base64 atualizado com NOVO ÍCONE e display standalone -->
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIk5ldXJvTmV4dXMgQUkiLAogICJzaG9ydF9uYW1lIjogIk5ldXJvTmV4dXMiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBmMTcyYSIsCiAgInRoZW1lX2NvbG9yIjogIiMwZjE3MmEiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTVMTXk1dmNtY3ZNakF3TUM5emRtY2lJSFpwWlhkQ2IzZzVJakF3SURBMU1USWdOVEV5SWo0OGNtVmpkQ0IzYVdSMGFEMHlOVElpIGhlaWdodD0iNTEyIiByeD0iMTAwIiBmaWxsPSIjMGYxNzJhIi8+PGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSIxNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzNiODJmNiIgc3Ryb2tlLXdpZHRoPSIyMCIgb3BhY2l0eT0iMC41Ii8+PGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSIxMjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwZmZjYyIgc3Ryb2tlLXdpZHRoPSIxNSIgc3Ryb2tlLWRhc2hhcnJheT0iNjAgMjAiLz48cGF0aCBkPSJNMjU2IDE2MHYxOTJNMzUyIDI1NkgxNjAiIHN0cm9rZT0iI2QwMDBmZiIgc3Ryb2tlLXdpZHRoPSIxNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSI0MCIgZmlsbD0iI2ZmZmZmZiIvPjwvc3ZnPg0KIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0KfQ==">
 
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -161,9 +164,13 @@
         <!-- Sidebar -->
         <aside id="sidebar" class="flex-shrink-0 w-64 bg-[var(--bg-secondary)] border-r border-gray-700 flex flex-col z-50 transition-transform duration-300 absolute md:relative h-full -translate-x-full md:translate-x-0">
             <div class="p-6 border-b border-gray-700 flex justify-between items-center">
-                <div>
-                    <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">NeuroNexus</h1>
-                    <p class="text-xs text-[var(--text-secondary)] mt-1">V3.3.4 | Mobile Secure</p>
+                <div class="flex items-center gap-2">
+                    <!-- Icon in Sidebar -->
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-8 h-8 rounded-lg">
+                    <div>
+                        <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">NeuroNexus</h1>
+                        <p class="text-[10px] text-[var(--text-secondary)]">V3.4 | Mobile Secure</p>
+                    </div>
                 </div>
                 <button onclick="toggleSidebar()" class="md:hidden text-gray-400 p-2"><i class="fas fa-times fa-lg"></i></button>
             </div>
@@ -179,9 +186,9 @@
             </div>
 
             <div class="flex-1 overflow-y-auto p-4 space-y-2" id="history-list">
-                <!-- Install Button (Hidden by default, shown via JS) -->
-                <button id="install-btn" onclick="installPWA()" class="hidden w-full text-left p-3 rounded-lg bg-green-600 text-white hover:bg-green-700 transition flex items-center gap-2 mb-2 animate-pulse">
-                    <i class="fas fa-download"></i> Instalar App
+                <!-- Install Button (Visible by default, logic handles click) -->
+                <button id="install-btn" onclick="handleInstallClick()" class="w-full text-left p-3 rounded-lg bg-green-600 text-white hover:bg-green-700 transition flex items-center gap-2 mb-2 shadow-lg border border-green-500">
+                    <i class="fas fa-download"></i> <span id="install-text">Instalar App</span>
                 </button>
 
                 <div class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2">Memória do Projeto</div>
@@ -208,6 +215,22 @@
             </div>
         </aside>
 
+        <!-- Install Instructions Modal -->
+        <div id="install-modal" class="fixed inset-0 bg-black bg-opacity-80 z-[70] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+            <div class="bg-[var(--bg-secondary)] rounded-2xl w-full max-w-sm shadow-2xl border border-gray-700 p-6 text-center">
+                <div class="flex justify-center mb-4">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-16 h-16 rounded-xl shadow-lg">
+                </div>
+                <h3 class="text-lg font-bold mb-2 text-white">Instalar NeuroNexus</h3>
+                <p class="text-sm text-gray-300 mb-4">Para instalar como aplicativo:</p>
+                <div class="text-left text-sm bg-gray-800 p-3 rounded-lg mb-4 space-y-2 border border-gray-700">
+                    <p class="flex items-center gap-2"><i class="fas fa-share-square"></i> 1. Toque em <strong>Compartilhar</strong> (iOS) ou <strong>Menu</strong> (Android)</p>
+                    <p class="flex items-center gap-2"><i class="fas fa-plus-square"></i> 2. Selecione <strong>Adicionar à Tela de Início</strong></p>
+                </div>
+                <button onclick="document.getElementById('install-modal').classList.add('hidden')" class="w-full p-2 bg-[var(--accent)] text-white rounded-lg">Entendi</button>
+            </div>
+        </div>
+
         <!-- Overlay -->
         <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black bg-opacity-70 z-40 hidden backdrop-blur-sm"></div>
 
@@ -219,7 +242,10 @@
                 
                 <!-- Mobile Header -->
                 <div class="md:hidden flex items-center justify-between p-4 glass-panel border-b border-gray-700 z-20 sticky top-0">
-                    <h1 class="text-lg font-bold text-[var(--text-primary)]">NeuroNexus</h1>
+                    <div class="flex items-center gap-2">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-6 h-6 rounded">
+                        <h1 class="text-lg font-bold text-[var(--text-primary)]">NeuroNexus</h1>
+                    </div>
                     <div class="flex gap-4">
                         <button onclick="toggleCanvas()" id="mobile-canvas-btn" class="text-gray-300 active:text-white"><i class="fas fa-code fa-lg"></i></button>
                         <button onclick="toggleSidebar()" class="text-gray-300 active:text-white"><i class="fas fa-bars fa-lg"></i></button>
@@ -229,8 +255,8 @@
                 <!-- Messages -->
                 <div id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 scroll-smooth pb-32">
                     <div class="flex flex-col items-center justify-center h-full text-center space-y-4 opacity-50" id="welcome-screen">
-                        <i class="fas fa-network-wired text-6xl text-[var(--accent)] mb-4"></i>
-                        <h2 class="text-2xl font-bold">NeuroNexus Project Manager</h2>
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-24 h-24 mb-4 rounded-2xl shadow-2xl animate-pulse">
+                        <h2 class="text-2xl font-bold">NeuroNexus V3.4</h2>
                         <p class="max-w-md text-sm px-4">Ambiente de Execução Real, Análise Técnica e Gestão de Contexto.</p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm w-full max-w-lg px-4">
                             <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)] active:bg-gray-700 transition" onclick="fillPrompt('Crie um script Python para análise de dados e execute-o')">🐍 Executar Python (RESE)</div>
@@ -371,16 +397,27 @@
             e.preventDefault();
             deferredPrompt = e;
             const installBtn = document.getElementById('install-btn');
-            if(installBtn) installBtn.classList.remove('hidden');
+            if(installBtn) {
+                installBtn.classList.remove('hidden');
+            }
         });
 
-        async function installPWA() {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`User response to the install prompt: ${outcome}`);
-            deferredPrompt = null;
-            document.getElementById('install-btn').classList.add('hidden');
+        function handleInstallClick() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                    document.getElementById('install-btn').classList.add('hidden');
+                });
+            } else {
+                // Manual Instructions
+                document.getElementById('install-modal').classList.remove('hidden');
+            }
         }
 
         // --- Core UI Functions ---
@@ -986,50 +1023,7 @@ REGRAS:
             }
         }
 
-        // === RESTORED & FIXED FUNCTIONS (V3.3.3) ===
-
-        function processArtifacts(text) {
-            const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
-            let match;
-            let lastCode = null;
-            let lastLang = null;
-
-            while ((match = codeBlockRegex.exec(text)) !== null) {
-                const lang = (match[1] || 'text').toLowerCase();
-                const code = match[2];
-                if (lang !== 'text' && lang !== 'bash') {
-                    const fakeName = `artifact_${Date.now()}.${lang === 'python' ? 'py' : lang}`;
-                    updateProjectContext(fakeName, code);
-                }
-                if (lang === 'html' || lang === 'python' || !lastCode) {
-                    lastLang = lang;
-                    lastCode = code;
-                }
-            }
-
-            if (lastCode) {
-                currentCode = lastCode;
-                currentLang = lastLang;
-                const codeEl = document.getElementById('code-content');
-                if (codeEl) {
-                    codeEl.className = `language-${currentLang}`;
-                    codeEl.textContent = currentCode;
-                    hljs.highlightElement(codeEl);
-                }
-                forceOpenCanvas();
-                const runBtn = document.getElementById('btn-run-code');
-                if (currentLang === 'python') {
-                    switchTab('code');
-                    if(runBtn) runBtn.classList.remove('hidden');
-                } else if (currentLang === 'html') {
-                    switchTab('preview');
-                    if(runBtn) runBtn.classList.add('hidden');
-                } else {
-                    switchTab('code');
-                    if(runBtn) runBtn.classList.add('hidden');
-                }
-            }
-        }
+        // --- RESTORED FUNCTIONS (FIX) ---
 
         async function sendMessage() {
             const inputEl = document.getElementById('user-input');
@@ -1064,10 +1058,61 @@ REGRAS:
                 removeLoader(loaderId);
                 chatHistory.push({ role: "model", parts: [{ text: responseText }] });
                 addMessageToChat('model', responseText);
+                
                 processArtifacts(responseText);
+
             } catch (error) {
                 removeLoader(loaderId);
                 addMessageToChat('model', `⚠️ **Erro:** ${error.message}`);
+            }
+        }
+
+        function processArtifacts(text) {
+            const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
+            let match;
+            let lastCode = null;
+            let lastLang = null;
+
+            while ((match = codeBlockRegex.exec(text)) !== null) {
+                const lang = (match[1] || 'text').toLowerCase();
+                const code = match[2];
+                // Update Project Memory
+                if (lang !== 'text' && lang !== 'bash') {
+                    const fakeName = `artifact_${Date.now()}.${lang === 'python' ? 'py' : lang}`;
+                    updateProjectContext(fakeName, code);
+                }
+
+                if (lang === 'html' || lang === 'python' || !lastCode) {
+                    lastLang = lang;
+                    lastCode = code;
+                }
+            }
+
+            if (lastCode) {
+                currentCode = lastCode;
+                currentLang = lastLang;
+                
+                const codeEl = document.getElementById('code-content');
+                if (codeEl) {
+                    codeEl.className = `language-${currentLang}`;
+                    codeEl.textContent = currentCode;
+                    hljs.highlightElement(codeEl);
+                }
+
+                forceOpenCanvas();
+
+                // Logic for Tab Switching based on Lang
+                const runBtn = document.getElementById('btn-run-code');
+                if (currentLang === 'python') {
+                    switchTab('code'); // Show code first
+                    if(runBtn) runBtn.classList.remove('hidden'); // Show Run button
+                } else if (currentLang === 'html') {
+                    switchTab('preview');
+                    if(runBtn) runBtn.classList.add('hidden');
+                } else {
+                    switchTab('code');
+                    if(runBtn) runBtn.classList.add('hidden');
+                }
             }
         }
 
