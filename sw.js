@@ -1,55 +1,53 @@
-const CACHE_NAME = 'neuro-nexus-v5-cache';
+const CACHE_NAME = 'pwa-cache-v1';
+// Arquivos essenciais para o funcionamento offline
 const urlsToCache = [
-    './', 
-    './index.html',
-    // Recursos externos essenciais
-    'https://cdn.tailwindcss.com',
-    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-    'https://cdn.jsdelivr.net/npm/marked/marked.min.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css',
-    'https://cdn.jsdelivr.net/npm/chart.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
-    'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js'
+    '/',
+    '/index.html',
+    '/manifest.json',
+    // Adicione seus arquivos CSS e JS críticos aqui
+    // '/styles/main.css',
+    // '/scripts/app.js' 
 ];
 
-self.addEventListener('install', (event) => {
-    console.log('[SW] Installing...');
-    self.skipWaiting();
+// Instalação: Abre o cache e adiciona todos os arquivos estáticos
+self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then((cache) => {
-                console.log('[SW] Caching application shell');
-                // Tenta fazer cache, mas não falha a instalação se um recurso externo falhar
-                return cache.addAll(urlsToCache).catch(err => console.warn('Alguns recursos não foram cacheados:', err));
+            .then(cache => {
+                console.log('Cache aberto: Adicionando recursos estáticos.');
+                return cache.addAll(urlsToCache);
             })
     );
 });
 
-self.addEventListener('activate', (event) => {
-    console.log('[SW] Activated & Claiming clients');
-    event.waitUntil(self.clients.claim());
+// Ativação: Limpa caches antigos (para garantir que a nova versão funcione)
+self.addEventListener('activate', event => {
+    const cacheWhitelist = [CACHE_NAME];
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cacheName => {
+                    if (cacheWhitelist.indexOf(cacheName) === -1) {
+                        console.log('Limpando cache antigo:', cacheName);
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
+    );
 });
 
-self.addEventListener('fetch', (event) => {
-    // Estratégia: Cache primeiro, depois Rede
+// Fetch: Intercepta requisições e serve do cache, se disponível
+self.addEventListener('fetch', event => {
     event.respondWith(
         caches.match(event.request)
-            .then((response) => {
-                // Se estiver no cache, retorna
+            .then(response => {
+                // Retorna a resposta do cache, se encontrada
                 if (response) {
                     return response;
                 }
-                // Se não, busca na rede
-                return fetch(event.request).catch(() => {
-                    // Fallback para quando estiver totalmente offline e tentar navegar
-                    if (event.request.mode === 'navigate') {
-                        return new Response("<h1>Offline Mode</h1><p>NeuroNexus está em modo offline. Verifique sua conexão.</p>", { 
-                            status: 200, 
-                            headers: {'Content-Type': 'text/html'} 
-                        });
-                    }
-                });
+                // Se não estiver no cache, faz a requisição normal
+                return fetch(event.request);
             })
     );
 });
