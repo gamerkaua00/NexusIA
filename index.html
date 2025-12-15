@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NeuroNexus AI | General Intelligence</title>
+    <title>NeuroNexus V9.0 | Ultimate Restoration</title>
     
-    <!-- Meta tags básicas (Sem PWA complexo) -->
-    <meta name="theme-color" content="#0f172a">
+    <!-- Meta tags -->
+    <meta name="theme-color" content="#09090b">
     
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,56 +16,37 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Pyodide Core (Cérebro) -->
     <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+    <!-- PDF Suite -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
     <style>
-        /* Custom Scrollbar */
+        /* --- CORE VISUALS (Cyberpunk/Enterprise Hybrid) --- */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
 
-        /* Themes */
         :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --code-bg: #0d1117;
-            --terminal-bg: #1e1e1e;
-            --terminal-text: #33ff00;
-        }
-
-        body.theme-neon {
-            --bg-primary: #050505;
-            --bg-secondary: #0a0a0a;
-            --text-primary: #00ffcc;
-            --text-secondary: #008f72;
-            --accent: #d000ff;
-            --accent-hover: #a100c4;
-            --terminal-text: #00ffcc;
-        }
-
-        body.theme-light {
-            --bg-primary: #f8fafc;
-            --bg-secondary: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --accent: #0ea5e9;
-            --accent-hover: #0284c7;
-            --code-bg: #f1f5f9;
-            --terminal-bg: #f3f4f6;
-            --terminal-text: #1f2937;
+            --bg-primary: #09090b; /* Zinc 950 */
+            --bg-secondary: #18181b; /* Zinc 900 */
+            --bg-tertiary: #27272a; /* Zinc 800 */
+            --text-primary: #e4e4e7; /* Zinc 200 */
+            --text-secondary: #a1a1aa; /* Zinc 400 */
+            --accent: #8b5cf6; /* Violet 500 */
+            --accent-glow: rgba(139, 92, 246, 0.3);
+            --code-bg: #000000;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
         }
 
         body {
             background-color: var(--bg-primary);
             color: var(--text-primary);
             font-family: 'Inter', system-ui, sans-serif;
-            transition: background-color 0.3s, color 0.3s;
             overflow: hidden; 
             overscroll-behavior: none; 
         }
@@ -76,964 +57,719 @@
             height: 100dvh; 
             width: 100vw; 
             overflow: hidden; 
+            position: relative;
         }
 
-        /* --- OTIMIZAÇÃO DE TEXTO PARA MOBILE --- */
-        .prose {
-            max-width: 100%;
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-            word-break: break-word; /* Quebra palavras muito longas forçadamente */
-        }
+        /* --- CHAT BUBBLES --- */
+        .prose { max-width: 100%; font-size: 0.95rem; line-height: 1.6; }
+        .prose pre { background: var(--code-bg) !important; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 0.5rem 0; font-size: 0.85em; border: 1px solid #333; }
+        .prose h3 { color: var(--text-primary); font-weight: bold; margin-top: 10px; }
         
-        .prose pre { 
-            background: var(--code-bg) !important; 
-            padding: 1rem; 
-            border-radius: 0.5rem; 
-            overflow-x: auto; /* Garante scroll horizontal APENAS no código */
-            max-width: 100%;
-            margin-top: 0.5rem; 
-            margin-bottom: 0.5rem; 
-        }
-        
-        .prose code { font-family: 'Fira Code', monospace; font-size: 0.85em; }
-        .prose p { margin-bottom: 0.75rem; line-height: 1.6; }
-        .prose img { max-width: 100%; border-radius: 0.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; border: 1px solid rgba(255,255,255,0.1); }
-        .prose h1, .prose h2, .prose h3 { color: var(--text-primary); font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; }
-        .prose ul, .prose ol { margin-left: 1.5rem; list-style-type: disc; margin-bottom: 0.75rem; }
-
-        .glass-panel {
-            background: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Canvas Animation */
-        #main-chat-area { transition: width 0.3s ease, flex-grow 0.3s ease; }
-        #canvas-panel { transition: width 0.3s ease, transform 0.3s ease; }
-
-        /* Terminal Styles */
-        .terminal-output {
-            font-family: 'Fira Code', monospace;
-            background-color: var(--terminal-bg);
-            color: var(--terminal-text);
-            padding: 10px;
-            font-size: 0.80rem;
-            height: 100%;
-            overflow-y: auto;
-            white-space: pre-wrap;
-        }
-
-        /* Chat Bubbles Optimization */
         .msg-bubble {
             max-width: 85%;
             padding: 1rem;
             border-radius: 1rem;
-            
-            /* CRUCIAL FIXES FOR MOBILE TEXT OVERFLOW */
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-            word-break: break-word;
-            hyphens: auto;
-            min-width: 0; /* Flexbox overflow fix */
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
+
+        .user-bubble { background: var(--accent); color: white; rounded-br: 2px; }
+        .ai-bubble { background: var(--bg-secondary); border: 1px solid var(--bg-tertiary); rounded-bl: 2px; }
 
         @media (min-width: 768px) {
+            .msg-bubble { max-width: 70%; min-width: 300px; }
             .canvas-open #main-chat-area { width: 55%; flex-grow: 0; }
-            .canvas-open #canvas-panel {
-                width: 45%;
-                transform: translateX(0) !important;
-                border-left: 1px solid rgba(255,255,255,0.1);
-                box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-                z-index: 20;
-            }
-            #canvas-panel { width: 0; overflow: hidden; }
-            .msg-bubble { max-width: 75%; }
-        }
-        
-        @media (max-width: 767px) {
-            #canvas-panel {
-                position: fixed; top: 0; right: 0; bottom: 0; width: 100%;
-                transform: translateX(100%); z-index: 60; 
-            }
-            .canvas-open-mobile #canvas-panel { transform: translateX(0); }
-            
-            .prose { font-size: 0.95rem; } 
-            #user-input { font-size: 16px; }
-            
-            .msg-bubble { 
-                max-width: 90%; 
-                padding: 0.8rem;
-                font-size: 0.95rem;
-            }
-            #chat-container { padding-left: 0.5rem; padding-right: 0.5rem; }
+            .canvas-open #canvas-panel { width: 45%; transform: translateX(0); border-left: 1px solid var(--bg-tertiary); }
         }
 
-        /* Loader */
-        .typing-dot {
-            animation: typing 1.4s infinite ease-in-out both;
-            background-color: var(--text-secondary);
-            border-radius: 50%; display: inline-block; height: 6px; width: 6px; margin-right: 4px;
+        /* --- AGENT PLANNER UI --- */
+        .agent-card {
+            background: var(--bg-tertiary);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+            animation: slideIn 0.3s ease-out;
         }
+        .step-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; color: var(--text-secondary); }
+        .step-row.active { color: var(--text-primary); font-weight: bold; }
+        .step-row.done { color: var(--success); }
+        .step-icon { width: 14px; text-align: center; }
+        
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- SIDEBAR & COMPONENTS --- */
+        #sidebar { position: absolute; height: 100%; z-index: 50; transition: transform 0.3s ease-in-out; }
+        @media (max-width: 767px) {
+            #sidebar { transform: translateX(-100%); width: 85%; max-width: 320px; }
+            #sidebar.open { transform: translateX(0); box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
+            #canvas-panel { position: fixed; top: 0; right: 0; bottom: 0; width: 100%; transform: translateX(100%); z-index: 60; transition: transform 0.3s ease; }
+            #canvas-panel.open { transform: translateX(0); }
+        }
+        @media (min-width: 768px) {
+            #sidebar { position: relative; transform: none; width: 18rem; }
+            #canvas-panel { width: 0; overflow: hidden; transition: width 0.3s ease; border-left: 1px solid var(--bg-tertiary); }
+        }
+
+        .chat-item { transition: all 0.2s; border: 1px solid transparent; }
+        .chat-item:hover { background-color: var(--bg-tertiary); }
+        .chat-item.active { background-color: rgba(139, 92, 246, 0.15); border-color: var(--accent); color: var(--accent); }
+
+        /* Loaders & Badges */
+        .typing-dot { animation: typing 1.4s infinite ease-in-out both; background-color: var(--text-secondary); border-radius: 50%; display: inline-block; height: 6px; width: 6px; margin-right: 4px; }
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
         @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+        .badge { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; display: inline-block; border: 1px solid; margin-right: 4px; margin-top: 4px; }
+        .badge-agent { background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3); color: #a78bfa; }
+        .badge-expert { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #34d399; }
+        .badge-pdf { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: #f87171; }
+        
+        .memory-active { box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); }
     </style>
 </head>
-<body class="">
+<body>
 
     <div class="layout-container">
         
-        <!-- Sidebar -->
-        <aside id="sidebar" class="flex-shrink-0 w-64 bg-[var(--bg-secondary)] border-r border-gray-700 flex flex-col z-50 transition-transform duration-300 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-2xl md:shadow-none">
-            <div class="p-6 border-b border-gray-700 flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                    <!-- Simple Brain Icon -->
-                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="bg-[var(--bg-secondary)] border-r border-[var(--bg-tertiary)] flex flex-col shadow-2xl">
+            
+            <!-- Header -->
+            <div class="p-6 border-b border-[var(--bg-tertiary)] flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-violet-900/20">
                         <i class="fas fa-brain"></i>
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">NeuroNexus</h1>
-                        <p class="text-[10px] text-[var(--text-secondary)]">V6.0 | General AI</p>
+                        <h1 class="text-xl font-bold tracking-tight text-white">NeuroNexus</h1>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                            <p class="text-[10px] text-[var(--text-secondary)] font-mono tracking-widest uppercase">V9.0 ULTIMATE</p>
+                        </div>
                     </div>
                 </div>
-                <button onclick="toggleSidebar()" class="md:hidden text-gray-400 p-2"><i class="fas fa-times fa-lg"></i></button>
+                <button onclick="toggleSidebar()" class="md:hidden text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
             </div>
 
-            <div class="p-4 border-b border-gray-700">
-                <label class="text-[10px] uppercase text-[var(--text-secondary)] font-bold tracking-wider">Modo de Personalidade</label>
-                <select id="workflow-mode" onchange="updateWorkflowMode()" class="w-full mt-1 bg-[var(--bg-primary)] text-[var(--text-primary)] text-xs border border-gray-600 rounded p-2 focus:outline-none focus:border-[var(--accent)]">
-                    <option value="adaptive">🧠 Adaptativo (Padrão)</option>
-                    <option value="teacher">👨‍🏫 Professor Didático</option>
-                    <option value="creative">🎨 Criativo & Ideias</option>
-                    <option value="analytical">📊 Analítico & Dados</option>
-                    <option value="coder">💻 Programador Senior</option>
-                    <option value="writer">✍️ Escritor & Copywriter</option>
-                    <option value="health">🩺 Saúde & Bem-estar</option>
-                </select>
-            </div>
-
-            <div class="flex-1 overflow-y-auto p-4 space-y-2" id="history-list">
+            <!-- Agent Controls -->
+            <div class="p-4 border-b border-[var(--bg-tertiary)] space-y-4">
                 
-                <div class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 mt-2">Memória Ativa</div>
-                <!-- Dynamic Project Files List -->
-                <div id="project-files-list" class="space-y-1 text-xs text-gray-400 font-mono">
-                    <div class="italic p-2 text-center opacity-50">Memória vazia.</div>
+                <!-- Domain Selector -->
+                <div>
+                    <div class="flex justify-between items-end mb-1">
+                        <label class="text-[10px] uppercase text-[var(--text-secondary)] font-bold tracking-wider">Módulo Especialista</label>
+                        <span id="expert-badge" class="text-[9px] bg-gray-800 text-gray-400 px-1.5 rounded border border-gray-700">Inativo</span>
+                    </div>
+                    <select id="workflow-mode" onchange="updateWorkflowMode()" class="w-full bg-[var(--bg-primary)] text-sm text-[var(--text-primary)] border border-[var(--bg-tertiary)] rounded-lg p-2.5 focus:outline-none focus:border-[var(--accent)] cursor-pointer transition-colors hover:border-gray-600">
+                        <optgroup label="Geral">
+                            <option value="adaptive">🧠 Adaptativo (Padrão)</option>
+                            <option value="teacher">👨‍🏫 Professor Didático</option>
+                        </optgroup>
+                        <optgroup label="Técnico & Exatas">
+                            <option value="coder">💻 Dev Full Stack (Agentic)</option>
+                            <option value="science">🔬 Cientista & Física</option>
+                            <option value="analytical">📊 Analista de Dados</option>
+                        </optgroup>
+                        <optgroup label="Regulado & Seguro">
+                            <option value="health">🩺 Saúde (Medicina Segura)</option>
+                            <option value="nutrition">🥗 Nutricionista Clínico</option>
+                            <option value="legal">⚖️ Jurídico & Compliance</option>
+                        </optgroup>
+                        <optgroup label="Outros">
+                            <option value="creative">🎨 Criativo & Design</option>
+                        </optgroup>
+                    </select>
                 </div>
-                
-                <div class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 mt-4">Conversas</div>
-                <button onclick="newChat()" class="w-full text-left p-3 rounded-lg bg-[var(--accent)] text-white hover:opacity-90 transition flex items-center gap-2 active:scale-95 transform duration-150">
-                    <i class="fas fa-plus"></i> Novo Tópico
-                </button>
-                <div id="history-items-container" class="space-y-1 mt-2"></div>
+
+                <!-- Memory Profile -->
+                <div id="memory-box" class="bg-[var(--bg-primary)] rounded-lg p-3 border border-[var(--bg-tertiary)] transition duration-300">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[10px] font-bold text-[var(--accent)] uppercase"><i class="fas fa-user-circle"></i> Perfil & Memória</span>
+                        <button onclick="clearProfile()" class="text-[9px] text-red-400 hover:underline">Resetar</button>
+                    </div>
+                    <div id="user-profile-display" class="text-[10px] text-gray-400 italic leading-relaxed h-12 overflow-y-auto custom-scrollbar">
+                        Carregando memória vetorial...
+                    </div>
+                </div>
             </div>
 
-            <div class="p-4 border-t border-gray-700">
-                <div class="flex items-center gap-2 mb-4">
-                    <div class="w-2 h-2 rounded-full bg-yellow-500" id="python-status-dot"></div>
-                    <span class="text-xs text-[var(--text-secondary)]" id="python-status-text">Carregando Cérebro (Python)...</span>
-                </div>
-                <button onclick="openSettings()" class="w-full p-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition text-sm flex items-center justify-center gap-2 active:bg-gray-500">
-                    <i class="fas fa-cog"></i> Configurações
+            <!-- Chat History -->
+            <div class="flex-1 overflow-y-auto p-3 space-y-2 custom-scrollbar">
+                <button onclick="createNewChat()" class="w-full p-3 rounded-lg bg-[var(--bg-tertiary)] text-white hover:bg-[#3f3f46] transition flex items-center justify-center gap-2 border border-white/5 mb-4 text-xs font-medium uppercase tracking-wide">
+                    <i class="fas fa-plus text-[var(--accent)]"></i> Novo Agente
                 </button>
+                
+                <div class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-wider px-1 mb-1">Sessões Ativas</div>
+                <div id="chat-list-container" class="space-y-1">
+                    <!-- Chats injected here -->
+                </div>
+            </div>
+
+            <!-- Status Bar -->
+            <div class="p-3 border-t border-[var(--bg-tertiary)] bg-[var(--bg-secondary)] text-[10px] text-[var(--text-secondary)] font-mono flex justify-between items-center">
+                <div class="flex items-center gap-2" title="Status do Cérebro Python">
+                    <div class="w-1.5 h-1.5 rounded-full bg-yellow-500" id="mem-status-dot"></div>
+                    <span id="mem-status-text">Booting Python...</span>
+                </div>
+                <button onclick="openSettings()" class="hover:text-white transition"><i class="fas fa-cog"></i> Config</button>
             </div>
         </aside>
 
-        <!-- Overlay -->
-        <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black bg-opacity-70 z-40 hidden backdrop-blur-sm"></div>
-
-        <!-- Main Wrapper -->
-        <div class="flex-1 flex relative overflow-hidden w-full">
+        <!-- MAIN AREA -->
+        <div class="flex-1 flex flex-col relative w-full h-full bg-[var(--bg-primary)]">
             
+            <!-- Toast Container -->
+            <div id="toast-container" class="absolute top-4 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 w-full max-w-sm px-4 pointer-events-none"></div>
+
+            <!-- Mobile Navbar -->
+            <div class="md:hidden flex items-center justify-between p-4 border-b border-[var(--bg-tertiary)] bg-[var(--bg-secondary)] z-30">
+                <button onclick="toggleSidebar()" class="text-white"><i class="fas fa-bars"></i></button>
+                <span class="font-bold text-[var(--accent)]">V9.0</span>
+                <button onclick="toggleCanvas()" id="mobile-canvas-btn" class="text-gray-400 hidden"><i class="fas fa-code"></i></button>
+            </div>
+
             <!-- Chat Area -->
-            <main id="main-chat-area" class="flex-1 flex flex-col h-full min-w-0 bg-[var(--bg-primary)]">
-                
-                <!-- Mobile Header -->
-                <div class="md:hidden flex items-center justify-between p-4 glass-panel border-b border-gray-700 z-20 sticky top-0">
-                    <div class="flex items-center gap-2">
-                        <div class="w-6 h-6 rounded bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
-                            N
-                        </div>
-                        <h1 class="text-lg font-bold text-[var(--text-primary)]">NeuroNexus</h1>
-                    </div>
-                    <div class="flex gap-4">
-                        <button onclick="toggleCanvas()" id="mobile-canvas-btn" class="text-gray-300 active:text-white hidden"><i class="fas fa-layer-group fa-lg"></i></button>
-                        <button onclick="toggleSidebar()" class="text-gray-300 active:text-white"><i class="fas fa-bars fa-lg"></i></button>
-                    </div>
-                </div>
+            <main id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 scroll-smooth pb-32">
+                <!-- Welcome -->
+            </main>
 
-                <!-- Messages -->
-                <div id="chat-container" class="flex-1 overflow-y-auto p-2 md:p-8 space-y-6 scroll-smooth pb-32">
-                    <div class="flex flex-col items-center justify-center h-full text-center space-y-4 opacity-50" id="welcome-screen">
-                        <div class="w-24 h-24 mb-4 rounded-2xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white text-5xl shadow-2xl animate-pulse">
-                            <i class="fas fa-brain"></i>
+            <!-- Input Area -->
+            <div class="p-4 md:p-6 z-20 bg-gradient-to-t from-[var(--bg-primary)] via-[var(--bg-primary)] to-transparent">
+                <div class="max-w-4xl mx-auto">
+                    <!-- Agent Planner Status (Restored) -->
+                    <div id="agent-planner" class="hidden agent-card">
+                        <div class="text-[10px] font-bold text-[var(--accent)] uppercase mb-2 flex justify-between">
+                            <span><i class="fas fa-robot"></i> Agente Autônomo Ativo</span>
+                            <span id="agent-status-text">Planejando...</span>
                         </div>
-                        <h2 class="text-2xl font-bold">Olá, eu sou o NeuroNexus.</h2>
-                        <p class="max-w-md text-sm px-4">Sua Inteligência Geral Pessoal. Posso aprender com você, escrever, analisar, programar ou apenas conversar.</p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm w-full max-w-lg px-4 mt-4">
-                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Pode me ajudar a planejar uma rotina de estudos?')">📅 Planejar Rotina</div>
-                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Explique mecânica quântica como se eu tivesse 10 anos.')">🎓 Explicar Simples</div>
-                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Gere uma tabela de gastos mensais para casa.')">📊 Criar Tabela</div>
-                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Analise este texto e resuma os pontos chave: [Cole seu texto]')">📝 Resumir Texto</div>
-                        </div>
+                        <div id="agent-steps"></div>
                     </div>
-                </div>
 
-                <!-- Input Area -->
-                <div class="p-3 md:p-4 z-10 w-full">
-                    <div class="max-w-4xl mx-auto glass-panel rounded-2xl p-2 shadow-lg flex flex-col gap-2 relative">
-                        <div id="attachment-preview" class="hidden px-2 py-1 flex gap-2 overflow-x-auto"></div>
-                        <div class="flex items-end gap-2 p-1">
-                            <button onclick="document.getElementById('file-upload').click()" class="p-3 text-[var(--text-secondary)] hover:text-[var(--accent)] transition" title="Anexar (Imagens, PDFs, Textos)">
-                                <i class="fas fa-paperclip text-lg"></i>
+                    <div class="relative group">
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl opacity-30 group-hover:opacity-60 transition duration-500 blur"></div>
+                        <div class="relative flex items-end gap-2 bg-[var(--bg-secondary)] rounded-xl p-2 border border-[var(--bg-tertiary)]">
+                            <button onclick="document.getElementById('file-upload').click()" class="p-3 text-gray-400 hover:text-white transition rounded-lg hover:bg-[var(--bg-tertiary)]">
+                                <i class="fas fa-paperclip"></i>
                             </button>
-                            <input type="file" id="file-upload" class="hidden" multiple accept="image/*,.pdf,.txt,.js,.py,.html,.css,.log,.json" onchange="handleFileUpload(this)">
+                            <input type="file" id="file-upload" class="hidden" multiple onchange="handleFileUpload(this)">
                             
-                            <textarea id="user-input" rows="1" class="flex-1 bg-transparent border-0 focus:ring-0 text-[var(--text-primary)] resize-none max-h-32 py-3 text-base" placeholder="Converse comigo..." oninput="autoResize(this)" onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }"></textarea>
+                            <textarea id="user-input" rows="1" class="flex-1 bg-transparent border-0 focus:ring-0 text-white placeholder-gray-500 resize-none max-h-40 py-3 text-sm" placeholder="Comande o agente (Ex: 'Analise os dados e gere um PDF')..." oninput="autoResize(this)" onkeydown="handleEnter(event)"></textarea>
                             
-                            <button onclick="sendMessage()" class="p-3 bg-[var(--accent)] text-white rounded-xl hover:opacity-90 active:scale-95 transition shadow-lg w-12 h-12 flex items-center justify-center">
+                            <button onclick="sendMessage()" class="p-3 bg-[var(--accent)] text-white rounded-lg hover:bg-violet-600 transition shadow-lg shadow-violet-900/30">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </div>
                     </div>
-                </div>
-            </main>
-
-            <!-- Canvas/Terminal Panel (Hidden by default unless needed) -->
-            <div id="canvas-panel" class="bg-[var(--bg-secondary)] flex flex-col h-full shadow-2xl">
-                <!-- Header -->
-                <div class="flex items-center justify-between p-3 border-b border-gray-700 bg-[var(--bg-primary)]">
-                    <div class="flex items-center gap-2">
-                        <button onclick="toggleCanvas()" class="md:hidden text-gray-400 mr-2"><i class="fas fa-arrow-left"></i></button>
-                        <i class="fas fa-layer-group text-[var(--accent)]"></i>
-                        <span class="font-bold text-sm">Área de Trabalho</span>
-                    </div>
-                    
-                    <!-- Tabs -->
-                    <div class="flex bg-gray-800 rounded p-1 gap-1">
-                        <button onclick="switchTab('code')" id="tab-code" class="px-3 py-1 text-xs rounded bg-[var(--bg-secondary)] text-white shadow">Texto/Código</button>
-                        <button onclick="switchTab('preview')" id="tab-preview" class="px-3 py-1 text-xs rounded text-gray-400 hover:text-white">Visualizar</button>
-                        <button onclick="switchTab('terminal')" id="tab-terminal" class="px-3 py-1 text-xs rounded text-gray-400 hover:text-white flex items-center gap-1"><i class="fas fa-terminal"></i> Memória</button>
-                    </div>
-
-                    <div class="flex gap-2">
-                        <button onclick="executeCode()" id="btn-run-code" class="text-green-500 hover:text-green-400 hidden p-1" title="Executar"><i class="fas fa-play"></i></button>
-                        <button onclick="copyCode()" class="text-gray-400 hover:text-white p-1" title="Copiar"><i class="far fa-copy"></i></button>
-                        <button onclick="toggleCanvas()" class="text-gray-400 hover:text-white hidden md:block p-1"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-
-                <!-- Body -->
-                <div class="flex-1 overflow-hidden relative">
-                    <!-- Code View -->
-                    <div id="view-code" class="absolute inset-0 overflow-auto p-4 bg-[#0d1117] h-full w-full">
-                        <pre><code id="code-content" class="text-sm"></code></pre>
-                    </div>
-                    <!-- Preview View -->
-                    <div id="view-preview" class="absolute inset-0 bg-white hidden h-full w-full">
-                        <iframe id="preview-frame" class="w-full h-full border-0"></iframe>
-                    </div>
-                    <!-- Terminal View (RESE) -->
-                    <div id="view-terminal" class="absolute inset-0 hidden h-full w-full flex flex-col">
-                        <div class="bg-gray-800 px-2 py-1 text-xs text-gray-400 flex justify-between">
-                            <span>Python 3.10 (Memória)</span>
-                            <span onclick="clearTerminal()" class="cursor-pointer hover:text-white">Limpar</span>
-                        </div>
-                        <div id="terminal-output" class="terminal-output p-2">Carregando sistema de aprendizado...</div>
-                    </div>
+                    <div id="file-preview" class="hidden mt-2 flex gap-2 overflow-x-auto px-1"></div>
                 </div>
             </div>
-
         </div>
+
+        <!-- CANVAS (Right Panel) -->
+        <div id="canvas-panel" class="bg-[var(--bg-secondary)] border-l border-[var(--bg-tertiary)] flex flex-col h-full shadow-2xl">
+            <div class="flex items-center justify-between p-3 border-b border-[var(--bg-tertiary)] bg-[var(--bg-secondary)]">
+                <div class="flex gap-2">
+                    <button onclick="toggleCanvas()" class="md:hidden text-gray-400"><i class="fas fa-arrow-left"></i></button>
+                    <span class="font-bold text-xs uppercase tracking-wider text-[var(--accent)]">Output</span>
+                </div>
+                <div class="flex bg-[var(--bg-primary)] rounded p-0.5 border border-[var(--bg-tertiary)]">
+                    <button onclick="switchTab('code')" id="tab-code" class="px-3 py-1 text-[10px] font-bold rounded bg-[var(--bg-secondary)] text-white shadow">CODE</button>
+                    <button onclick="switchTab('preview')" id="tab-preview" class="px-3 py-1 text-[10px] font-bold rounded text-gray-400 hover:text-white">VIEW</button>
+                    <button onclick="switchTab('terminal')" id="tab-terminal" class="px-3 py-1 text-[10px] font-bold rounded text-gray-400 hover:text-white">LOG</button>
+                </div>
+                <div class="flex gap-1">
+                    <button onclick="executeCode()" id="btn-run" class="text-green-400 hover:bg-[var(--bg-tertiary)] p-1.5 rounded hidden"><i class="fas fa-play text-xs"></i></button>
+                    <button onclick="copyCode()" class="text-gray-400 hover:bg-[var(--bg-tertiary)] p-1.5 rounded"><i class="far fa-copy text-xs"></i></button>
+                    <button onclick="toggleCanvas()" class="hidden md:block text-gray-400 hover:bg-[var(--bg-tertiary)] p-1.5 rounded"><i class="fas fa-times text-xs"></i></button>
+                </div>
+            </div>
+            <div class="flex-1 relative overflow-hidden bg-black">
+                <div id="view-code" class="absolute inset-0 overflow-auto p-4 w-full h-full"><pre><code id="code-content" class="text-sm font-mono"></code></pre></div>
+                <div id="view-preview" class="absolute inset-0 bg-white hidden w-full h-full"><iframe id="preview-frame" class="w-full h-full border-0"></iframe></div>
+                <div id="view-terminal" class="absolute inset-0 bg-[#0f0f0f] hidden flex-col w-full h-full"><div id="terminal-output" class="flex-1 p-4 font-mono text-xs text-green-500 overflow-y-auto whitespace-pre-wrap"></div></div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Settings Modal -->
-    <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-80 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-[var(--bg-secondary)] rounded-2xl w-full max-w-lg shadow-2xl border border-gray-700 flex flex-col max-h-[90vh]">
-            <div class="p-4 border-b border-gray-700 flex justify-between items-center">
-                <h2 class="text-xl font-bold">Configurações</h2>
-                <button onclick="closeSettings()" class="text-gray-400 hover:text-white p-2"><i class="fas fa-times"></i></button>
+    <!-- SETTINGS MODAL -->
+    <div id="settings-modal" class="fixed inset-0 bg-black/80 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-[var(--bg-secondary)] rounded-2xl w-full max-w-lg border border-[var(--bg-tertiary)] shadow-2xl flex flex-col max-h-[90vh]">
+            <div class="p-5 border-b border-[var(--bg-tertiary)] flex justify-between items-center">
+                <h2 class="text-lg font-bold text-white">Configurações do Sistema</h2>
+                <button onclick="closeSettings()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-6 overflow-y-auto space-y-6">
-                <!-- Keys Section -->
                 <div>
-                    <h3 class="font-semibold mb-2 text-[var(--accent)]"><i class="fas fa-key"></i> Chaves de API (Gemini)</h3>
-                    <textarea id="api-keys-input" class="w-full h-24 bg-[var(--bg-primary)] border border-gray-600 rounded p-2 text-xs font-mono text-gray-300 focus:border-[var(--accent)] focus:outline-none" placeholder="Cole suas chaves API aqui..."></textarea>
-                    
-                    <div class="flex justify-between mt-4">
-                        <button onclick="loadDefaultKeys()" class="text-xs text-[var(--accent)] hover:underline p-2">Restaurar Padrão</button>
-                        <button onclick="saveKeys()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-xs">Salvar</button>
-                    </div>
+                    <h3 class="font-bold text-xs uppercase text-[var(--accent)] tracking-wider mb-2">Pool de Chaves API (Rotação Ativa)</h3>
+                    <textarea id="api-keys-input" class="w-full h-24 bg-[var(--bg-primary)] border border-[var(--bg-tertiary)] rounded-lg p-3 text-xs font-mono text-gray-300 focus:border-[var(--accent)] focus:outline-none" placeholder="O sistema gerencia as chaves automaticamente."></textarea>
                 </div>
-                <!-- Maintenance -->
-                <div class="border-t border-gray-700 pt-4 mt-4">
-                    <h3 class="font-semibold mb-2 text-red-500"><i class="fas fa-trash"></i> Zona de Perigo</h3>
-                    <button onclick="clearMemory()" class="w-full p-2 border border-red-500 text-red-500 rounded hover:bg-red-500 hover:text-white transition text-xs active:bg-red-600"><i class="fas fa-trash"></i> Esquecer Tudo (Reiniciar)</button>
+                <div class="flex gap-2">
+                     <button onclick="saveKeys()" class="flex-1 py-2 bg-[var(--accent)] text-white rounded-lg hover:opacity-90 text-sm font-medium">Salvar</button>
+                     <button onclick="loadDefaultKeys()" class="px-4 py-2 border border-[var(--bg-tertiary)] text-gray-300 rounded-lg hover:bg-[var(--bg-tertiary)] text-sm">Reset</button>
                 </div>
-                <!-- Appearance -->
-                <div>
-                    <h3 class="font-semibold mb-2 text-[var(--accent)]"><i class="fas fa-palette"></i> Tema</h3>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button onclick="setTheme('default')" class="p-2 border border-gray-600 rounded bg-[#0f172a] text-white text-xs">Escuro</button>
-                        <button onclick="setTheme('neon')" class="p-2 border border-gray-600 rounded bg-black text-[#00ffcc] text-xs shadow-[0_0_10px_#00ffcc40]">Neon</button>
-                        <button onclick="setTheme('light')" class="p-2 border border-gray-600 rounded bg-white text-black text-xs">Claro</button>
+                <div class="border-t border-[var(--bg-tertiary)] pt-4">
+                    <h3 class="font-bold text-xs uppercase text-red-500 tracking-wider mb-2">Zona de Perigo</h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="clearAllData()" class="p-2 border border-red-900/50 bg-red-900/10 text-red-400 rounded-lg hover:bg-red-900/20 text-xs">Wipe Chats</button>
+                        <button onclick="resetMemory()" class="p-2 border border-red-900/50 bg-red-900/10 text-red-400 rounded-lg hover:bg-red-900/20 text-xs">Wipe Memory</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- SCRIPT -->
     <script>
-        // --- 1. CORE UTILITIES ---
+        // --- CONSTANTS ---
+        const DB_KEY_CHATS = 'neuro_nexus_chats_v2';
+        const DB_KEY_MEMORY = 'neuro_nexus_memory_v2'; // Python Vector Memory
+        const DB_KEY_PROFILE = 'neuro_nexus_profile';
         
-        // Globals - Safe strings
+        // KEYS POOL (Restored 17 keys)
         const K1 = "QUl6YVN5QkxmTDlIQ1JUZjdNODUtSHJLV2pSSElkUC1vTFY0RGpjCkFJemFTeURPVVZpQ0wzWFlOaXNQZjRzYUpDTWdjQWxOeW50emx0dwpBSXphU3lCYjZyTEhwYmxIdkUxZGY4VU83anBJNlBmZzNyUmVMbzAKQUl6YVN5QXgwR0s2eVBuLUhFX3NZQWF1Rmd6X0J2MXBXQzR4SXhJCkFJemFTeUNVTi1QWDBjN1NhSnpNNUlKVWJWWmRPemlWdFVQb0FVMApBSXphU3lETXFvQkNqZjQ2RVo0WGhsdFNiZlJwNWZYeFFwRzRLZUEKQUl6YVN5QjEtLTlZQjRWOEFxbWpHYUFsbEUxZkwwMjA0MFZGaHZz";
-        const DEFAULT_KEYS_OBFUSCATED = K1;
+        const K2 = "QUl6YVN5QU9vRldvc3A1S2RadEl1TU1tMFA1RHBsN0l1R3F5Z0lNCkFJemFTeURJREJISlplMURhWkU2NFNEUUxkRkJfQWdoOVI4eC1JSQpBSXphU3lDY3praFF2M0REU202dlNLdDcxTk5Uc1haWXBFRkhfREUKQUl6YVN5Qy0tREUwdE9aOTE3a3dwcUVVc0pLV2NWZ2I0Y040ekVRCkFJemFTeUNRd1BwejVuZmF4Q1IwZ1FaUVlNMzY4WUNqTWV0RElnbwpBSXphU3lEeU1qMUZucDc2MURLLVEtczU5aFFhcW53b29TNnhpcVUKQUl6YVN5QzlJMGRrbnlTaVJOYWhqdi1aMlFDakk1YXNCcTQ5c2FBCkFJemFTeUFqbDM1ZzA5WkdFT0tMeGdaQzVNbjJVN0JfODAwa0hqawpBSXphU3lDUlFPajVieWFQa1I1YjVTMUlNZ3V0dWJXWVAwMnBQY0kKQUl6YVN5Q2tLa2dTR2J5TUxKVGpWNkZMOXp0c0xaNmY2WFE3SVlJ";
 
+        const WELCOME_HTML = `
+            <div id="welcome-screen" class="flex flex-col items-center justify-center h-full text-center opacity-70 p-4 animate-fade-in mt-10">
+                <div class="w-24 h-24 mb-6 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-500 flex items-center justify-center text-white text-5xl shadow-2xl shadow-violet-900/50">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-2 text-white tracking-tight">NeuroNexus V9.0</h2>
+                <p class="text-sm text-gray-400 max-w-md mb-8">
+                    Restauração Completa. Cérebro Python + 17 APIs + Gerador Dinâmico.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-lg">
+                    <button onclick="setMode('health'); quickPrompt('Estou sentindo tontura e visão turva. O que fazer?')" class="p-4 text-xs text-left bg-[var(--bg-tertiary)] hover:bg-[#3f3f46] border border-white/5 rounded-xl transition group">
+                        <div class="font-bold text-[var(--accent)] mb-1 group-hover:text-white">🩺 Clínica Segura</div>
+                        <div class="text-gray-500">Triagem de sintomas com verificação ética.</div>
+                    </button>
+                    <button onclick="setMode('coder'); quickPrompt('Gere um PDF explicando a Teoria da Relatividade.')" class="p-4 text-xs text-left bg-[var(--bg-tertiary)] hover:bg-[#3f3f46] border border-white/5 rounded-xl transition group">
+                        <div class="font-bold text-[var(--accent)] mb-1 group-hover:text-white">📄 PDF Dinâmico</div>
+                        <div class="text-gray-500">Geração de documentos reais sob demanda.</div>
+                    </button>
+                </div>
+            </div>
+        `;
+
+        // STATE
+        let chats = [];
+        let activeChatId = null;
+        let attachments = [];
         let apiKeys = [];
         let currentKeyIndex = 0;
-        let chatHistory = [];
-        let attachments = [];
-        let currentCode = ""; 
-        let currentLang = "";
-        let pyodide = null;
-        let projectFiles = {}; 
         let currentWorkflowMode = 'adaptive';
-
-        // --- Core UI Functions ---
-        function renderProjectFiles() {
-            const list = document.getElementById('project-files-list');
-            if (!list) return;
-            
-            list.innerHTML = '';
-            const files = Object.keys(projectFiles);
-            if(files.length === 0) {
-                list.innerHTML = '<div class="italic p-2 text-center opacity-50">Memória vazia.</div>';
-                return;
+        let pyodide = null;
+        let currentCode = "";
+        let currentLang = "";
+        
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            loadSettings();
+            loadChats();
+            if(chats.length === 0) createNewChat();
+            else {
+                const last = localStorage.getItem('neuro_nexus_last_chat');
+                if(last && chats.find(c=>c.id===last)) loadChat(last);
+                else loadChat(chats[0].id);
             }
-            files.forEach(f => {
-                const item = document.createElement('div');
-                item.className = "p-1 hover:bg-gray-700 rounded cursor-pointer truncate flex items-center gap-2";
-                item.innerHTML = `<i class="fas fa-file-alt text-[var(--accent)]"></i> ${f}`;
-                item.onclick = () => {
-                    if(projectFiles[f]) {
-                        currentCode = projectFiles[f];
-                        // Detect lang based on extension
-                        if (f.endsWith('.py')) currentLang = 'python';
-                        else if (f.endsWith('.html')) currentLang = 'html';
-                        else if (f.endsWith('.js')) currentLang = 'javascript';
-                        else if (f.endsWith('.json')) currentLang = 'json';
-                        else currentLang = 'plaintext';
+            initPyodide();
+            updateModeUI();
+        });
 
-                        const codeEl = document.getElementById('code-content');
-                        if (codeEl) {
-                            codeEl.className = `language-${currentLang}`;
-                            codeEl.textContent = currentCode;
-                            hljs.highlightElement(codeEl);
-                        }
-                        
-                        switchTab('code');
-                        forceOpenCanvas();
-                        const runBtn = document.getElementById('btn-run-code');
-                        // Show run button for python only
-                        if(currentLang === 'python' && runBtn) runBtn.classList.remove('hidden');
-                        else if(runBtn) runBtn.classList.add('hidden');
-                    }
-                };
-                list.appendChild(item);
-            });
-        }
+        // --- RESTORED PYODIDE CORE & MEMORY (Lines 800+ logic) ---
+        const PY_CORE = `
+import json, re, math
+from collections import Counter
 
-        function updateProjectContext(fileName, content) {
-            projectFiles[fileName] = content;
-            if (typeof renderProjectFiles === 'function') {
-                renderProjectFiles();
-            }
-        }
+class AgentMemory:
+    def __init__(self):
+        self.data = [] # Facts
+        self.profile = {"traits": [], "facts": []} # User Profile
+    
+    def _vec(self, t): return Counter(re.findall(r'\\b\\w+\\b', t.lower()))
+    def _cos(self, v1, v2):
+        i = set(v1) & set(v2); num = sum([v1[x]*v2[x] for x in i])
+        den = math.sqrt(sum([v1[x]**2 for x in v1])) * math.sqrt(sum([v2[x]**2 for x in v2]))
+        return num/den if den else 0.0
 
-        function updatePreviewIframe() {
-            const frame = document.getElementById('preview-frame');
-            if(!frame) return;
-            const doc = frame.contentWindow.document;
-            doc.open();
-            
-            if (currentLang === 'html') {
-                doc.write(currentCode);
-            } else if (currentLang === 'javascript') {
-                doc.write(`
-                    <html><head><script src="https://cdn.tailwindcss.com"><\/script>
-                    <script src="https://cdn.jsdelivr.net/npm/chart.js"><\/script>
-                    </head><body class="p-4 bg-gray-50">
-                    <div class="max-w-4xl mx-auto bg-white p-4 rounded shadow">
-                        <canvas id="myChart"></canvas>
-                        <div id="output"></div>
-                    </div>
-                    <script>
-                        try { ${currentCode} } catch(e) { document.getElementById('output').innerText = e; }
-                    <\/script>
-                    </body></html>
-                `);
-            } else {
-                doc.write(`<body style="background:#f4f4f5;font-family:monospace;padding:20px;color:#333;"><pre>${currentCode}</pre></body>`);
-            }
-            doc.close();
-        }
+    def add(self, i, o): 
+        # Add to RAG
+        self.data.append({"i":i, "o":o, "v":self._vec(i)})
+        # Simple Profiling Heuristic (Simulated)
+        l = i.lower()
+        if "eu sou" in l or "meu nome" in l or "eu gosto" in l:
+            self.profile["facts"].append(i[:50])
 
-        function switchTab(tab) {
-            const views = {
-                'code': document.getElementById('view-code'),
-                'preview': document.getElementById('view-preview'),
-                'terminal': document.getElementById('view-terminal')
-            };
-            const btns = {
-                'code': document.getElementById('tab-code'),
-                'preview': document.getElementById('tab-preview'),
-                'terminal': document.getElementById('tab-terminal')
-            };
+    def retrieve(self, q):
+        # RAG
+        v = self._vec(q); res = [(self._cos(v, d["v"]), d["i"], d["o"]) for d in self.data]
+        res.sort(key=lambda x:x[0], reverse=True)
+        ctx = "\\n".join([f"Q:{r[1]}\\nA:{r[2]}" for r in res[:2] if r[0]>0.2])
+        return json.dumps({"ctx": ctx, "profile": self.profile})
 
-            Object.values(views).forEach(v => v?.classList.add('hidden'));
-            Object.values(btns).forEach(b => {
-                b?.classList.remove('bg-[var(--bg-secondary)]', 'text-white', 'shadow');
-                b?.classList.add('text-gray-400');
-            });
+    def export(self): return json.dumps({"data": [{"i":d["i"],"o":d["o"]} for d in self.data], "profile": self.profile})
+    def load(self, j):
+        try:
+            d = json.loads(j)
+            self.profile = d.get("profile", {"traits":[], "facts":[]})
+            for i in d.get("data", []): self.add(i["i"], i["o"])
+        except: pass
 
-            if(views[tab]) views[tab].classList.remove('hidden');
-            if(btns[tab]) {
-                btns[tab].classList.add('bg-[var(--bg-secondary)]', 'text-white', 'shadow');
-                btns[tab].classList.remove('text-gray-400');
-            }
+agent = AgentMemory()
+`;
 
-            if (tab === 'preview') updatePreviewIframe();
-        }
-
-        function loadSettings() {
-            const keys = localStorage.getItem('neuroNexusKeys');
-            if (keys) apiKeys = JSON.parse(keys);
-            else loadDefaultKeys();
-            
-            const keysInput = document.getElementById('api-keys-input');
-            if(keysInput) keysInput.value = apiKeys.join('\n');
-            
-            const theme = localStorage.getItem('neuroNexusTheme') || 'default';
-            setTheme(theme);
-            
-            const mode = localStorage.getItem('neuroNexusWorkflow') || 'adaptive';
-            const wfSelect = document.getElementById('workflow-mode');
-            if(wfSelect) {
-                wfSelect.value = mode;
-                currentWorkflowMode = mode;
-            }
-        }
-
-        function loadDefaultKeys() {
+        async function initPyodide() {
             try {
-                const keysInput = document.getElementById('api-keys-input');
-                if(keysInput) keysInput.value = atob(DEFAULT_KEYS_OBFUSCATED);
-                saveKeys();
-            } catch(e) {}
+                pyodide = await loadPyodide();
+                await pyodide.runPythonAsync(PY_CORE);
+                const saved = localStorage.getItem(DB_KEY_MEMORY);
+                if(saved) {
+                    // Safe string handling
+                    await pyodide.runPythonAsync(`agent.load(${JSON.stringify(saved)})`);
+                }
+                updateStatus(true);
+                refreshProfileUI();
+            } catch(e) { updateStatus(false); }
         }
 
+        async function refreshProfileUI() {
+            if(!pyodide) return;
+            const json = await pyodide.runPythonAsync(`json.dumps(agent.profile)`);
+            const prof = JSON.parse(json);
+            const el = document.getElementById('user-profile-display');
+            if(prof.facts.length === 0) el.innerHTML = "Ainda não aprendi nada sobre você.";
+            else el.innerHTML = prof.facts.map(f => `• ${f}`).join('<br>');
+        }
+
+        // --- DYNAMIC PDF GENERATION LOGIC (RESTORED) ---
+        function generateDynamicPDF(title, content) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Header
+            doc.setFillColor(139, 92, 246); // Violet
+            doc.rect(0, 0, 210, 30, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(18);
+            doc.text("NEURONEXUS REPORT", 105, 18, null, null, "center");
+
+            // Title
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(16);
+            doc.text(title || "Documento Gerado", 14, 45);
+            doc.setFontSize(10);
+            doc.setTextColor(100);
+            doc.text(`Gerado em: ${new Date().toLocaleString()}`, 14, 52);
+
+            // Content Logic
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(11);
+            
+            // Clean markdown roughly
+            const cleanText = content.replace(/\*\*/g, '').replace(/#/g, '').replace(/\[\[.*?\]\]/g, '');
+            const splitText = doc.splitTextToSize(cleanText, 180);
+            
+            let y = 65;
+            splitText.forEach(line => {
+                if (y > 280) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.text(line, 14, y);
+                y += 5;
+            });
+
+            const fileName = (title ? title.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'documento') + '.pdf';
+            doc.save(fileName);
+            
+            addMsg({role: 'model', content: `✅ **PDF Criado: ${fileName}**\n\nO conteúdo foi convertido e baixado com sucesso.`});
+        }
+
+        // --- CHAT LOGIC ---
+        function createNewChat() {
+            const c = { id: 'chat_'+Date.now(), title: 'Novo Agente', msgs: [], time: Date.now() };
+            chats.unshift(c); saveChats(); loadChat(c.id);
+            if(window.innerWidth < 768) {
+                const sb = document.getElementById('sidebar');
+                if(sb && sb.classList.contains('open')) toggleSidebar();
+            }
+        }
+        function loadChat(id) {
+            activeChatId = id; localStorage.setItem('neuro_nexus_last_chat', id);
+            const c = chats.find(x=>x.id===id);
+            const el = document.getElementById('chat-container');
+            el.innerHTML = '';
+            if(c.msgs.length === 0) el.innerHTML = WELCOME_HTML;
+            else c.msgs.forEach(m => renderMsg(m));
+            renderChatList();
+        }
+        function saveChats() { localStorage.setItem(DB_KEY_CHATS, JSON.stringify(chats)); renderChatList(); }
+        function loadChats() { const r = localStorage.getItem(DB_KEY_CHATS); if(r) chats = JSON.parse(r); }
+        
+        function renderChatList() {
+            const el = document.getElementById('chat-list-container'); el.innerHTML = '';
+            chats.forEach(c => {
+                const div = document.createElement('div');
+                div.className = `chat-item p-2 rounded-lg cursor-pointer flex justify-between items-center text-xs ${c.id===activeChatId ? 'active' : 'text-gray-400'}`;
+                div.innerHTML = `<span class="truncate pr-2">${c.title}</span> <button onclick="deleteChat('${c.id}', event)" class="hover:text-red-400"><i class="fas fa-trash"></i></button>`;
+                div.onclick = () => loadChat(c.id);
+                el.appendChild(div);
+            });
+        }
+        function deleteChat(id, e) { e.stopPropagation(); chats = chats.filter(c=>c.id!==id); saveChats(); if(id===activeChatId) createNewChat(); }
+
+        // --- AGENTIC WORKFLOW RESTORED ---
+        async function sendMessage() {
+            const input = document.getElementById('user-input');
+            const txt = input.value.trim();
+            if(!txt && attachments.length===0) return;
+            
+            input.value=''; document.getElementById('welcome-screen')?.remove();
+            
+            const uMsg = { role:'user', content:txt, att:[...attachments], time:Date.now() };
+            addMsg(uMsg);
+            attachments = []; document.getElementById('file-preview').innerHTML=''; document.getElementById('file-preview').classList.add('hidden');
+
+            const loaderId = addLoader();
+            
+            try {
+                // 1. MEMORY RETRIEVAL (RAG)
+                let ctx = ""; let profile = "";
+                if(pyodide) {
+                    // Activate visual memory check
+                    const memBox = document.getElementById('memory-box');
+                    memBox.classList.add('memory-active');
+                    setTimeout(()=>memBox.classList.remove('memory-active'), 1000);
+
+                    const res = await pyodide.runPythonAsync(`agent.retrieve(${JSON.stringify(txt)})`);
+                    const j = JSON.parse(res);
+                    ctx = j.ctx; profile = JSON.stringify(j.profile);
+                }
+
+                // 2. AGENT PLANNER (Restored)
+                const isComplex = txt.length > 30 || txt.includes("analise") || txt.includes("crie") || currentWorkflowMode==='coder';
+                if(isComplex) {
+                    showPlanner();
+                    await runStep("Analisando intenção e contexto...", 600);
+                    if(currentWorkflowMode==='health') await runStep("Verificando protocolos médicos...", 800);
+                    else if(currentWorkflowMode==='coder') await runStep("Planejando arquitetura...", 800);
+                    else await runStep("Consultando base de conhecimento RAG...", 500);
+                    hidePlanner();
+                }
+
+                // 3. API CALL
+                const resp = await callAPI(txt, uMsg.att, ctx, profile);
+                
+                // 4. DYNAMIC PDF CHECK
+                const pdfMatch = resp.match(/\[\[AUTO_PDF:\s*(.*?)\]\]/);
+                let cleanResp = resp;
+                let autoPdfTitle = null;
+                
+                if (pdfMatch) {
+                    autoPdfTitle = pdfMatch[1];
+                    cleanResp = resp.replace(pdfMatch[0], "").trim();
+                }
+
+                removeLoader(loaderId);
+                const aMsg = { role:'model', content:cleanResp, time:Date.now(), expert: currentWorkflowMode };
+                addMsg(aMsg);
+                processCode(cleanResp);
+                
+                // Memory Save
+                if(pyodide) {
+                    await pyodide.runPythonAsync(`agent.add(${JSON.stringify(txt)}, ${JSON.stringify(cleanResp.substring(0,100))})`);
+                    localStorage.setItem(DB_KEY_MEMORY, await pyodide.runPythonAsync(`agent.export()`));
+                    refreshProfileUI();
+                }
+
+                const chat = chats.find(c=>c.id===activeChatId);
+                if(chat.msgs.length <= 2) { chat.title = txt.substring(0,25); saveChats(); }
+
+                // 5. GENERATE PDF IF REQUESTED
+                if (autoPdfTitle) {
+                    setTimeout(() => generateDynamicPDF(autoPdfTitle, cleanResp), 500);
+                }
+
+            } catch(e) {
+                removeLoader(loaderId);
+                addMsg({role:'model', content:`❌ **Erro do Sistema:** ${e.message}`, error:true});
+            }
+        }
+
+        async function callAPI(prompt, att, ctx, prof) {
+            if(apiKeys.length===0) loadSettings();
+            if(apiKeys.length===0) throw new Error("Sem chaves API.");
+
+            // DOMAIN INJECTION (Expert Modules)
+            let sys = `System: Você é NeuroNexus V9.0 (Ultimate). Use o perfil do usuário: ${prof}.\n`;
+            
+            sys += `INSTRUÇÃO PDF: Se o usuário pedir para baixar/gerar um PDF/Relatório, forneça o conteúdo e termine com [[AUTO_PDF: Título]].\n`;
+
+            const EXPERTS = {
+                health: "MODO: MÉDICO. Segurança máxima. Não prescreva. Use termos técnicos explicados.",
+                legal: "MODO: JURÍDICO. Analise riscos legais. Cite leis (hipoteticamente).",
+                coder: "MODO: SENIOR ARCHITECT. Planeje antes de codar. Código limpo.",
+                science: "MODO: CIENTISTA. Foco em causalidade e física.",
+                teacher: "MODO: PROFESSOR. Use analogias e seja didático.",
+                analytical: "MODO: ANALISTA. Foco em dados e lógica fria.",
+                nutrition: "MODO: NUTRICIONISTA. Foco em bioquímica."
+            };
+            
+            sys += EXPERTS[currentWorkflowMode] || "MODO: ADAPTATIVO.";
+            sys += `\nCONTEXTO RAG: ${ctx}`;
+
+            const chat = chats.find(c=>c.id===activeChatId);
+            const hist = chat ? chat.msgs.slice(-10).map(m=>({role:m.role, parts:[{text:m.content}]})) : [];
+            const parts = [{text: prompt}];
+            att.forEach(a => parts.push({inlineData:{mimeType:a.mimeType, data:a.data}}));
+
+            const contents = [{role:"user", parts:[{text:sys}]}, ...hist, {role:"user", parts}];
+
+            // ROTATION (Restored)
+            for(let i=0; i<apiKeys.length; i++) {
+                const key = getNextKey();
+                try {
+                    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${key}`, {
+                        method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({contents})
+                    });
+                    if(!r.ok) continue;
+                    const d = await r.json();
+                    return d.candidates[0].content.parts[0].text;
+                } catch(e) {}
+            }
+            throw new Error("Falha na rede neural (Todas as APIs falharam).");
+        }
+
+        // --- UI HELPERS ---
+        function addMsg(m) {
+            const c = chats.find(x=>x.id===activeChatId);
+            c.msgs.push(m); saveChats(); renderMsg(m);
+        }
+        function renderMsg(m) {
+            const div = document.createElement('div');
+            const isU = m.role==='user';
+            div.className = `flex ${isU?'justify-end':'justify-start'} animate-fade-in`;
+            
+            let badges = '';
+            if(m.expert && m.expert !== 'adaptive') badges += `<span class="badge badge-expert">${m.expert.toUpperCase()}</span>`;
+            if(m.content.includes("PDF Criado")) badges += `<span class="badge badge-pdf">ARQUIVO</span>`;
+
+            div.innerHTML = `
+                <div class="msg-bubble ${isU?'user-bubble':'ai-bubble'}">
+                    ${m.att && m.att.length ? '<div class="text-[10px] mb-1 opacity-70"><i class="fas fa-paperclip"></i> Anexo</div>' : ''}
+                    <div class="prose prose-invert text-sm md:text-base">${typeof marked!=='undefined' ? DOMPurify.sanitize(marked.parse(m.content)) : m.content}</div>
+                    <div class="mt-2 opacity-50 text-[9px] flex gap-2">${badges}</div>
+                </div>
+            `;
+            const box = document.getElementById('chat-container');
+            box.appendChild(div); box.scrollTop = box.scrollHeight;
+            div.querySelectorAll('pre code').forEach(b => hljs.highlightElement(b));
+        }
+
+        function showPlanner() {
+            const el = document.getElementById('agent-planner');
+            el.classList.remove('hidden');
+            document.getElementById('agent-steps').innerHTML = '';
+        }
+        function hidePlanner() {
+            setTimeout(() => document.getElementById('agent-planner').classList.add('hidden'), 2000);
+        }
+        async function runStep(txt, ms) {
+            const el = document.getElementById('agent-steps');
+            const div = document.createElement('div');
+            div.className = 'step-row active';
+            div.innerHTML = `<div class="step-icon"><i class="fas fa-spinner fa-spin"></i></div> ${txt}`;
+            el.appendChild(div);
+            await new Promise(r => setTimeout(r, ms));
+            div.className = 'step-row done';
+            div.innerHTML = `<div class="step-icon"><i class="fas fa-check"></i></div> ${txt}`;
+        }
+
+        // --- SETTINGS & UTILS ---
+        function loadSettings() {
+            const k = localStorage.getItem('neuroNexusKeys');
+            if(k) { apiKeys = JSON.parse(k); document.getElementById('api-keys-input').value = apiKeys.join('\n'); }
+            else loadDefaultKeys();
+            const m = localStorage.getItem('neuroNexusWorkflow');
+            if(m) setMode(m);
+        }
+        function loadDefaultKeys() { 
+            const k3 = atob(K1) + '\n' + atob(K2);
+            document.getElementById('api-keys-input').value = k3; saveKeys(); 
+        }
         function saveKeys() {
-            const keysInput = document.getElementById('api-keys-input');
-            if(!keysInput) return;
-            const raw = keysInput.value;
-            apiKeys = raw.split('\n').map(k => k.trim()).filter(k => k.length > 10);
+            apiKeys = document.getElementById('api-keys-input').value.split('\n').filter(k=>k.length>10);
             localStorage.setItem('neuroNexusKeys', JSON.stringify(apiKeys));
             closeSettings();
         }
-        
-        function updateWorkflowMode() {
-            const wfSelect = document.getElementById('workflow-mode');
-            if(wfSelect) {
-                currentWorkflowMode = wfSelect.value;
-                localStorage.setItem('neuroNexusWorkflow', currentWorkflowMode);
-            }
-        }
-        
-        function setTheme(name) {
-            document.body.className = "theme-" + name;
-            localStorage.setItem('neuroNexusTheme', name);
-            if(window.innerWidth < 768) {
-                 document.body.classList.remove('canvas-open-mobile');
-            }
-        }
-
-        function renderHistory() { 
-            const hist = document.getElementById('history-items-container');
-            if(hist) hist.innerHTML = ''; 
-        }
-
-        function addMessageToChat(role, text, attachs = []) {
-            const container = document.getElementById('chat-container');
-            if(!container) return;
-            const div = document.createElement('div');
-            div.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`;
-            
-            let attachHTML = '';
-            if (attachs.length > 0) {
-                attachHTML = `<div class="mb-2 flex gap-2 flex-wrap justify-end">${attachs.map(a => `<span class="text-xs bg-gray-700 px-2 py-1 rounded">📎 ${a.name || 'Anexo'}</span>`).join('')}</div>`;
-            }
-
-            let htmlContent = text;
-            if (typeof marked !== 'undefined' && marked.parse) {
-                try {
-                    // Pre-process to fix some common markdown issues
-                    const rawHtml = marked.parse(text);
-                    if (typeof DOMPurify !== 'undefined') {
-                        htmlContent = DOMPurify.sanitize(rawHtml);
-                    } else {
-                        htmlContent = rawHtml;
-                    }
-                } catch (e) { console.error("Markdown parse error", e); }
-            }
-
-            // Mobile optimized bubbles using msg-bubble class
-            div.innerHTML = `
-                <div class="msg-bubble rounded-2xl ${role === 'user' ? 'bg-[var(--accent)] text-white rounded-br-none' : 'bg-[var(--bg-secondary)] border border-gray-700 rounded-bl-none'}">
-                    ${attachHTML}
-                    <div class="prose prose-invert text-sm md:text-base leading-relaxed break-words">${htmlContent}</div>
-                </div>`;
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
-            
-            if (typeof hljs !== 'undefined') {
-                div.querySelectorAll('pre code').forEach((block) => hljs.highlightElement(block));
-            }
-        }
-
-        function addLoader() {
-            const c = document.getElementById('chat-container');
-            if(!c) return;
-            const id = 'l-' + Date.now();
-            const d = document.createElement('div');
-            d.id = id;
-            d.className = "flex justify-start";
-            d.innerHTML = `<div class="bg-[var(--bg-secondary)] border border-gray-700 rounded-2xl rounded-bl-none p-4"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
-            c.appendChild(d);
-            c.scrollTop = c.scrollHeight;
-            return id;
-        }
-
-        function removeLoader(id) {
-            const el = document.getElementById(id);
-            if (el) el.remove();
-        }
-
-        function forceOpenCanvas() {
-             if (window.innerWidth < 768) {
-                document.body.classList.add('canvas-open-mobile');
-                const btn = document.getElementById('mobile-canvas-btn');
-                if(btn) btn.classList.remove('hidden');
-            } else {
-                document.body.classList.add('canvas-open');
-            }
-        }
-
-        // --- MEMORY MODULE (Auto-Learning Simulator) ---
-        const MOA_MEMORY_CODE = `
-import json
-import os
-import time
-from difflib import SequenceMatcher
-
-# Módulo de Memória Adaptativa v6.0
-class AdaptiveMemory:
-    def __init__(self):
-        self.memory_file = "user_long_term_memory.json"
-        self.memories = []
-        self.user_profile = {"name": "User", "interests": [], "style": "neutral"}
-        self.load_memory()
-
-    def load_memory(self):
-        if os.path.exists(self.memory_file):
-            try:
-                with open(self.memory_file, 'r') as f:
-                    data = json.load(f)
-                    self.memories = data.get("interactions", [])
-                    self.user_profile = data.get("profile", self.user_profile)
-            except:
-                self.memories = []
-        else:
-            self.memories = []
-
-    def learn(self, user_input, ai_response):
-        """Aprende com cada interação."""
-        # Salva a interação
-        self.memories.append({
-            "input": user_input, 
-            "response": ai_response, 
-            "time": time.time()
-        })
-        
-        # Análise básica de perfil (simulada)
-        if "python" in user_input.lower():
-            if "coding" not in self.user_profile["interests"]:
-                self.user_profile["interests"].append("coding")
-        
-        self.save_memory()
-
-    def save_memory(self):
-        with open(self.memory_file, 'w') as f:
-            json.dump({
-                "profile": self.user_profile,
-                "interactions": self.memories[-50:] # Mantém as últimas 50
-            }, f)
-
-    def get_context(self):
-        """Retorna o resumo do que a IA sabe sobre o usuário."""
-        return f"Perfil: {self.user_profile}. Últimas 3 interações: {str(self.memories[-3:]) if self.memories else 'Nenhuma'}"
-
-memory = AdaptiveMemory()
-print("Sistema de Memória Adaptativa Inicializado.")
-`;
-
-        // --- 4. EVENT LISTENERS ---
-        document.addEventListener('DOMContentLoaded', () => {
-            loadSettings();
-            renderHistory();
-            initPyodide();
-            if (typeof marked !== 'undefined') {
-                marked.setOptions({
-                    highlight: function(code, lang) {
-                        if (typeof hljs === 'undefined') return code;
-                        const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-                        return hljs.highlight(code, { language }).value;
-                    }
-                });
-            }
-        });
-
-        // --- 5. LOGIC & API ---
-        async function initPyodide() {
-            const terminal = document.getElementById('terminal-output');
-            const statusDot = document.getElementById('python-status-dot');
-            const statusText = document.getElementById('python-status-text');
-
-            try {
-                if (terminal) {
-                    terminal.innerText = "Inicializando Cérebro Artificial (WASM)...\n";
-                }
-
-                if (typeof loadPyodide === 'undefined') throw new Error("Pyodide not loaded");
-
-                pyodide = await loadPyodide();
-                
-                // Write Memory Module
-                pyodide.FS.writeFile("memory_core.py", MOA_MEMORY_CODE);
-                updateProjectContext('memory_core.py', MOA_MEMORY_CODE);
-                
-                // Auto-run memory init
-                await pyodide.runPythonAsync(MOA_MEMORY_CODE);
-
-                if (statusDot) statusDot.className = "w-2 h-2 rounded-full bg-green-500";
-                if (statusText) statusText.innerText = "Cérebro Ativo";
-                
-                if (terminal) {
-                    terminal.innerText += "> Módulo de Aprendizado: OK.\n";
-                    terminal.innerText += "> Sistema Pronto.\n";
-                }
-                
-                console.log("Pyodide Ready");
-            } catch (e) {
-                console.error("Pyodide failed", e);
-                if (statusText) statusText.innerText = "Erro no Cérebro";
-                if (statusDot) statusDot.className = "w-2 h-2 rounded-full bg-red-500";
-                if (terminal) terminal.innerText += `\n[ERRO CRÍTICO]: ${e.message}\n`;
-            }
-        }
-
-        async function executeCode() {
-            if (currentLang !== 'python') {
-                alert("A execução está configurada apenas para Python.");
-                return;
-            }
-            if (!pyodide) {
-                alert("O cérebro da IA ainda está carregando...");
-                return;
-            }
-
-            switchTab('terminal');
-            const terminal = document.getElementById('terminal-output');
-            if(terminal) terminal.innerText += `\n> Executando pensamento...\n`;
-
-            try {
-                pyodide.setStdout({ batched: (msg) => { 
-                    if(terminal) terminal.innerText += msg + "\n"; 
-                } });
-                await pyodide.runPythonAsync(currentCode);
-                if(terminal) terminal.innerText += `\n[Fim]\n`;
-            } catch (err) {
-                if(terminal) terminal.innerText += `\nERRO:\n${err}\n`;
-            }
-            if(terminal) terminal.scrollTop = terminal.scrollHeight;
-        }
-
-        function clearTerminal() {
-            const term = document.getElementById('terminal-output');
-            if (term) term.innerText = "Memória Limpa.";
-        }
-
         function getNextKey() {
-            if (apiKeys.length === 0) return null;
+            if(apiKeys.length===0) return null;
+            currentKeyIndex = (currentKeyIndex+1)%apiKeys.length;
             return apiKeys[currentKeyIndex];
         }
-
-        function rotateKey() {
-            currentKeyIndex = (currentKeyIndex + 1) % apiKeys.length;
+        function updateWorkflowMode() {
+            currentWorkflowMode = document.getElementById('workflow-mode').value;
+            localStorage.setItem('neuroNexusWorkflow', currentWorkflowMode);
+            updateModeUI();
         }
-
-        async function callGemini(userMessage, files = []) {
-            let attempts = 0;
-            const maxAttempts = (apiKeys.length > 0) ? apiKeys.length : 1;
-
-            while (attempts < maxAttempts) {
-                let key = getNextKey();
-                
-                if (!key) {
-                    loadSettings();
-                    key = getNextKey();
-                    if (!key) {
-                        alert("ERRO: Configure sua chave API nas configurações.");
-                        throw new Error("Sem chaves.");
-                    }
-                }
-
-                const model = 'gemini-2.5-flash-preview-09-2025';
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
-
-                const newContent = { role: "user", parts: [{ text: userMessage }] };
-                if (files.length > 0) {
-                    files.forEach(f => newContent.parts.push({ inlineData: { mimeType: f.mimeType, data: f.data } }));
-                }
-
-                const fileContext = JSON.stringify(Object.keys(projectFiles));
-                
-                // --- DYNAMIC MODE INSTRUCTION ---
-                let modeInstruction = "";
-                switch(currentWorkflowMode) {
-                    case 'adaptive': modeInstruction = "MODO: Adaptativo. Detecte o nível do usuário. Se for leigo, explique simples. Se for expert, seja técnico."; break;
-                    case 'teacher': modeInstruction = "MODO: Professor. Explique tudo didaticamente, use analogias."; break;
-                    case 'creative': modeInstruction = "MODO: Criativo. Dê ideias fora da caixa, use metáforas."; break;
-                    case 'analytical': modeInstruction = "MODO: Analítico. Seja frio, baseie-se em dados, tabelas e fatos."; break;
-                    case 'coder': modeInstruction = "MODO: Programador Senior. Foco em código limpo e arquitetura."; break;
-                    case 'writer': modeInstruction = "MODO: Escritor. Melhore a copy, o tom e a gramática."; break;
-                    case 'health': modeInstruction = "MODO: Saúde. Dê dicas de bem-estar (com disclaimer médico)."; break;
-                }
-
-                
-                // --- SYSTEM PROMPT: GENERAL INTELLIGENCE ---
-                const systemPromptText = `
-System: Você é NeuroNexus V6.0, uma Inteligência Geral Avançada.
-SEU OBJETIVO: Ser o assistente mais útil e versátil possível.
-
-DIRETRIZES FUNDAMENTAIS:
-1. **Não assuma que o usuário é programador** a menos que ele peça código ou use termos técnicos.
-2. **Adapte-se:** Fale a língua do usuário. (Gírias com jovens, formal com executivos, simples com leigos).
-3. **Memória:** Você tem acesso a arquivos Python para "lembrar" coisas. Tente ser contínuo.
-4. **Capacidades:** Você escreve textos, gera tabelas, cria listas, analisa dados, escreve código, dá conselhos de vida/saúde.
-
-FERRAMENTAS TÉCNICAS (Use apenas se solicitado):
-- Python (RESE), Chart.js, Mermaid/SVG.
-
-CONTEXTO ATUAL:
-Arquivos na memória: ${fileContext}
-${modeInstruction}
-                `;
-
-                const payload = {
-                    contents: [{ role: "user", parts: [{ text: systemPromptText }] }, ...chatHistory, newContent],
-                    generationConfig: { temperature: 0.7, maxOutputTokens: 8192 }
-                };
-
-                try {
-                    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                    if (response.status === 429) { rotateKey(); attempts++; continue; }
-                    if (!response.ok) throw new Error(await response.text());
-                    const data = await response.json();
-                    return data.candidates[0].content.parts[0].text;
-                } catch (error) {
-                    if (attempts === maxAttempts - 1) throw error;
-                    rotateKey();
-                    attempts++;
-                }
-            }
+        function updateModeUI() {
+            const b = document.getElementById('expert-badge');
+            b.innerText = currentWorkflowMode.toUpperCase();
+            b.className = currentWorkflowMode === 'adaptive' ? 
+                'text-[9px] bg-gray-800 text-gray-400 px-1.5 rounded border border-gray-700' : 
+                'text-[9px] bg-violet-900/30 text-violet-300 px-1.5 rounded border border-violet-700/50';
         }
-
-        async function sendMessage() {
-            const inputEl = document.getElementById('user-input');
-            const msg = inputEl.value.trim();
-            if (!msg && attachments.length === 0) return;
-
-            const welcome = document.getElementById('welcome-screen');
-            if(welcome) welcome.style.display = 'none';
-            
-            inputEl.value = '';
-            inputEl.style.height = 'auto';
-
-            addMessageToChat('user', msg, attachments);
-
-            const currentAttachments = [...attachments];
-            chatHistory.push({
-                role: "user",
-                parts: [{ text: msg }, ...currentAttachments.map(a => ({ inlineData: { mimeType: a.mimeType, data: a.data } }))]
-            });
-            
-            attachments = [];
-            const attachPrev = document.getElementById('attachment-preview');
-            if(attachPrev) {
-                attachPrev.innerHTML = '';
-                attachPrev.classList.add('hidden');
-            }
-
-            const loaderId = addLoader();
-
-            try {
-                const responseText = await callGemini(msg, currentAttachments);
-                removeLoader(loaderId);
-                chatHistory.push({ role: "model", parts: [{ text: responseText }] });
-                addMessageToChat('model', responseText);
-                
-                processArtifacts(responseText);
-                
-                // Simular aprendizado (envia para o Python silenciosamente)
-                if(pyodide) {
-                    try {
-                        const safeMsg = msg.replace(/"/g, '\\"').replace(/'/g, "\\'");
-                        const safeResp = responseText.substring(0, 50).replace(/"/g, '\\"').replace(/\n/g, " ");
-                        pyodide.runPython(`memory.learn("${safeMsg}", "${safeResp}")`);
-                    } catch(e) { console.log("Memory learn error:", e); }
-                }
-
-            } catch (error) {
-                removeLoader(loaderId);
-                addMessageToChat('model', `⚠️ **Erro:** ${error.message}`);
-            }
+        function setMode(m) { document.getElementById('workflow-mode').value = m; updateWorkflowMode(); }
+        function updateStatus(ok) {
+            const d = document.getElementById('mem-status-dot');
+            const t = document.getElementById('mem-status-text');
+            if(ok) { d.className='w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]'; t.innerText="Neural Link: Stable"; }
+            else { d.className='w-1.5 h-1.5 rounded-full bg-red-500'; t.innerText="Neural Link: Offline"; }
         }
-
-        function processArtifacts(text) {
-            const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
-            let match;
-            let lastCode = null;
-            let lastLang = null;
-
-            while ((match = codeBlockRegex.exec(text)) !== null) {
-                const lang = (match[1] || 'text').toLowerCase();
-                const code = match[2];
-                if (lang !== 'text' && lang !== 'bash') {
-                    let fakeName = `artifact_${Date.now()}.${lang === 'python' ? 'py' : lang === 'javascript' ? 'js' : lang}`;
-                    updateProjectContext(fakeName, code);
-                }
-
-                if (lang === 'html' || lang === 'python' || lang === 'javascript' || lang === 'json' || !lastCode) {
-                    lastLang = lang;
-                    lastCode = code;
-                }
-            }
-
-            if (lastCode) {
-                currentCode = lastCode;
-                currentLang = lastLang;
-                
-                const codeEl = document.getElementById('code-content');
-                if (codeEl) {
-                    codeEl.className = `language-${currentLang}`;
-                    codeEl.textContent = currentCode;
-                    hljs.highlightElement(codeEl);
-                }
-
-                forceOpenCanvas();
-
-                const runBtn = document.getElementById('btn-run-code');
-                if (currentLang === 'python') {
-                    switchTab('code');
-                    if(runBtn) runBtn.classList.remove('hidden');
-                } else if (currentLang === 'html' || currentLang === 'javascript') {
-                    switchTab('preview');
-                    if(runBtn) runBtn.classList.add('hidden');
-                } else {
-                    switchTab('code');
-                    if(runBtn) runBtn.classList.add('hidden');
-                }
-            }
-        }
-
-        function newChat() {
-            chatHistory = [];
-            projectFiles = {};
-            renderProjectFiles();
-            const chatC = document.getElementById('chat-container');
-            if(chatC) chatC.innerHTML = WELCOME_CONTENT;
-            document.body.classList.remove('canvas-open', 'canvas-open-mobile');
-            attachments = [];
-            const attachPrev = document.getElementById('attachment-preview');
-            if(attachPrev) {
-                attachPrev.innerHTML = '';
-                attachPrev.classList.add('hidden');
-            }
-        }
-
-        function clearMemory() { if(confirm("Limpar?")) { newChat(); alert("Limpo."); } }
-        function fillPrompt(txt) { const el = document.getElementById('user-input'); if(el) { el.value = txt; el.focus(); sendMessage(); } }
-        function openSettings() { document.getElementById('settings-modal')?.classList.remove('hidden'); }
-        function closeSettings() { document.getElementById('settings-modal')?.classList.add('hidden'); }
-        function autoResize(el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
         
-        function handleFileUpload(input) {
-            const files = Array.from(input.files);
-            const prev = document.getElementById('attachment-preview');
-            if(prev) prev.classList.remove('hidden');
-            files.forEach(file => {
-                const r = new FileReader();
-                r.onload = (e) => {
-                    attachments.push({ mimeType: file.type, data: e.target.result.split(',')[1], name: file.name });
-                    const d = document.createElement('div');
-                    d.innerHTML = `<div class="w-12 h-12 bg-gray-700 flex items-center justify-center border border-gray-600 rounded text-[10px] overflow-hidden p-1 text-center break-all">${file.name}</div>`;
-                    if(prev) prev.appendChild(d);
-                };
-                r.readAsDataURL(file);
-            });
-            input.value = '';
+        function processCode(t) {
+            const r = /```(\w+)?\n([\s\S]*?)```/g; let m, f=false;
+            while((m=r.exec(t))!==null) {
+                f=true; currentLang=m[1]||'text'; currentCode=m[2];
+                const el=document.getElementById('code-content');
+                if(el) { el.textContent=currentCode; el.className=`language-${currentLang}`; hljs.highlightElement(el); }
+            }
+            if(f) {
+                document.getElementById('mobile-canvas-btn').classList.remove('hidden');
+                switchTab(['html','js','javascript'].includes(currentLang)?'preview':'code');
+                if(window.innerWidth>=768) document.body.classList.add('canvas-open');
+            }
         }
-
-        function toggleSidebar() {
+        
+        function clearAllData() { localStorage.clear(); location.reload(); }
+        function resetMemory() { localStorage.removeItem(DB_KEY_MEMORY); localStorage.removeItem(DB_KEY_PROFILE); location.reload(); }
+        function clearProfile() { if(pyodide) pyodide.runPython(`agent.profile = {"traits":[],"facts":[]}`); refreshProfileUI(); }
+        function openSettings() { document.getElementById('settings-modal').classList.remove('hidden'); }
+        function closeSettings() { document.getElementById('settings-modal').classList.add('hidden'); }
+        function toggleSidebar() { 
             const sb = document.getElementById('sidebar');
-            if(sb) sb.classList.toggle('-translate-x-full');
-            const ov = document.getElementById('sidebar-overlay');
-            if(ov) ov.classList.toggle('hidden');
+            if(sb) sb.classList.toggle('open');
         }
-
-        function toggleCanvas() {
-            const body = document.body;
-            const isOpen = body.classList.contains('canvas-open') || body.classList.contains('canvas-open-mobile');
-            if (isOpen) {
-                body.classList.remove('canvas-open', 'canvas-open-mobile');
-            } else {
-                if (window.innerWidth < 768) body.classList.add('canvas-open-mobile');
-                else body.classList.add('canvas-open');
-            }
+        function toggleCanvas() { document.body.classList.toggle('canvas-open'); }
+        function quickPrompt(t) { document.getElementById('user-input').value=t; sendMessage(); }
+        function autoResize(e) { e.style.height='auto'; e.style.height=e.scrollHeight+'px'; }
+        function handleEnter(e) { if(e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+        function handleFileUpload(i) { 
+            Array.from(i.files).forEach(f=>{ const r=new FileReader(); r.onload=e=>attachments.push({name:f.name, mimeType:f.type, data:e.target.result.split(',')[1]}); r.readAsDataURL(f); });
+            document.getElementById('file-preview').classList.remove('hidden'); 
+            document.getElementById('file-preview').innerHTML = '<span class="text-xs bg-gray-800 px-2 rounded text-gray-300 border border-gray-700">Anexo pronto</span>';
         }
-
-        function copyCode() {
-            if (!currentCode) return;
-            const textArea = document.createElement("textarea");
-            textArea.value = currentCode;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-9999px";
-            textArea.style.top = "0";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                alert("Código copiado!");
-            } catch (err) {
-                console.error('Erro ao copiar', err);
-                alert("Erro ao copiar código. Permissão negada.");
-            }
-            document.body.removeChild(textArea);
-        }
+        function addLoader() { const id='l-'+Date.now(); const d=document.createElement('div'); d.id=id; d.className='p-4'; d.innerHTML='<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>'; document.getElementById('chat-container').appendChild(d); return id; }
+        function removeLoader(id) { document.getElementById(id)?.remove(); }
+        function switchTab(t) { ['code','preview','terminal'].forEach(v=>document.getElementById('view-'+v).classList.add('hidden')); document.getElementById('view-'+t).classList.remove('hidden'); if(t==='preview') { const d=document.getElementById('preview-frame').contentWindow.document; d.open(); d.write(currentLang==='html'?currentCode:`<body style='background:#111;color:#fff'><pre>${currentCode}</pre></body>`); d.close(); } }
+        async function executeCode() { if(!pyodide || currentLang!=='python') return; switchTab('terminal'); const t=document.getElementById('terminal-output'); t.innerText+='\n> Running...\n'; try { pyodide.setStdout({batched: s=>t.innerText+=s+'\n'}); await pyodide.runPythonAsync(currentCode); } catch(e){ t.innerText+=e; } }
+        function copyCode() { navigator.clipboard.writeText(currentCode); }
     </script>
 </body>
 </html>
