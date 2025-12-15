@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NeuroNexus V9.1.1 | Readable Core</title>
+    <title>NeuroNexus V10.1 | Stratos Core</title>
     
     <!-- Meta tags -->
     <meta name="theme-color" content="#09090b">
@@ -15,6 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <!-- Chart.js para Visual Nexus -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Pyodide Core (Cérebro) -->
     <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
@@ -60,28 +61,20 @@
             position: relative;
         }
 
-        /* --- TYPOGRAPHY & LAYOUT FIXES (O PULO DO GATO) --- */
+        /* --- TYPOGRAPHY & LAYOUT FIXES --- */
         .prose { 
             max-width: 100%; 
             font-size: 0.95rem; 
-            line-height: 1.7; /* Melhor leitura */
+            line-height: 1.7; 
             color: var(--text-primary);
         }
         
-        /* Espaçamento entre parágrafos */
         .prose p { margin-bottom: 0.85em; }
-        
-        /* Listas legíveis */
-        .prose ul, .prose ol { 
-            margin-bottom: 0.85em; 
-            padding-left: 1.2em; 
-            list-style-position: outside;
-        }
+        .prose ul, .prose ol { margin-bottom: 0.85em; padding-left: 1.2em; list-style-position: outside; }
         .prose ul { list-style-type: disc; }
         .prose ol { list-style-type: decimal; }
         .prose li { margin-bottom: 0.3em; }
         
-        /* Títulos */
         .prose h1, .prose h2, .prose h3 { 
             font-weight: 700; 
             margin-top: 1.2em; 
@@ -90,7 +83,11 @@
             line-height: 1.3;
         }
         
-        /* Código e Citações */
+        /* Table Styles for Chat View */
+        .prose table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 0.9em; }
+        .prose th, .prose td { border: 1px solid var(--bg-tertiary); padding: 8px 12px; text-align: left; }
+        .prose th { background-color: var(--bg-tertiary); color: var(--accent); font-weight: 600; }
+        
         .prose pre { 
             background: var(--code-bg) !important; 
             padding: 1rem; 
@@ -107,10 +104,7 @@
             border-radius: 4px;
             font-size: 0.9em;
         }
-        .prose pre code {
-            background: transparent;
-            padding: 0;
-        }
+        .prose pre code { background: transparent; padding: 0; }
         .prose blockquote {
             border-left: 4px solid var(--accent);
             padding-left: 1rem;
@@ -123,7 +117,7 @@
         /* --- CHAT BUBBLES --- */
         .msg-bubble {
             max-width: 85%;
-            padding: 1rem 1.2rem; /* Mais padding */
+            padding: 1rem 1.2rem;
             border-radius: 1rem;
             position: relative;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -131,8 +125,8 @@
             backdrop-filter: blur(10px);
         }
 
-        .user-bubble { background: var(--accent); color: white; rounded-br: 2px; }
-        .ai-bubble { background: var(--bg-secondary); border: 1px solid var(--bg-tertiary); rounded-bl: 2px; }
+        .user-bubble { background: var(--accent); color: white; border-bottom-right-radius: 2px; }
+        .ai-bubble { background: var(--bg-secondary); border: 1px solid var(--bg-tertiary); border-bottom-left-radius: 2px; }
 
         @media (min-width: 768px) {
             .msg-bubble { max-width: 70%; min-width: 300px; }
@@ -140,7 +134,7 @@
             .canvas-open #canvas-panel { width: 45%; transform: translateX(0); border-left: 1px solid var(--bg-tertiary); }
         }
 
-        /* --- AGENT PLANNER UI --- */
+        /* --- AGENT PLANNER UI (COLLAB-A) --- */
         .agent-card {
             background: var(--bg-tertiary);
             border: 1px solid rgba(255,255,255,0.05);
@@ -179,10 +173,12 @@
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
         @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
 
+        /* BADGES */
         .badge { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; display: inline-block; border: 1px solid; margin-right: 4px; margin-top: 4px; }
         .badge-agent { background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3); color: #a78bfa; }
         .badge-expert { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #34d399; }
         .badge-pdf { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: #f87171; }
+        .badge-chart { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #60a5fa; }
         .badge-confidence { background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3); color: #fbbf24; }
         .badge-transition { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #60a5fa; animation: pulse 2s infinite; }
         
@@ -215,7 +211,7 @@
                         <h1 class="text-xl font-bold tracking-tight text-white">NeuroNexus</h1>
                         <div class="flex items-center gap-1.5">
                             <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                            <p class="text-[10px] text-[var(--text-secondary)] font-mono tracking-widest uppercase">V9.1.1 FIXED</p>
+                            <p class="text-[10px] text-[var(--text-secondary)] font-mono tracking-widest uppercase">V10.1 STRATOS</p>
                         </div>
                     </div>
                 </div>
@@ -250,14 +246,14 @@
                     </select>
                 </div>
 
-                <!-- Memory Profile -->
+                <!-- Memory Profile (PMVS) -->
                 <div id="memory-box" class="bg-[var(--bg-primary)] rounded-lg p-3 border border-[var(--bg-tertiary)] transition duration-300">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-[10px] font-bold text-[var(--accent)] uppercase"><i class="fas fa-user-circle"></i> Perfil & Memória</span>
+                        <span class="text-[10px] font-bold text-[var(--accent)] uppercase"><i class="fas fa-database"></i> Memória Vetorial (PMVS)</span>
                         <button onclick="clearProfile()" class="text-[9px] text-red-400 hover:underline">Resetar</button>
                     </div>
                     <div id="user-profile-display" class="text-[10px] text-gray-400 italic leading-relaxed h-12 overflow-y-auto custom-scrollbar">
-                        Carregando memória vetorial...
+                        Inicializando Vector DB...
                     </div>
                 </div>
             </div>
@@ -291,7 +287,7 @@
 
             <div class="md:hidden flex items-center justify-between p-4 border-b border-[var(--bg-tertiary)] bg-[var(--bg-secondary)] z-30">
                 <button onclick="toggleSidebar()" class="text-white"><i class="fas fa-bars"></i></button>
-                <span class="font-bold text-[var(--accent)]">V9.1.1</span>
+                <span class="font-bold text-[var(--accent)]">V10.1</span>
                 <button onclick="toggleCanvas()" id="mobile-canvas-btn" class="text-gray-400 hidden"><i class="fas fa-code"></i></button>
             </div>
 
@@ -301,10 +297,11 @@
 
             <div class="p-4 md:p-6 z-20 bg-gradient-to-t from-[var(--bg-primary)] via-[var(--bg-primary)] to-transparent">
                 <div class="max-w-4xl mx-auto">
+                    <!-- Agent Planner (Collab-A) -->
                     <div id="agent-planner" class="hidden agent-card">
                         <div class="text-[10px] font-bold text-[var(--accent)] uppercase mb-2 flex justify-between">
-                            <span><i class="fas fa-robot"></i> Agente Autônomo Ativo</span>
-                            <span id="agent-status-text">Planejando...</span>
+                            <span><i class="fas fa-project-diagram"></i> Collab-A: Multi-Agent System</span>
+                            <span id="agent-status-text">Orquestrando...</span>
                         </div>
                         <div id="agent-steps"></div>
                     </div>
@@ -317,7 +314,7 @@
                             </button>
                             <input type="file" id="file-upload" class="hidden" multiple onchange="handleFileUpload(this)">
                             
-                            <textarea id="user-input" rows="1" class="flex-1 bg-transparent border-0 focus:ring-0 text-white placeholder-gray-500 resize-none max-h-40 py-3 text-sm" placeholder="Comande o agente (Ex: 'Analise os dados e gere um PDF')..." oninput="autoResize(this)" onkeydown="handleEnter(event)"></textarea>
+                            <textarea id="user-input" rows="1" class="flex-1 bg-transparent border-0 focus:ring-0 text-white placeholder-gray-500 resize-none max-h-40 py-3 text-sm" placeholder="Comande o agente (Ex: 'Analise e crie um gráfico')..." oninput="autoResize(this)" onkeydown="handleEnter(event)"></textarea>
                             
                             <button onclick="sendMessage()" class="p-3 bg-[var(--accent)] text-white rounded-lg hover:bg-violet-600 transition shadow-lg shadow-violet-900/30">
                                 <i class="fas fa-paper-plane"></i>
@@ -329,12 +326,12 @@
             </div>
         </div>
 
-        <!-- CANVAS -->
+        <!-- CANVAS (Visual Nexus) -->
         <div id="canvas-panel" class="bg-[var(--bg-secondary)] border-l border-[var(--bg-tertiary)] flex flex-col h-full shadow-2xl">
             <div class="flex items-center justify-between p-3 border-b border-[var(--bg-tertiary)] bg-[var(--bg-secondary)]">
                 <div class="flex gap-2">
                     <button onclick="toggleCanvas()" class="md:hidden text-gray-400"><i class="fas fa-arrow-left"></i></button>
-                    <span class="font-bold text-xs uppercase tracking-wider text-[var(--accent)]">Output</span>
+                    <span class="font-bold text-xs uppercase tracking-wider text-[var(--accent)]">Visual Nexus Output</span>
                 </div>
                 <div class="flex bg-[var(--bg-primary)] rounded p-0.5 border border-[var(--bg-tertiary)]">
                     <button onclick="switchTab('code')" id="tab-code" class="px-3 py-1 text-[10px] font-bold rounded bg-[var(--bg-secondary)] text-white shadow">CODE</button>
@@ -399,18 +396,18 @@
                 <div class="w-24 h-24 mb-6 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-500 flex items-center justify-center text-white text-5xl shadow-2xl shadow-violet-900/50">
                     <i class="fas fa-brain"></i>
                 </div>
-                <h2 class="text-3xl font-bold mb-2 text-white tracking-tight">NeuroNexus V9.1.1</h2>
+                <h2 class="text-3xl font-bold mb-2 text-white tracking-tight">NeuroNexus V10.1</h2>
                 <p class="text-sm text-gray-400 max-w-md mb-8">
-                    Sentient Core. Texto Legível. Troca de Contexto Automática.
+                    Stratos Core. Collab-A Agents. Visual Nexus. Python Runtime.
                 </p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-lg">
                     <button onclick="setMode('health'); quickPrompt('Estou com febre alta e dor no corpo. O que fazer?')" class="p-4 text-xs text-left bg-[var(--bg-tertiary)] hover:bg-[#3f3f46] border border-white/5 rounded-xl transition group">
                         <div class="font-bold text-[var(--accent)] mb-1 group-hover:text-white">🩺 Clínica Ética</div>
                         <div class="text-gray-500">Triagem segura e legível.</div>
                     </button>
-                    <button onclick="setMode('coder'); quickPrompt('Gere um PDF sobre Python Basics.')" class="p-4 text-xs text-left bg-[var(--bg-tertiary)] hover:bg-[#3f3f46] border border-white/5 rounded-xl transition group">
-                        <div class="font-bold text-[var(--accent)] mb-1 group-hover:text-white">📄 PDF Dinâmico</div>
-                        <div class="text-gray-500">Geração de documentos sob demanda.</div>
+                    <button onclick="setMode('analytical'); quickPrompt('Crie um gráfico de vendas do Q1 com dados fictícios.')" class="p-4 text-xs text-left bg-[var(--bg-tertiary)] hover:bg-[#3f3f46] border border-white/5 rounded-xl transition group">
+                        <div class="font-bold text-[var(--accent)] mb-1 group-hover:text-white">📊 Visual Nexus</div>
+                        <div class="text-gray-500">Geração de gráficos nativos.</div>
                     </button>
                 </div>
             </div>
@@ -438,10 +435,9 @@
             initPyodide();
             updateModeUI();
             
-            // Fix text rendering configuration
             if (typeof marked !== 'undefined') {
                 marked.setOptions({
-                    breaks: true, // IMPORTANT: Enables single line breaks
+                    breaks: true,
                     gfm: true
                 });
             }
@@ -491,12 +487,12 @@ agent = AgentMemory()
                 pyodide = await loadPyodide();
                 await pyodide.runPythonAsync(PY_CORE);
                 const saved = localStorage.getItem(DB_KEY_MEMORY);
-                if(saved) {
+                if(saved && saved !== "null" && saved !== "undefined") {
                     await pyodide.runPythonAsync(`agent.load(${JSON.stringify(saved)})`);
                 }
                 updateStatus(true);
                 refreshProfileUI();
-            } catch(e) { updateStatus(false); }
+            } catch(e) { updateStatus(false); console.error("Pyodide Init Error:", e); }
         }
 
         async function refreshProfileUI() {
@@ -504,37 +500,152 @@ agent = AgentMemory()
             const json = await pyodide.runPythonAsync(`json.dumps(agent.profile)`);
             const prof = JSON.parse(json);
             const el = document.getElementById('user-profile-display');
-            if(prof.facts.length === 0) el.innerHTML = "Ainda não aprendi nada sobre você.";
+            if(prof.facts.length === 0) el.innerHTML = "Memória vetorial vazia.";
             else el.innerHTML = prof.facts.map(f => `• ${f}`).join('<br>');
         }
 
         function generateDynamicPDF(title, content) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            doc.setFillColor(139, 92, 246); 
-            doc.rect(0, 0, 210, 30, 'F');
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(18);
-            doc.text("NEURONEXUS REPORT", 105, 18, null, null, "center");
+            
+            const pageWidth = doc.internal.pageSize.width;
+            const pageHeight = doc.internal.pageSize.height;
+            const margin = 15;
+            const maxLineWidth = pageWidth - (margin * 2);
+            let cursorY = 0;
+
+            const drawHeader = () => {
+                doc.setFillColor(24, 24, 27); 
+                doc.rect(0, 0, pageWidth, 35, 'F');
+                doc.setFillColor(139, 92, 246);
+                doc.roundedRect(margin, 8, 10, 10, 2, 2, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(16);
+                doc.setFont("helvetica", "bold");
+                doc.text("NEURONEXUS REPORT", margin + 14, 15);
+                doc.setFontSize(9);
+                doc.setFont("helvetica", "normal");
+                doc.setTextColor(161, 161, 170);
+                doc.text("Stratos Core V10.1 | Output Verificado", margin + 14, 20);
+                doc.text(new Date().toLocaleString(), pageWidth - margin, 20, { align: "right" });
+                cursorY = 45;
+            };
+
+            const drawFooter = (pageNumber) => {
+                doc.setFillColor(245, 245, 245);
+                doc.rect(0, pageHeight - 15, pageWidth, 15, 'F');
+                doc.setFontSize(8);
+                doc.setTextColor(100);
+                doc.text(`NeuroNexus Intelligence System - Página ${pageNumber}`, pageWidth / 2, pageHeight - 6, { align: "center" });
+            };
+
+            drawHeader();
+
             doc.setTextColor(0, 0, 0);
-            doc.setFontSize(16);
-            doc.text(title || "Documento Gerado", 14, 45);
-            doc.setFontSize(10);
-            doc.setTextColor(100);
-            doc.text(`Gerado em: ${new Date().toLocaleString()}`, 14, 52);
-            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(20);
+            doc.setFont("helvetica", "bold");
+            const titleLines = doc.splitTextToSize(title || "Relatório Gerado", maxLineWidth);
+            doc.text(titleLines, margin, cursorY);
+            cursorY += (titleLines.length * 8) + 10;
+
+            doc.setDrawColor(200);
+            doc.line(margin, cursorY - 5, pageWidth - margin, cursorY - 5);
+
             doc.setFontSize(11);
-            const cleanText = content.replace(/\*\*/g, '').replace(/#/g, '').replace(/\[\[.*?\]\]/g, '');
-            const splitText = doc.splitTextToSize(cleanText, 180);
-            let y = 65;
-            splitText.forEach(line => {
-                if (y > 280) { doc.addPage(); y = 20; }
-                doc.text(line, 14, y);
-                y += 5;
-            });
-            const fileName = (title ? title.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'documento') + '.pdf';
+            doc.setFont("helvetica", "normal");
+            
+            const cleanContent = content.replace(/\[\[.*?\]\]/g, '');
+            const lines = cleanContent.split('\n');
+
+            let inTable = false;
+            let tableRows = [];
+
+            // --- MELHORIA: PARSER DE TABELAS REAIS (LIMPEZA DE SUJEIRA) ---
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i].trim();
+                
+                if (line.startsWith('|')) {
+                    const rowData = line.split('|').filter(cell => cell.trim() !== '').map(c => c.trim());
+                    
+                    if (line.includes('---')) { // Ignora separadores Markdown
+                        continue; 
+                    }
+
+                    if (!inTable) { inTable = true; }
+                    tableRows.push(rowData);
+                    continue; // Pula renderização de texto cru
+                } else if (inTable) {
+                    // Renderiza a tabela acumulada
+                    if (tableRows.length > 0) {
+                        doc.autoTable({
+                            head: [tableRows[0]],
+                            body: tableRows.slice(1),
+                            startY: cursorY,
+                            theme: 'grid',
+                            headStyles: { fillColor: [24, 24, 27], textColor: 255 },
+                            styles: { fontSize: 9, cellPadding: 3 },
+                            margin: { left: margin, right: margin }
+                        });
+                        cursorY = doc.lastAutoTable.finalY + 10;
+                    }
+                    inTable = false;
+                    tableRows = [];
+                }
+
+                if (cursorY > pageHeight - 25) {
+                    drawFooter(doc.internal.getNumberOfPages());
+                    doc.addPage();
+                    drawHeader();
+                }
+
+                let currentFontSize = 11;
+                let currentFontType = "normal";
+                let currentTextColor = [0, 0, 0];
+                let xOffset = margin;
+                let lineSpacing = 6;
+                let text = line;
+
+                if (!line) { cursorY += 4; continue; }
+
+                if (line.startsWith('# ')) {
+                    currentFontSize = 16; currentFontType = "bold"; currentTextColor = [139, 92, 246]; text = line.replace('# ', '').toUpperCase(); cursorY += 6; lineSpacing = 10;
+                } else if (line.startsWith('## ')) {
+                    currentFontSize = 13; currentFontType = "bold"; currentTextColor = [50, 50, 50]; text = line.replace('## ', ''); cursorY += 4; lineSpacing = 8;
+                } else if (line.startsWith('### ')) {
+                    currentFontSize = 12; currentFontType = "bold"; text = line.replace('### ', ''); cursorY += 2;
+                } else if (line.startsWith('- ') || line.startsWith('* ')) {
+                    text = '•  ' + line.substring(2); xOffset += 5;
+                }
+
+                text = text.replace(/\*\*/g, '');
+
+                doc.setFontSize(currentFontSize);
+                doc.setFont("helvetica", currentFontType);
+                doc.setTextColor(...currentTextColor);
+
+                const splitLine = doc.splitTextToSize(text, maxLineWidth - (xOffset - margin));
+                doc.text(splitLine, xOffset, cursorY);
+                cursorY += (splitLine.length * lineSpacing);
+            }
+            
+            // Caso termine com tabela aberta
+            if (inTable && tableRows.length > 0) {
+                 doc.autoTable({
+                    head: [tableRows[0]],
+                    body: tableRows.slice(1),
+                    startY: cursorY,
+                    theme: 'grid',
+                    headStyles: { fillColor: [24, 24, 27], textColor: 255 },
+                    styles: { fontSize: 9, cellPadding: 3 },
+                    margin: { left: margin, right: margin }
+                });
+            }
+
+            drawFooter(doc.internal.getNumberOfPages());
+
+            const fileName = (title ? title.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'relatorio_neuronexus') + '.pdf';
             doc.save(fileName);
-            addMsg({role: 'model', content: `✅ **PDF Criado: ${fileName}**\n\nO conteúdo foi convertido e baixado com sucesso.`});
+            addMsg({role: 'model', content: `✅ **PDF Polido Gerado: ${fileName}**\n\nO documento foi formatado com tabelas nativas, cabeçalhos e estilo visual.`});
         }
 
         function createNewChat() {
@@ -596,10 +707,10 @@ agent = AgentMemory()
                 const isComplex = txt.length > 30 || txt.includes("analise") || txt.includes("crie") || currentWorkflowMode==='coder';
                 if(isComplex) {
                     showPlanner();
-                    await runStep("Analisando intenção e contexto...", 600);
-                    if(currentWorkflowMode==='health') await runStep("Verificando protocolos médicos...", 800);
-                    else if(currentWorkflowMode==='coder') await runStep("Planejando arquitetura...", 800);
-                    else await runStep("Consultando base de conhecimento RAG...", 500);
+                    await runStep("Collab-A: Analisando intenção...", 600);
+                    if(currentWorkflowMode==='health') await runStep("Verificando protocolos seguros...", 800);
+                    else if(currentWorkflowMode==='analytical') await runStep("Collab-A: Agente de Dados Ativado...", 800);
+                    else await runStep("Consultando RAG & Base Vetorial...", 500);
                     hidePlanner();
                 }
 
@@ -671,20 +782,18 @@ agent = AgentMemory()
             if(apiKeys.length===0) loadSettings();
             if(apiKeys.length===0) throw new Error("Sem chaves API.");
 
-            let sys = `System: Você é NeuroNexus V9.1 (Ultimate). Use o perfil do usuário: ${prof}.\n`;
+            let sys = `System: Você é NeuroNexus V10.1 (Stratos). Perfil: ${prof}.\n`;
             
-            sys += `REGRA DE TRANSIÇÃO: Se o usuário mudar drasticamente o tópico, use a tag [[MODE_SWITCH: novo_modo]] no início. Modos válidos: health, nutrition, analytical, coder, teacher, science, legal, creative. Exemplo: [[MODE_SWITCH: health]] Entendido, sobre sua saúde...\n`;
-            sys += `META-COGNIÇÃO: Ao final da resposta, inclua a tag [[CONFIDENCE: 0-100%]] baseada na certeza da informação.\n`;
-            sys += `INSTRUÇÃO PDF: Se o usuário pedir para baixar/gerar um PDF/Relatório, forneça o conteúdo e termine com [[AUTO_PDF: Título]].\n`;
+            sys += `REGRA DE TRANSIÇÃO: Use [[MODE_SWITCH: novo_modo]] se o tópico mudar drasticamente.\n`;
+            sys += `META-COGNIÇÃO: Ao final, use [[CONFIDENCE: 0-100%]].\n`;
+            sys += `VISUAL NEXUS: Para gráficos, gere um bloco de código \`\`\`json:chart com JSON do Chart.js (type, data, options).\n`;
+            sys += `INSTRUÇÃO PDF: Se pedido, termine com [[AUTO_PDF: Título]].\n`;
 
             const EXPERTS = {
-                health: "MODO: MÉDICO. Segurança máxima. Não prescreva. Use termos técnicos explicados. Analise sintomas com cautela.",
-                legal: "MODO: JURÍDICO. Analise riscos legais. Cite leis (hipoteticamente).",
-                coder: "MODO: SENIOR ARCHITECT. Planeje antes de codar. Código limpo.",
-                science: "MODO: CIENTISTA. Foco em causalidade e física.",
-                teacher: "MODO: PROFESSOR. Use analogias e seja didático.",
-                analytical: "MODO: ANALISTA. Foco em dados e lógica fria.",
-                nutrition: "MODO: NUTRICIONISTA. Foco em bioquímica."
+                health: "MODO: MÉDICO. Segurança máxima.",
+                legal: "MODO: JURÍDICO. Compliance.",
+                coder: "MODO: ARCHITECT. Clean Code.",
+                analytical: "MODO: DATA SCIENTIST. Use gráficos se possível.",
             };
             
             sys += EXPERTS[currentWorkflowMode] || "MODO: ADAPTATIVO.";
@@ -708,7 +817,7 @@ agent = AgentMemory()
                     return d.candidates[0].content.parts[0].text;
                 } catch(e) {}
             }
-            throw new Error("Falha na rede neural (Todas as APIs falharam).");
+            throw new Error("Falha na rede neural.");
         }
 
         function addMsg(m) {
@@ -722,8 +831,8 @@ agent = AgentMemory()
             
             let badges = '';
             if(m.expert && m.expert !== 'adaptive') badges += `<span class="badge badge-expert">${m.expert.toUpperCase()}</span>`;
-            if(m.content.includes("PDF Criado")) badges += `<span class="badge badge-pdf">ARQUIVO</span>`;
-            if(m.transition) badges += `<span class="badge badge-transition"><i class="fas fa-random"></i> MODE SHIFT</span>`;
+            if(m.content.includes("json:chart")) badges += `<span class="badge badge-chart"><i class="fas fa-chart-pie"></i> GRAPH</span>`;
+            if(m.transition) badges += `<span class="badge badge-transition"><i class="fas fa-random"></i> SHIFT</span>`;
             if(m.confidence) badges += `<span class="badge badge-confidence"><i class="fas fa-check-circle"></i> ${m.confidence}%</span>`;
 
             div.innerHTML = `
@@ -806,21 +915,36 @@ agent = AgentMemory()
         function updateStatus(ok) {
             const d = document.getElementById('mem-status-dot');
             const t = document.getElementById('mem-status-text');
-            if(ok) { d.className='w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]'; t.innerText="Neural Link: Stable"; }
-            else { d.className='w-1.5 h-1.5 rounded-full bg-red-500'; t.innerText="Neural Link: Offline"; }
+            if(ok) { d.className='w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]'; t.innerText="PMVS Link: Stable"; }
+            else { d.className='w-1.5 h-1.5 rounded-full bg-red-500'; t.innerText="PMVS Link: Offline"; }
         }
         
         function processCode(t) {
-            const r = /```(\w+)?\n([\s\S]*?)```/g; let m, f=false;
-            while((m=r.exec(t))!==null) {
-                f=true; currentLang=m[1]||'text'; currentCode=m[2];
-                const el=document.getElementById('code-content');
-                if(el) { el.textContent=currentCode; el.className=`language-${currentLang}`; hljs.highlightElement(el); }
+            // FIXED REGEX: Uses string concatenation to avoid backticks breaking the file generation
+            const tick = '`';
+            const r = new RegExp(tick.repeat(3) + "(\\w+|json:chart)?\\n([\\s\\S]*?)" + tick.repeat(3), "g");
+            
+            let m, f = false;
+            while ((m = r.exec(t)) !== null) {
+                f = true;
+                currentLang = m[1] || 'text';
+                currentCode = m[2];
+                const el = document.getElementById('code-content');
+                if (el) {
+                    el.textContent = currentCode;
+                    el.className = `language-${currentLang}`;
+                    hljs.highlightElement(el);
+                }
             }
-            if(f) {
+            if (f) {
                 document.getElementById('mobile-canvas-btn').classList.remove('hidden');
-                switchTab(['html','js','javascript'].includes(currentLang)?'preview':'code');
-                if(window.innerWidth>=768) document.body.classList.add('canvas-open');
+                // Auto switch to preview for Charts and HTML
+                if (['json:chart', 'html', 'javascript'].includes(currentLang)) {
+                    switchTab('preview');
+                } else {
+                    switchTab('code');
+                }
+                if (window.innerWidth >= 768) document.body.classList.add('canvas-open');
             }
         }
         
@@ -844,8 +968,53 @@ agent = AgentMemory()
         }
         function addLoader() { const id='l-'+Date.now(); const d=document.createElement('div'); d.id=id; d.className='p-4'; d.innerHTML='<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>'; document.getElementById('chat-container').appendChild(d); return id; }
         function removeLoader(id) { document.getElementById(id)?.remove(); }
-        function switchTab(t) { ['code','preview','terminal'].forEach(v=>document.getElementById('view-'+v).classList.add('hidden')); document.getElementById('view-'+t).classList.remove('hidden'); if(t==='preview') { const d=document.getElementById('preview-frame').contentWindow.document; d.open(); d.write(currentLang==='html'?currentCode:`<body style='background:#111;color:#fff'><pre>${currentCode}</pre></body>`); d.close(); } }
-        async function executeCode() { if(!pyodide || currentLang!=='python') return; switchTab('terminal'); const t=document.getElementById('terminal-output'); t.innerText+='\n> Running...\n'; try { pyodide.setStdout({batched: s=>t.innerText+=s+'\n'}); await pyodide.runPythonAsync(currentCode); } catch(e){ t.innerText+=e; } }
+        
+        // UPDATED SWITCHTAB FOR VISUAL NEXUS
+        function switchTab(t) { 
+            ['code','preview','terminal'].forEach(v=>document.getElementById('view-'+v).classList.add('hidden')); 
+            document.getElementById('view-'+t).classList.remove('hidden'); 
+            
+            if(t==='preview') { 
+                const d=document.getElementById('preview-frame').contentWindow.document; 
+                d.open(); 
+                
+                if (currentLang === 'json:chart') {
+                    // Visual Nexus Render
+                    d.write(`
+                        <head><script src="https://cdn.jsdelivr.net/npm/chart.js"><\/script></head>
+                        <body style='background:#111;color:#fff;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;'>
+                            <div style="width:90%;height:90%"><canvas id="myChart"></canvas></div>
+                            <script>
+                                try {
+                                    const ctx = document.getElementById('myChart');
+                                    const config = ${currentCode};
+                                    new Chart(ctx, config);
+                                } catch(e) { document.body.innerHTML = 'Erro no JSON do Gráfico: '+e.message; }
+                            <\/script>
+                        </body>
+                    `);
+                } else if(currentLang==='html') {
+                    d.write(currentCode);
+                } else {
+                    d.write(`<body style='background:#111;color:#fff'><pre>${currentCode}</pre></body>`);
+                }
+                d.close(); 
+            } 
+        }
+        
+        // RESTORED EXECUTION LOGIC (PYODIDE RUNTIME)
+        async function executeCode() { 
+            if(!pyodide || currentLang!=='python') return; 
+            switchTab('terminal'); 
+            const t=document.getElementById('terminal-output'); 
+            t.innerText+='\n> Running...\n'; 
+            try { 
+                pyodide.setStdout({batched: s=>t.innerText+=s+'\n'}); 
+                await pyodide.runPythonAsync(currentCode); 
+            } catch(e){ 
+                t.innerText+=e; 
+            } 
+        }
         function copyCode() { navigator.clipboard.writeText(currentCode); }
     </script>
 </body>
