@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NeuroNexus V9.0 | Ultimate Restoration</title>
+    <title>NeuroNexus V9.1.1 | Readable Core</title>
     
     <!-- Meta tags -->
     <meta name="theme-color" content="#09090b">
@@ -23,19 +23,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
     <style>
-        /* --- CORE VISUALS (Cyberpunk/Enterprise Hybrid) --- */
+        /* --- CORE VISUALS --- */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #09090b; }
         ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
 
         :root {
-            --bg-primary: #09090b; /* Zinc 950 */
-            --bg-secondary: #18181b; /* Zinc 900 */
-            --bg-tertiary: #27272a; /* Zinc 800 */
-            --text-primary: #e4e4e7; /* Zinc 200 */
-            --text-secondary: #a1a1aa; /* Zinc 400 */
-            --accent: #8b5cf6; /* Violet 500 */
+            --bg-primary: #09090b;
+            --bg-secondary: #18181b;
+            --bg-tertiary: #27272a;
+            --text-primary: #e4e4e7;
+            --text-secondary: #a1a1aa;
+            --accent: #8b5cf6;
             --accent-glow: rgba(139, 92, 246, 0.3);
             --code-bg: #000000;
             --success: #10b981;
@@ -60,14 +60,70 @@
             position: relative;
         }
 
-        /* --- CHAT BUBBLES --- */
-        .prose { max-width: 100%; font-size: 0.95rem; line-height: 1.6; }
-        .prose pre { background: var(--code-bg) !important; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 0.5rem 0; font-size: 0.85em; border: 1px solid #333; }
-        .prose h3 { color: var(--text-primary); font-weight: bold; margin-top: 10px; }
+        /* --- TYPOGRAPHY & LAYOUT FIXES (O PULO DO GATO) --- */
+        .prose { 
+            max-width: 100%; 
+            font-size: 0.95rem; 
+            line-height: 1.7; /* Melhor leitura */
+            color: var(--text-primary);
+        }
         
+        /* Espaçamento entre parágrafos */
+        .prose p { margin-bottom: 0.85em; }
+        
+        /* Listas legíveis */
+        .prose ul, .prose ol { 
+            margin-bottom: 0.85em; 
+            padding-left: 1.2em; 
+            list-style-position: outside;
+        }
+        .prose ul { list-style-type: disc; }
+        .prose ol { list-style-type: decimal; }
+        .prose li { margin-bottom: 0.3em; }
+        
+        /* Títulos */
+        .prose h1, .prose h2, .prose h3 { 
+            font-weight: 700; 
+            margin-top: 1.2em; 
+            margin-bottom: 0.6em; 
+            color: #fff;
+            line-height: 1.3;
+        }
+        
+        /* Código e Citações */
+        .prose pre { 
+            background: var(--code-bg) !important; 
+            padding: 1rem; 
+            border-radius: 0.5rem; 
+            overflow-x: auto; 
+            margin: 0.8rem 0; 
+            font-size: 0.85em; 
+            border: 1px solid #333; 
+        }
+        .prose code {
+            font-family: 'Fira Code', monospace;
+            background: rgba(255,255,255,0.1);
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .prose pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .prose blockquote {
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin: 1rem 0;
+        }
+        .prose strong { color: var(--accent); font-weight: 600; }
+
+        /* --- CHAT BUBBLES --- */
         .msg-bubble {
             max-width: 85%;
-            padding: 1rem;
+            padding: 1rem 1.2rem; /* Mais padding */
             border-radius: 1rem;
             position: relative;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -101,7 +157,7 @@
         
         @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- SIDEBAR & COMPONENTS --- */
+        /* --- SIDEBAR --- */
         #sidebar { position: absolute; height: 100%; z-index: 50; transition: transform 0.3s ease-in-out; }
         @media (max-width: 767px) {
             #sidebar { transform: translateX(-100%); width: 85%; max-width: 320px; }
@@ -118,7 +174,6 @@
         .chat-item:hover { background-color: var(--bg-tertiary); }
         .chat-item.active { background-color: rgba(139, 92, 246, 0.15); border-color: var(--accent); color: var(--accent); }
 
-        /* Loaders & Badges */
         .typing-dot { animation: typing 1.4s infinite ease-in-out both; background-color: var(--text-secondary); border-radius: 50%; display: inline-block; height: 6px; width: 6px; margin-right: 4px; }
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
@@ -128,18 +183,29 @@
         .badge-agent { background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3); color: #a78bfa; }
         .badge-expert { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #34d399; }
         .badge-pdf { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: #f87171; }
+        .badge-confidence { background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3); color: #fbbf24; }
+        .badge-transition { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #60a5fa; animation: pulse 2s infinite; }
         
+        @keyframes pulse { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.7; } }
+
+        .transition-toast {
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(16, 185, 129, 0.9); color: white; padding: 8px 16px; 
+            border-radius: 20px; font-size: 0.8rem; z-index: 100; backdrop-filter: blur(4px);
+            animation: slideDown 0.5s ease-out, fadeOut 0.5s ease-in 2.5s forwards;
+            display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        @keyframes slideDown { from { top: -50px; } to { top: 20px; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
+
         .memory-active { box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); }
     </style>
 </head>
 <body>
 
     <div class="layout-container">
-        
         <!-- SIDEBAR -->
         <aside id="sidebar" class="bg-[var(--bg-secondary)] border-r border-[var(--bg-tertiary)] flex flex-col shadow-2xl">
-            
-            <!-- Header -->
             <div class="p-6 border-b border-[var(--bg-tertiary)] flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-violet-900/20">
@@ -149,7 +215,7 @@
                         <h1 class="text-xl font-bold tracking-tight text-white">NeuroNexus</h1>
                         <div class="flex items-center gap-1.5">
                             <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                            <p class="text-[10px] text-[var(--text-secondary)] font-mono tracking-widest uppercase">V9.0 ULTIMATE</p>
+                            <p class="text-[10px] text-[var(--text-secondary)] font-mono tracking-widest uppercase">V9.1.1 FIXED</p>
                         </div>
                     </div>
                 </div>
@@ -158,8 +224,6 @@
 
             <!-- Agent Controls -->
             <div class="p-4 border-b border-[var(--bg-tertiary)] space-y-4">
-                
-                <!-- Domain Selector -->
                 <div>
                     <div class="flex justify-between items-end mb-1">
                         <label class="text-[10px] uppercase text-[var(--text-secondary)] font-bold tracking-wider">Módulo Especialista</label>
@@ -223,25 +287,20 @@
         <!-- MAIN AREA -->
         <div class="flex-1 flex flex-col relative w-full h-full bg-[var(--bg-primary)]">
             
-            <!-- Toast Container -->
-            <div id="toast-container" class="absolute top-4 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 w-full max-w-sm px-4 pointer-events-none"></div>
+            <div id="toast-container"></div>
 
-            <!-- Mobile Navbar -->
             <div class="md:hidden flex items-center justify-between p-4 border-b border-[var(--bg-tertiary)] bg-[var(--bg-secondary)] z-30">
                 <button onclick="toggleSidebar()" class="text-white"><i class="fas fa-bars"></i></button>
-                <span class="font-bold text-[var(--accent)]">V9.0</span>
+                <span class="font-bold text-[var(--accent)]">V9.1.1</span>
                 <button onclick="toggleCanvas()" id="mobile-canvas-btn" class="text-gray-400 hidden"><i class="fas fa-code"></i></button>
             </div>
 
-            <!-- Chat Area -->
             <main id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 scroll-smooth pb-32">
                 <!-- Welcome -->
             </main>
 
-            <!-- Input Area -->
             <div class="p-4 md:p-6 z-20 bg-gradient-to-t from-[var(--bg-primary)] via-[var(--bg-primary)] to-transparent">
                 <div class="max-w-4xl mx-auto">
-                    <!-- Agent Planner Status (Restored) -->
                     <div id="agent-planner" class="hidden agent-card">
                         <div class="text-[10px] font-bold text-[var(--accent)] uppercase mb-2 flex justify-between">
                             <span><i class="fas fa-robot"></i> Agente Autônomo Ativo</span>
@@ -270,7 +329,7 @@
             </div>
         </div>
 
-        <!-- CANVAS (Right Panel) -->
+        <!-- CANVAS -->
         <div id="canvas-panel" class="bg-[var(--bg-secondary)] border-l border-[var(--bg-tertiary)] flex flex-col h-full shadow-2xl">
             <div class="flex items-center justify-between p-3 border-b border-[var(--bg-tertiary)] bg-[var(--bg-secondary)]">
                 <div class="flex gap-2">
@@ -297,16 +356,16 @@
 
     </div>
 
-    <!-- SETTINGS MODAL -->
+    <!-- SETTINGS -->
     <div id="settings-modal" class="fixed inset-0 bg-black/80 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-[var(--bg-secondary)] rounded-2xl w-full max-w-lg border border-[var(--bg-tertiary)] shadow-2xl flex flex-col max-h-[90vh]">
             <div class="p-5 border-b border-[var(--bg-tertiary)] flex justify-between items-center">
-                <h2 class="text-lg font-bold text-white">Configurações do Sistema</h2>
+                <h2 class="text-lg font-bold text-white">Configurações</h2>
                 <button onclick="closeSettings()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-6 overflow-y-auto space-y-6">
                 <div>
-                    <h3 class="font-bold text-xs uppercase text-[var(--accent)] tracking-wider mb-2">Pool de Chaves API (Rotação Ativa)</h3>
+                    <h3 class="font-bold text-xs uppercase text-[var(--accent)] tracking-wider mb-2">Pool de Chaves API</h3>
                     <textarea id="api-keys-input" class="w-full h-24 bg-[var(--bg-primary)] border border-[var(--bg-tertiary)] rounded-lg p-3 text-xs font-mono text-gray-300 focus:border-[var(--accent)] focus:outline-none" placeholder="O sistema gerencia as chaves automaticamente."></textarea>
                 </div>
                 <div class="flex gap-2">
@@ -328,10 +387,10 @@
     <script>
         // --- CONSTANTS ---
         const DB_KEY_CHATS = 'neuro_nexus_chats_v2';
-        const DB_KEY_MEMORY = 'neuro_nexus_memory_v2'; // Python Vector Memory
+        const DB_KEY_MEMORY = 'neuro_nexus_memory_v2';
         const DB_KEY_PROFILE = 'neuro_nexus_profile';
         
-        // KEYS POOL (Restored 17 keys)
+        // KEYS POOL
         const K1 = "QUl6YVN5QkxmTDlIQ1JUZjdNODUtSHJLV2pSSElkUC1vTFY0RGpjCkFJemFTeURPVVZpQ0wzWFlOaXNQZjRzYUpDTWdjQWxOeW50emx0dwpBSXphU3lCYjZyTEhwYmxIdkUxZGY4VU83anBJNlBmZzNyUmVMbzAKQUl6YVN5QXgwR0s2eVBuLUhFX3NZQWF1Rmd6X0J2MXBXQzR4SXhJCkFJemFTeUNVTi1QWDBjN1NhSnpNNUlKVWJWWmRPemlWdFVQb0FVMApBSXphU3lETXFvQkNqZjQ2RVo0WGhsdFNiZlJwNWZYeFFwRzRLZUEKQUl6YVN5QjEtLTlZQjRWOEFxbWpHYUFsbEUxZkwwMjA0MFZGaHZz";
         const K2 = "QUl6YVN5QU9vRldvc3A1S2RadEl1TU1tMFA1RHBsN0l1R3F5Z0lNCkFJemFTeURJREJISlplMURhWkU2NFNEUUxkRkJfQWdoOVI4eC1JSQpBSXphU3lDY3praFF2M0REU202dlNLdDcxTk5Uc1haWXBFRkhfREUKQUl6YVN5Qy0tREUwdE9aOTE3a3dwcUVVc0pLV2NWZ2I0Y040ekVRCkFJemFTeUNRd1BwejVuZmF4Q1IwZ1FaUVlNMzY4WUNqTWV0RElnbwpBSXphU3lEeU1qMUZucDc2MURLLVEtczU5aFFhcW53b29TNnhpcVUKQUl6YVN5QzlJMGRrbnlTaVJOYWhqdi1aMlFDakk1YXNCcTQ5c2FBCkFJemFTeUFqbDM1ZzA5WkdFT0tMeGdaQzVNbjJVN0JfODAwa0hqawpBSXphU3lDUlFPajVieWFQa1I1YjVTMUlNZ3V0dWJXWVAwMnBQY0kKQUl6YVN5Q2tLa2dTR2J5TUxKVGpWNkZMOXp0c0xaNmY2WFE3SVlJ";
 
@@ -340,24 +399,23 @@
                 <div class="w-24 h-24 mb-6 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-500 flex items-center justify-center text-white text-5xl shadow-2xl shadow-violet-900/50">
                     <i class="fas fa-brain"></i>
                 </div>
-                <h2 class="text-3xl font-bold mb-2 text-white tracking-tight">NeuroNexus V9.0</h2>
+                <h2 class="text-3xl font-bold mb-2 text-white tracking-tight">NeuroNexus V9.1.1</h2>
                 <p class="text-sm text-gray-400 max-w-md mb-8">
-                    Restauração Completa. Cérebro Python + 17 APIs + Gerador Dinâmico.
+                    Sentient Core. Texto Legível. Troca de Contexto Automática.
                 </p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-lg">
-                    <button onclick="setMode('health'); quickPrompt('Estou sentindo tontura e visão turva. O que fazer?')" class="p-4 text-xs text-left bg-[var(--bg-tertiary)] hover:bg-[#3f3f46] border border-white/5 rounded-xl transition group">
-                        <div class="font-bold text-[var(--accent)] mb-1 group-hover:text-white">🩺 Clínica Segura</div>
-                        <div class="text-gray-500">Triagem de sintomas com verificação ética.</div>
+                    <button onclick="setMode('health'); quickPrompt('Estou com febre alta e dor no corpo. O que fazer?')" class="p-4 text-xs text-left bg-[var(--bg-tertiary)] hover:bg-[#3f3f46] border border-white/5 rounded-xl transition group">
+                        <div class="font-bold text-[var(--accent)] mb-1 group-hover:text-white">🩺 Clínica Ética</div>
+                        <div class="text-gray-500">Triagem segura e legível.</div>
                     </button>
-                    <button onclick="setMode('coder'); quickPrompt('Gere um PDF explicando a Teoria da Relatividade.')" class="p-4 text-xs text-left bg-[var(--bg-tertiary)] hover:bg-[#3f3f46] border border-white/5 rounded-xl transition group">
+                    <button onclick="setMode('coder'); quickPrompt('Gere um PDF sobre Python Basics.')" class="p-4 text-xs text-left bg-[var(--bg-tertiary)] hover:bg-[#3f3f46] border border-white/5 rounded-xl transition group">
                         <div class="font-bold text-[var(--accent)] mb-1 group-hover:text-white">📄 PDF Dinâmico</div>
-                        <div class="text-gray-500">Geração de documentos reais sob demanda.</div>
+                        <div class="text-gray-500">Geração de documentos sob demanda.</div>
                     </button>
                 </div>
             </div>
         `;
 
-        // STATE
         let chats = [];
         let activeChatId = null;
         let attachments = [];
@@ -368,7 +426,6 @@
         let currentCode = "";
         let currentLang = "";
         
-        // --- INIT ---
         document.addEventListener('DOMContentLoaded', async () => {
             loadSettings();
             loadChats();
@@ -380,9 +437,17 @@
             }
             initPyodide();
             updateModeUI();
+            
+            // Fix text rendering configuration
+            if (typeof marked !== 'undefined') {
+                marked.setOptions({
+                    breaks: true, // IMPORTANT: Enables single line breaks
+                    gfm: true
+                });
+            }
         });
 
-        // --- RESTORED PYODIDE CORE & MEMORY (Lines 800+ logic) ---
+        // --- PYODIDE CORE & MEMORY ---
         const PY_CORE = `
 import json, re, math
 from collections import Counter
@@ -399,15 +464,12 @@ class AgentMemory:
         return num/den if den else 0.0
 
     def add(self, i, o): 
-        # Add to RAG
         self.data.append({"i":i, "o":o, "v":self._vec(i)})
-        # Simple Profiling Heuristic (Simulated)
         l = i.lower()
         if "eu sou" in l or "meu nome" in l or "eu gosto" in l:
             self.profile["facts"].append(i[:50])
 
     def retrieve(self, q):
-        # RAG
         v = self._vec(q); res = [(self._cos(v, d["v"]), d["i"], d["o"]) for d in self.data]
         res.sort(key=lambda x:x[0], reverse=True)
         ctx = "\\n".join([f"Q:{r[1]}\\nA:{r[2]}" for r in res[:2] if r[0]>0.2])
@@ -430,7 +492,6 @@ agent = AgentMemory()
                 await pyodide.runPythonAsync(PY_CORE);
                 const saved = localStorage.getItem(DB_KEY_MEMORY);
                 if(saved) {
-                    // Safe string handling
                     await pyodide.runPythonAsync(`agent.load(${JSON.stringify(saved)})`);
                 }
                 updateStatus(true);
@@ -447,51 +508,35 @@ agent = AgentMemory()
             else el.innerHTML = prof.facts.map(f => `• ${f}`).join('<br>');
         }
 
-        // --- DYNAMIC PDF GENERATION LOGIC (RESTORED) ---
         function generateDynamicPDF(title, content) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-
-            // Header
-            doc.setFillColor(139, 92, 246); // Violet
+            doc.setFillColor(139, 92, 246); 
             doc.rect(0, 0, 210, 30, 'F');
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(18);
             doc.text("NEURONEXUS REPORT", 105, 18, null, null, "center");
-
-            // Title
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(16);
             doc.text(title || "Documento Gerado", 14, 45);
             doc.setFontSize(10);
             doc.setTextColor(100);
             doc.text(`Gerado em: ${new Date().toLocaleString()}`, 14, 52);
-
-            // Content Logic
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(11);
-            
-            // Clean markdown roughly
             const cleanText = content.replace(/\*\*/g, '').replace(/#/g, '').replace(/\[\[.*?\]\]/g, '');
             const splitText = doc.splitTextToSize(cleanText, 180);
-            
             let y = 65;
             splitText.forEach(line => {
-                if (y > 280) {
-                    doc.addPage();
-                    y = 20;
-                }
+                if (y > 280) { doc.addPage(); y = 20; }
                 doc.text(line, 14, y);
                 y += 5;
             });
-
             const fileName = (title ? title.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'documento') + '.pdf';
             doc.save(fileName);
-            
             addMsg({role: 'model', content: `✅ **PDF Criado: ${fileName}**\n\nO conteúdo foi convertido e baixado com sucesso.`});
         }
 
-        // --- CHAT LOGIC ---
         function createNewChat() {
             const c = { id: 'chat_'+Date.now(), title: 'Novo Agente', msgs: [], time: Date.now() };
             chats.unshift(c); saveChats(); loadChat(c.id);
@@ -524,7 +569,6 @@ agent = AgentMemory()
         }
         function deleteChat(id, e) { e.stopPropagation(); chats = chats.filter(c=>c.id!==id); saveChats(); if(id===activeChatId) createNewChat(); }
 
-        // --- AGENTIC WORKFLOW RESTORED ---
         async function sendMessage() {
             const input = document.getElementById('user-input');
             const txt = input.value.trim();
@@ -539,20 +583,16 @@ agent = AgentMemory()
             const loaderId = addLoader();
             
             try {
-                // 1. MEMORY RETRIEVAL (RAG)
                 let ctx = ""; let profile = "";
                 if(pyodide) {
-                    // Activate visual memory check
                     const memBox = document.getElementById('memory-box');
                     memBox.classList.add('memory-active');
                     setTimeout(()=>memBox.classList.remove('memory-active'), 1000);
-
                     const res = await pyodide.runPythonAsync(`agent.retrieve(${JSON.stringify(txt)})`);
                     const j = JSON.parse(res);
                     ctx = j.ctx; profile = JSON.stringify(j.profile);
                 }
 
-                // 2. AGENT PLANNER (Restored)
                 const isComplex = txt.length > 30 || txt.includes("analise") || txt.includes("crie") || currentWorkflowMode==='coder';
                 if(isComplex) {
                     showPlanner();
@@ -563,25 +603,51 @@ agent = AgentMemory()
                     hidePlanner();
                 }
 
-                // 3. API CALL
                 const resp = await callAPI(txt, uMsg.att, ctx, profile);
                 
-                // 4. DYNAMIC PDF CHECK
-                const pdfMatch = resp.match(/\[\[AUTO_PDF:\s*(.*?)\]\]/);
                 let cleanResp = resp;
                 let autoPdfTitle = null;
-                
-                if (pdfMatch) {
-                    autoPdfTitle = pdfMatch[1];
-                    cleanResp = resp.replace(pdfMatch[0], "").trim();
+                let transitionOccurred = false;
+                let confidence = null;
+
+                const switchMatch = resp.match(/\[\[MODE_SWITCH:\s*(\w+)\]\]/);
+                if (switchMatch) {
+                    const newMode = switchMatch[1].toLowerCase();
+                    const validModes = ['health', 'nutrition', 'analytical', 'coder', 'teacher', 'science', 'legal', 'creative'];
+                    if (validModes.includes(newMode) && newMode !== currentWorkflowMode) {
+                        setMode(newMode); 
+                        showTransitionToast(newMode); 
+                        transitionOccurred = true;
+                    }
+                    cleanResp = cleanResp.replace(switchMatch[0], "");
                 }
 
+                const confMatch = cleanResp.match(/\[\[CONFIDENCE:\s*(\d+)%\]\]/);
+                if (confMatch) {
+                    confidence = confMatch[1];
+                    cleanResp = cleanResp.replace(confMatch[0], "");
+                }
+
+                const pdfMatch = cleanResp.match(/\[\[AUTO_PDF:\s*(.*?)\]\]/);
+                if (pdfMatch) {
+                    autoPdfTitle = pdfMatch[1];
+                    cleanResp = cleanResp.replace(pdfMatch[0], "");
+                }
+
+                cleanResp = cleanResp.trim();
+
                 removeLoader(loaderId);
-                const aMsg = { role:'model', content:cleanResp, time:Date.now(), expert: currentWorkflowMode };
+                const aMsg = { 
+                    role:'model', 
+                    content:cleanResp, 
+                    time:Date.now(), 
+                    expert: currentWorkflowMode,
+                    transition: transitionOccurred,
+                    confidence: confidence
+                };
                 addMsg(aMsg);
                 processCode(cleanResp);
                 
-                // Memory Save
                 if(pyodide) {
                     await pyodide.runPythonAsync(`agent.add(${JSON.stringify(txt)}, ${JSON.stringify(cleanResp.substring(0,100))})`);
                     localStorage.setItem(DB_KEY_MEMORY, await pyodide.runPythonAsync(`agent.export()`));
@@ -591,7 +657,6 @@ agent = AgentMemory()
                 const chat = chats.find(c=>c.id===activeChatId);
                 if(chat.msgs.length <= 2) { chat.title = txt.substring(0,25); saveChats(); }
 
-                // 5. GENERATE PDF IF REQUESTED
                 if (autoPdfTitle) {
                     setTimeout(() => generateDynamicPDF(autoPdfTitle, cleanResp), 500);
                 }
@@ -606,13 +671,14 @@ agent = AgentMemory()
             if(apiKeys.length===0) loadSettings();
             if(apiKeys.length===0) throw new Error("Sem chaves API.");
 
-            // DOMAIN INJECTION (Expert Modules)
-            let sys = `System: Você é NeuroNexus V9.0 (Ultimate). Use o perfil do usuário: ${prof}.\n`;
+            let sys = `System: Você é NeuroNexus V9.1 (Ultimate). Use o perfil do usuário: ${prof}.\n`;
             
+            sys += `REGRA DE TRANSIÇÃO: Se o usuário mudar drasticamente o tópico, use a tag [[MODE_SWITCH: novo_modo]] no início. Modos válidos: health, nutrition, analytical, coder, teacher, science, legal, creative. Exemplo: [[MODE_SWITCH: health]] Entendido, sobre sua saúde...\n`;
+            sys += `META-COGNIÇÃO: Ao final da resposta, inclua a tag [[CONFIDENCE: 0-100%]] baseada na certeza da informação.\n`;
             sys += `INSTRUÇÃO PDF: Se o usuário pedir para baixar/gerar um PDF/Relatório, forneça o conteúdo e termine com [[AUTO_PDF: Título]].\n`;
 
             const EXPERTS = {
-                health: "MODO: MÉDICO. Segurança máxima. Não prescreva. Use termos técnicos explicados.",
+                health: "MODO: MÉDICO. Segurança máxima. Não prescreva. Use termos técnicos explicados. Analise sintomas com cautela.",
                 legal: "MODO: JURÍDICO. Analise riscos legais. Cite leis (hipoteticamente).",
                 coder: "MODO: SENIOR ARCHITECT. Planeje antes de codar. Código limpo.",
                 science: "MODO: CIENTISTA. Foco em causalidade e física.",
@@ -631,7 +697,6 @@ agent = AgentMemory()
 
             const contents = [{role:"user", parts:[{text:sys}]}, ...hist, {role:"user", parts}];
 
-            // ROTATION (Restored)
             for(let i=0; i<apiKeys.length; i++) {
                 const key = getNextKey();
                 try {
@@ -646,7 +711,6 @@ agent = AgentMemory()
             throw new Error("Falha na rede neural (Todas as APIs falharam).");
         }
 
-        // --- UI HELPERS ---
         function addMsg(m) {
             const c = chats.find(x=>x.id===activeChatId);
             c.msgs.push(m); saveChats(); renderMsg(m);
@@ -659,12 +723,14 @@ agent = AgentMemory()
             let badges = '';
             if(m.expert && m.expert !== 'adaptive') badges += `<span class="badge badge-expert">${m.expert.toUpperCase()}</span>`;
             if(m.content.includes("PDF Criado")) badges += `<span class="badge badge-pdf">ARQUIVO</span>`;
+            if(m.transition) badges += `<span class="badge badge-transition"><i class="fas fa-random"></i> MODE SHIFT</span>`;
+            if(m.confidence) badges += `<span class="badge badge-confidence"><i class="fas fa-check-circle"></i> ${m.confidence}%</span>`;
 
             div.innerHTML = `
                 <div class="msg-bubble ${isU?'user-bubble':'ai-bubble'}">
                     ${m.att && m.att.length ? '<div class="text-[10px] mb-1 opacity-70"><i class="fas fa-paperclip"></i> Anexo</div>' : ''}
                     <div class="prose prose-invert text-sm md:text-base">${typeof marked!=='undefined' ? DOMPurify.sanitize(marked.parse(m.content)) : m.content}</div>
-                    <div class="mt-2 opacity-50 text-[9px] flex gap-2">${badges}</div>
+                    <div class="mt-2 opacity-50 text-[9px] flex gap-2 flex-wrap">${badges}</div>
                 </div>
             `;
             const box = document.getElementById('chat-container');
@@ -691,7 +757,15 @@ agent = AgentMemory()
             div.innerHTML = `<div class="step-icon"><i class="fas fa-check"></i></div> ${txt}`;
         }
 
-        // --- SETTINGS & UTILS ---
+        function showTransitionToast(newMode) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'transition-toast';
+            toast.innerHTML = `<i class="fas fa-sync fa-spin"></i> Mudando foco para: ${newMode.toUpperCase()}`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3500);
+        }
+
         function loadSettings() {
             const k = localStorage.getItem('neuroNexusKeys');
             if(k) { apiKeys = JSON.parse(k); document.getElementById('api-keys-input').value = apiKeys.join('\n'); }
@@ -725,7 +799,10 @@ agent = AgentMemory()
                 'text-[9px] bg-gray-800 text-gray-400 px-1.5 rounded border border-gray-700' : 
                 'text-[9px] bg-violet-900/30 text-violet-300 px-1.5 rounded border border-violet-700/50';
         }
-        function setMode(m) { document.getElementById('workflow-mode').value = m; updateWorkflowMode(); }
+        function setMode(m) { 
+            const el = document.getElementById('workflow-mode');
+            if(el) { el.value = m; updateWorkflowMode(); }
+        }
         function updateStatus(ok) {
             const d = document.getElementById('mem-status-dot');
             const t = document.getElementById('mem-status-text');
