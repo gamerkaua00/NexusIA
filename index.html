@@ -17,22 +17,18 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=">
     <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=">
 
-    <!-- Manifest JSON Externo (Essencial para instalação no Chrome) -->
-    <link rel="manifest" href="./manifest.json">
+    <!-- Manifest Externo -->
+    <link rel="manifest" href="./manifest.json" id="manifest-link">
 
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- DOMPurify para Sanitização (Segurança contra XSS) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
-    <!-- Chart.js for graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- jsPDF for PDF generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- Pyodide for Local Python Execution (RESE) -->
     <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
 
     <style>
@@ -83,13 +79,12 @@
             font-family: 'Inter', system-ui, sans-serif;
             transition: background-color 0.3s, color 0.3s;
             overflow: hidden; 
-            overscroll-behavior: none; /* Prevent pull-to-refresh on mobile */
+            overscroll-behavior: none; 
         }
 
         .layout-container { 
             display: flex; 
             height: 100vh; 
-            /* Fallback for mobile browsers */
             height: 100dvh; 
             width: 100vw; 
             overflow: hidden; 
@@ -150,20 +145,12 @@
         @media (max-width: 767px) {
             #canvas-panel {
                 position: fixed; top: 0; right: 0; bottom: 0; width: 100%;
-                transform: translateX(100%); z-index: 60; /* Higher Z-index for mobile overlap */
+                transform: translateX(100%); z-index: 60; 
             }
             .canvas-open-mobile #canvas-panel { transform: translateX(0); }
-            
-            /* Mobile Optimization */
-            .prose { font-size: 1rem; } /* Textos maiores no mobile */
-            #user-input { font-size: 16px; /* Prevent iOS zoom */ }
-            
-            .msg-bubble { 
-                max-width: 92%; /* Mais espaço para texto no mobile */
-                padding: 0.8rem;
-            }
-            
-            /* Ajuste de margens do chat container */
+            .prose { font-size: 1rem; } 
+            #user-input { font-size: 16px; }
+            .msg-bubble { max-width: 92%; padding: 0.8rem; }
             #chat-container { padding-left: 0.5rem; padding-right: 0.5rem; }
         }
 
@@ -190,7 +177,7 @@
                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-8 h-8 rounded-lg">
                     <div>
                         <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">NeuroNexus</h1>
-                        <p class="text-[10px] text-[var(--text-secondary)]">V5.1 | Omni-Expert</p>
+                        <p class="text-[10px] text-[var(--text-secondary)]">V5.2 | PWA Fixed</p>
                     </div>
                 </div>
                 <button onclick="toggleSidebar()" class="md:hidden text-gray-400 p-2"><i class="fas fa-times fa-lg"></i></button>
@@ -213,12 +200,17 @@
             </div>
 
             <div class="flex-1 overflow-y-auto p-4 space-y-2" id="history-list">
-                <!-- Install Button (Visible by default, logic handles click) -->
+                <!-- Install Button -->
                 <button id="install-btn" onclick="handleInstallClick()" class="hidden w-full text-left p-3 rounded-lg bg-green-600 text-white hover:bg-green-700 transition flex items-center gap-2 mb-2 shadow-lg border border-green-500 animate-pulse">
                     <i class="fas fa-download"></i> <span id="install-text">Instalar App</span>
                 </button>
+                
+                <!-- Status PWA -->
+                <div id="pwa-status" class="text-[10px] text-gray-500 p-1 border border-gray-800 rounded bg-gray-900 hidden">
+                    <i class="fas fa-info-circle"></i> Status PWA: <span id="pwa-status-text">Verificando...</span>
+                </div>
 
-                <div class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2">Memória do Projeto</div>
+                <div class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 mt-2">Memória do Projeto</div>
                 <!-- Dynamic Project Files List -->
                 <div id="project-files-list" class="space-y-1 text-xs text-gray-400 font-mono">
                     <div class="italic p-2 text-center opacity-50">Nenhum arquivo no contexto.</div>
@@ -283,7 +275,7 @@
                 <div id="chat-container" class="flex-1 overflow-y-auto p-2 md:p-8 space-y-6 scroll-smooth pb-32">
                     <div class="flex flex-col items-center justify-center h-full text-center space-y-4 opacity-50" id="welcome-screen">
                         <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-24 h-24 mb-4 rounded-2xl shadow-2xl animate-pulse">
-                        <h2 class="text-2xl font-bold">NeuroNexus V5.1 Omni-Expert</h2>
+                        <h2 class="text-2xl font-bold">NeuroNexus V5.2 Omni-Expert</h2>
                         <p class="max-w-md text-sm px-4">Dev, Saúde & Performance: Tudo em um.</p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm w-full max-w-lg px-4">
                             <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Analise este código e corrija os erros de lógica e segurança...')">🐛 Analisar Código</div>
@@ -385,6 +377,12 @@
                         <button onclick="saveKeys()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-xs">Salvar</button>
                     </div>
                 </div>
+                <!-- Maintenance -->
+                <div class="border-t border-gray-700 pt-4 mt-4">
+                    <h3 class="font-semibold mb-2 text-yellow-500"><i class="fas fa-wrench"></i> Manutenção PWA</h3>
+                    <button onclick="resetPWA()" class="w-full p-2 border border-yellow-500 text-yellow-500 rounded hover:bg-yellow-500 hover:text-white transition text-xs active:bg-yellow-600 mb-2">Resetar PWA (Cache/SW)</button>
+                    <button onclick="clearMemory()" class="w-full p-2 border border-red-500 text-red-500 rounded hover:bg-red-500 hover:text-white transition text-xs active:bg-red-600"><i class="fas fa-trash"></i> Limpar Memória do Chat</button>
+                </div>
                 <!-- Appearance -->
                 <div>
                     <h3 class="font-semibold mb-2 text-[var(--accent)]"><i class="fas fa-palette"></i> Tema</h3>
@@ -394,19 +392,17 @@
                         <button onclick="setTheme('light')" class="p-2 border border-gray-600 rounded bg-white text-black text-xs">Claro</button>
                     </div>
                 </div>
-                <div>
-                    <button onclick="clearMemory()" class="w-full p-3 border border-red-500 text-red-500 rounded hover:bg-red-500 hover:text-white transition text-sm active:bg-red-600"><i class="fas fa-trash"></i> Limpar Memória</button>
-                </div>
             </div>
         </div>
     </div>
 
     <!-- Scripts -->
     <script>
-        // --- 1. CORE UTILITIES (Hoisted: DEFINED FIRST) ---
+        // --- 1. CORE UTILITIES ---
         
-        // Globals
-        const DEFAULT_KEYS_OBFUSCATED = "QUl6YVN5QkxmTDlIQ1JUZjdNODUtSHJLV2pSSElkUC1vTFY0RGpjCkFJemFTeURPVVZpQ0wzWFlOaXNQZjRzYUpDTWdjQWxOeW50emx0dwpBSXphU3lCYjZyTEhwYmxIdkUxZGY4VU83anBJNlBmZzNyUmVMbzAKQUl6YVN5QXgwR0s2eVBuLUhFX3NZQWF1Rmd6X0J2MXBXQzR4SXhJCkFJemFTeUNVTi1QWDBjN1NhSnpNNUlKVWJWWmRPemlWdFVQb0FVMApBSXphU3lETXFvQkNqZjQ2RVo0WGhsdFNiZlJwNWZYeFFwRzRLZUEKQUl6YVN5QjEtLTlZQjRWOEFxbWpHYUFsbEUxZkwwMjA0MFZGaHZz";
+        // Globals - Broken into parts for safety against line break errors
+        const K1 = "QUl6YVN5QkxmTDlIQ1JUZjdNODUtSHJLV2pSSElkUC1vTFY0RGpjCkFJemFTeURPVVZpQ0wzWFlOaXNQZjRzYUpDTWdjQWxOeW50emx0dwpBSXphU3lCYjZyTEhwYmxIdkUxZGY4VU83anBJNlBmZzNyUmVMbzAKQUl6YVN5QXgwR0s2eVBuLUhFX3NZQWF1Rmd6X0J2MXBXQzR4SXhJCkFJemFTeUNVTi1QWDBjN1NhSnpNNUlKVWJWWmRPemlWdFVQb0FVMApBSXphU3lETXFvQkNqZjQ2RVo0WGhsdFNiZlJwNWZYeFFwRzRLZUEKQUl6YVN5QjEtLTlZQjRWOEFxbWpHYUFsbEUxZkwwMjA0MFZGaHZz";
+        const DEFAULT_KEYS_OBFUSCATED = K1;
         const DEFAULT_GITHUB_KEY = ""; 
 
         let apiKeys = [];
@@ -419,34 +415,59 @@
         let projectFiles = {}; 
         let currentWorkflowMode = 'default';
 
-        // --- PWA SERVICE WORKER REGISTRATION (CORRIGIDO) ---
-        // O Service Worker DEVE ser um arquivo estático (sw.js) na raiz para instalação funcionar no Chrome.
+        // --- PWA DIAGNOSTICS & REGISTRATION ---
+        function updatePWAStatus(status, isError = false) {
+            const el = document.getElementById('pwa-status');
+            const textEl = document.getElementById('pwa-status-text');
+            if(el && textEl) {
+                el.classList.remove('hidden');
+                textEl.innerText = status;
+                textEl.className = isError ? 'text-red-400' : 'text-green-400';
+            }
+            console.log(`[PWA Status] ${status}`);
+        }
+
+        async function checkFiles() {
+            try {
+                const sw = await fetch('./sw.js');
+                if(!sw.ok) throw new Error('sw.js não encontrado');
+                const man = await fetch('./manifest.json');
+                if(!man.ok) throw new Error('manifest.json não encontrado');
+                return true;
+            } catch(e) {
+                updatePWAStatus(`Erro: ${e.message}`, true);
+                return false;
+            }
+        }
+
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                // Prevent error in Blob/Preview environments
-                // Verifica se o protocolo é HTTP ou HTTPS antes de tentar registrar
-                // Isso evita o erro "The URL protocol of the script (':') is not supported" no Preview
+            window.addEventListener('load', async function() {
                 const isLocalOrHttp = window.location.protocol.includes('http');
                 
                 if (isLocalOrHttp) {
-                    navigator.serviceWorker.register('./sw.js', { scope: './' })
-                        .then(reg => {
-                            console.log('SW Registered for PWA (SUCCESS):', reg);
-                            // Força atualização se houver um novo SW esperando
-                            if(reg.waiting) reg.waiting.postMessage({type: 'SKIP_WAITING'});
-                            
-                            // Verifica se o prompt de instalação já foi capturado e mostra o botão
-                            if (typeof deferredPrompt !== 'undefined' && deferredPrompt) {
-                                const installBtn = document.getElementById('install-btn');
-                                if(installBtn) installBtn.classList.remove('hidden');
-                            }
-                        })
-                        .catch(err => {
-                            // Erro normal se sw.js não existir ainda ou se rodar localmente sem servidor
-                            console.warn('SW Registration Failed (Normal in Preview/No Server):', err);
-                        });
+                    const filesExist = await checkFiles();
+                    if(filesExist) {
+                        navigator.serviceWorker.register('./sw.js', { scope: './' })
+                            .then(reg => {
+                                updatePWAStatus('SW Registrado');
+                                if(reg.waiting) reg.waiting.postMessage({type: 'SKIP_WAITING'});
+                                if (typeof deferredPrompt !== 'undefined') {
+                                    const btn = document.getElementById('install-btn');
+                                    if(btn) btn.classList.remove('hidden');
+                                }
+                            })
+                            .catch(err => {
+                                updatePWAStatus('Falha no Registro SW', true);
+                                console.error(err);
+                            });
+                    } else {
+                        // Fallback: Se não achar arquivos externos, tenta injetar manifesto DataURI
+                        console.warn('Tentando fallback de manifesto...');
+                        const link = document.getElementById('manifest-link');
+                        if(link) link.href = "data:application/manifest+json;base64,eyJuYW1lIjoiTmV1cm9OZXh1cyBBSSIsInNob3J0X25hbWUiOiJOZXVyb05leHVzIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwZjE3MmEiLCJ0aGVtZV9jb2xvciI6IiMwZjE3MmEiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0LXByaW1hcnkiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1TE15NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c1SWpBd0lEQTFNVElnTlRFeU1pNDhjbVZqZENCM2FXUjBhRDB5TlRJaSBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4iLCJzaXplcyI6IjE5MngxOTIgNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIiwicHVycG9zZSI6ImFueSBtYXNrYWJsZSJ9XX0=";
+                    }
                 } else {
-                    console.log('Service Worker skipped: Environment is not HTTP/HTTPS (Preview Mode). Deploy to test PWA.');
+                    updatePWAStatus('Modo Preview (Sem PWA)', true);
                 }
             });
         }
@@ -460,6 +481,7 @@
             const installBtn = document.getElementById('install-btn');
             if(installBtn) {
                 installBtn.classList.remove('hidden');
+                updatePWAStatus('Pronto para Instalar');
             }
         });
 
@@ -469,23 +491,36 @@
                 deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
                         console.log('User accepted the install prompt');
-                    } else {
-                        console.log('User dismissed the install prompt');
+                        updatePWAStatus('Instalado');
                     }
                     deferredPrompt = null;
                     document.getElementById('install-btn').classList.add('hidden');
                 });
             } else {
-                // If the prompt isn't available (e.g., already installed or blocked), show manual modal
                 document.getElementById('install-modal').classList.remove('hidden');
             }
         }
         
-        // Check if running as standalone
         window.addEventListener('appinstalled', () => {
             console.log('NeuroNexus installed successfully');
             document.getElementById('install-btn').classList.add('hidden');
+            updatePWAStatus('App Instalado');
         });
+
+        function resetPWA() {
+            if(confirm("Isso irá remover todos os dados offline e reiniciar o Service Worker. Continuar?")) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let registration of registrations) {
+                        registration.unregister();
+                    }
+                    caches.keys().then(names => {
+                        for (let name of names) caches.delete(name);
+                    });
+                    alert("PWA Resetado. A página será recarregada.");
+                    window.location.reload();
+                });
+            }
+        }
 
         // --- Core UI Functions ---
         function renderProjectFiles() {
