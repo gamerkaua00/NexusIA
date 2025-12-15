@@ -94,10 +94,12 @@
         }
 
         /* Markdown Styles */
-        .prose pre { background: var(--code-bg) !important; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; position: relative; }
+        .prose pre { background: var(--code-bg) !important; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; position: relative; margin-top: 0.5rem; margin-bottom: 0.5rem; }
         .prose code { font-family: 'Fira Code', monospace; font-size: 0.85em; }
         .prose p { margin-bottom: 0.75rem; line-height: 1.6; }
         .prose img { max-width: 100%; border-radius: 0.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; border: 1px solid rgba(255,255,255,0.1); }
+        .prose h1, .prose h2, .prose h3 { color: var(--text-primary); font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .prose ul, .prose ol { margin-left: 1.5rem; list-style-type: disc; margin-bottom: 0.75rem; }
 
         .glass-panel {
             background: rgba(30, 41, 59, 0.8);
@@ -122,6 +124,14 @@
             white-space: pre-wrap;
         }
 
+        /* Chat Bubbles Optimization */
+        .msg-bubble {
+            max-width: 85%;
+            padding: 1rem;
+            border-radius: 1rem;
+            word-wrap: break-word;
+        }
+
         @media (min-width: 768px) {
             .canvas-open #main-chat-area { width: 55%; flex-grow: 0; }
             .canvas-open #canvas-panel {
@@ -132,6 +142,7 @@
                 z-index: 20;
             }
             #canvas-panel { width: 0; overflow: hidden; }
+            .msg-bubble { max-width: 75%; }
         }
         
         @media (max-width: 767px) {
@@ -142,8 +153,16 @@
             .canvas-open-mobile #canvas-panel { transform: translateX(0); }
             
             /* Mobile Optimization */
-            .prose { font-size: 0.95rem; }
+            .prose { font-size: 1rem; } /* Textos maiores no mobile */
             #user-input { font-size: 16px; /* Prevent iOS zoom */ }
+            
+            .msg-bubble { 
+                max-width: 92%; /* Mais espaço para texto no mobile */
+                padding: 0.8rem;
+            }
+            
+            /* Ajuste de margens do chat container */
+            #chat-container { padding-left: 0.5rem; padding-right: 0.5rem; }
         }
 
         /* Loader */
@@ -162,14 +181,14 @@
     <div class="layout-container">
         
         <!-- Sidebar -->
-        <aside id="sidebar" class="flex-shrink-0 w-64 bg-[var(--bg-secondary)] border-r border-gray-700 flex flex-col z-50 transition-transform duration-300 absolute md:relative h-full -translate-x-full md:translate-x-0">
+        <aside id="sidebar" class="flex-shrink-0 w-64 bg-[var(--bg-secondary)] border-r border-gray-700 flex flex-col z-50 transition-transform duration-300 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-2xl md:shadow-none">
             <div class="p-6 border-b border-gray-700 flex justify-between items-center">
                 <div class="flex items-center gap-2">
                     <!-- Icon in Sidebar -->
                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-8 h-8 rounded-lg">
                     <div>
                         <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">NeuroNexus</h1>
-                        <p class="text-[10px] text-[var(--text-secondary)]">V3.4 | Mobile Secure</p>
+                        <p class="text-[10px] text-[var(--text-secondary)]">V3.5 | PWA Ready</p>
                     </div>
                 </div>
                 <button onclick="toggleSidebar()" class="md:hidden text-gray-400 p-2"><i class="fas fa-times fa-lg"></i></button>
@@ -181,13 +200,13 @@
                     <option value="default">⚡ Padrão (Full Stack)</option>
                     <option value="security">🔒 Strict Security (OWASP)</option>
                     <option value="architect">🏛️ Software Architect</option>
-                    <option value="debugger">🐛 Debugger & Logs</option>
+                    <option value="data">📊 Data & Analytics</option>
                 </select>
             </div>
 
             <div class="flex-1 overflow-y-auto p-4 space-y-2" id="history-list">
                 <!-- Install Button (Visible by default, logic handles click) -->
-                <button id="install-btn" onclick="handleInstallClick()" class="w-full text-left p-3 rounded-lg bg-green-600 text-white hover:bg-green-700 transition flex items-center gap-2 mb-2 shadow-lg border border-green-500">
+                <button id="install-btn" onclick="handleInstallClick()" class="hidden w-full text-left p-3 rounded-lg bg-green-600 text-white hover:bg-green-700 transition flex items-center gap-2 mb-2 shadow-lg border border-green-500">
                     <i class="fas fa-download"></i> <span id="install-text">Instalar App</span>
                 </button>
 
@@ -253,14 +272,16 @@
                 </div>
 
                 <!-- Messages -->
-                <div id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 scroll-smooth pb-32">
+                <div id="chat-container" class="flex-1 overflow-y-auto p-2 md:p-8 space-y-6 scroll-smooth pb-32">
                     <div class="flex flex-col items-center justify-center h-full text-center space-y-4 opacity-50" id="welcome-screen">
                         <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-24 h-24 mb-4 rounded-2xl shadow-2xl animate-pulse">
-                        <h2 class="text-2xl font-bold">NeuroNexus V3.4</h2>
+                        <h2 class="text-2xl font-bold">NeuroNexus V3.5</h2>
                         <p class="max-w-md text-sm px-4">Ambiente de Execução Real, Análise Técnica e Gestão de Contexto.</p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm w-full max-w-lg px-4">
                             <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)] active:bg-gray-700 transition" onclick="fillPrompt('Crie um script Python para análise de dados e execute-o')">🐍 Executar Python (RESE)</div>
-                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)] active:bg-gray-700 transition" onclick="fillPrompt('Execute o arquivo test_moa_flow.py no Terminal')">🧪 Testar I.2 (MOA.Predict)</div>
+                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)] active:bg-gray-700 transition" onclick="fillPrompt('Gere um gráfico de vendas do último trimestre usando Chart.js')">📊 Gerar Gráfico (JS)</div>
+                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)] active:bg-gray-700 transition" onclick="fillPrompt('Crie um PDF com um relatório simples e me mostre o código')">📄 Gerar PDF (jsPDF)</div>
+                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)] active:bg-gray-700 transition" onclick="fillPrompt('Desenhe um diagrama simples de rede neural em SVG')">🎨 Criar Imagem (SVG)</div>
                         </div>
                     </div>
                 </div>
@@ -391,6 +412,27 @@
         let projectFiles = {}; 
         let currentWorkflowMode = 'default';
 
+        // --- PWA SERVICE WORKER REGISTRATION (FIX FOR PWA) ---
+        // Since this is a single file, we register a Blob as the SW to bypass file requirement
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                const swCode = `
+                    self.addEventListener('install', (e) => e.waitUntil(self.skipWaiting()));
+                    self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+                    self.addEventListener('fetch', (e) => {
+                        // Simple pass-through fetch
+                        e.respondWith(fetch(e.request));
+                    });
+                `;
+                const blob = new Blob([swCode], {type: 'application/javascript'});
+                const swUrl = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then(reg => console.log('SW Registered for PWA:', reg))
+                    .catch(err => console.log('SW Fail:', err));
+            });
+        }
+
         // PWA Install Logic
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -408,8 +450,6 @@
                 deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
                         console.log('User accepted the install prompt');
-                    } else {
-                        console.log('User dismissed the install prompt');
                     }
                     deferredPrompt = null;
                     document.getElementById('install-btn').classList.add('hidden');
@@ -438,7 +478,13 @@
                 item.onclick = () => {
                     if(projectFiles[f]) {
                         currentCode = projectFiles[f];
-                        currentLang = f.endsWith('.py') ? 'python' : 'html';
+                        // Detect lang based on extension
+                        if (f.endsWith('.py')) currentLang = 'python';
+                        else if (f.endsWith('.html')) currentLang = 'html';
+                        else if (f.endsWith('.js')) currentLang = 'javascript';
+                        else if (f.endsWith('.json')) currentLang = 'json';
+                        else currentLang = 'plaintext';
+
                         const codeEl = document.getElementById('code-content');
                         if (codeEl) {
                             codeEl.className = `language-${currentLang}`;
@@ -468,8 +514,27 @@
             if(!frame) return;
             const doc = frame.contentWindow.document;
             doc.open();
-            if (currentLang === 'html') doc.write(currentCode);
-            else doc.write(`<body style="background:#f4f4f5;font-family:monospace;padding:20px;color:#333;"><pre>${currentCode}</pre></body>`);
+            
+            if (currentLang === 'html') {
+                doc.write(currentCode);
+            } else if (currentLang === 'javascript') {
+                // Tenta envelopar JS em HTML básico para preview (útil para Chart.js)
+                doc.write(`
+                    <html><head><script src="https://cdn.tailwindcss.com"><\/script>
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"><\/script>
+                    </head><body class="p-4 bg-gray-50">
+                    <div class="max-w-4xl mx-auto bg-white p-4 rounded shadow">
+                        <canvas id="myChart"></canvas>
+                        <div id="output"></div>
+                    </div>
+                    <script>
+                        try { ${currentCode} } catch(e) { document.getElementById('output').innerText = e; }
+                    <\/script>
+                    </body></html>
+                `);
+            } else {
+                doc.write(`<body style="background:#f4f4f5;font-family:monospace;padding:20px;color:#333;"><pre>${currentCode}</pre></body>`);
+            }
             doc.close();
         }
 
@@ -560,7 +625,10 @@
         function setTheme(name) {
             document.body.className = "theme-" + name;
             localStorage.setItem('neuroNexusTheme', name);
-            if(document.body.classList.contains('canvas-open')) toggleCanvas();
+            // No mobile, remove a classe open para evitar glitch visual ao mudar tema
+            if(window.innerWidth < 768) {
+                 document.body.classList.remove('canvas-open-mobile');
+            }
         }
 
         function renderHistory() { 
@@ -586,10 +654,11 @@
                 } catch (e) { console.error("Markdown parse error", e); }
             }
 
+            // Mobile optimized bubbles using msg-bubble class
             div.innerHTML = `
-                <div class="max-w-[85%] md:max-w-[75%] rounded-2xl p-4 ${role === 'user' ? 'bg-[var(--accent)] text-white rounded-br-none' : 'bg-[var(--bg-secondary)] border border-gray-700 rounded-bl-none'}">
+                <div class="msg-bubble rounded-2xl ${role === 'user' ? 'bg-[var(--accent)] text-white rounded-br-none' : 'bg-[var(--bg-secondary)] border border-gray-700 rounded-bl-none'}">
                     ${attachHTML}
-                    <div class="prose prose-invert text-sm leading-relaxed break-words">${htmlContent}</div>
+                    <div class="prose prose-invert text-sm md:text-base leading-relaxed break-words">${htmlContent}</div>
                 </div>`;
             container.appendChild(div);
             container.scrollTop = container.scrollHeight;
@@ -625,30 +694,6 @@
             } else {
                 document.body.classList.add('canvas-open');
             }
-        }
-
-        function copyCode() {
-            if (!currentCode) return;
-            
-            const textArea = document.createElement("textarea");
-            textArea.value = currentCode;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-9999px";
-            textArea.style.top = "0";
-            
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                alert("Código copiado!");
-            } catch (err) {
-                console.error('Erro ao copiar', err);
-                alert("Erro ao copiar código. Permissão negada.");
-            }
-            
-            document.body.removeChild(textArea);
         }
 
         // --- 2. PYTHON CODE STRINGS ---
@@ -830,7 +875,7 @@ async def main_test():
     
     print("--- INICIANDO TESTE COM FALHA SIMULADA ---")
     try:
-        await scheduler.execute_flow()
+        scheduler.execute_flow()
     except Exception:
         print("--- TESTE CONCLUÍDO: Falha Capturada Corretamente ---")
 
@@ -850,7 +895,7 @@ if __name__ == "__main__":
 `;
 
         const GAP_ANALYSIS_STRATEGY = `
-STATUS: NEURONEXUS V3.3 (AUTONOMOUS RELEASE).
+STATUS: NEURONEXUS V3.5 (PWA FIXED).
 Módulos MOA.Decide e MOA.Resilience foram integrados ao código Python na memória.
 
 COMPONENTES ATIVOS:
@@ -858,6 +903,7 @@ COMPONENTES ATIVOS:
 2. MOA.Predict: Cálculo de E-Score (I.2).
 3. MOA.Decide: Branching automático (EXECUTE/OPTIMIZE/FAIL) (I.3).
 4. MOA.Resilience: Checkpoint e Rollback automáticos em falha (I.4).
+5. Frontend: Suporte a Chart.js (Gráficos), jsPDF (Docs) e SVG (Imagens).
 
 AÇÃO RECOMENDADA: Faça o upload para o GitHub. A versão está completa e segura.
         `;
@@ -886,9 +932,9 @@ AÇÃO RECOMENDADA: Faça o upload para o GitHub. A versão está completa e seg
 
             try {
                 if (terminal) {
-                    terminal.innerText = "NeuroNexus OS v3.3 Booting...\\n";
-                    terminal.innerText += "> Loading MOA.Decide & Resilience... OK\\n";
-                    terminal.innerText += "> Initializing Pyodide WASM Kernel...\\n";
+                    terminal.innerText = "NeuroNexus OS v3.5 Booting...\n";
+                    terminal.innerText += "> Loading MOA.Decide & Resilience... OK\n";
+                    terminal.innerText += "> Initializing Pyodide WASM Kernel...\n";
                 }
 
                 if (typeof loadPyodide === 'undefined') throw new Error("Pyodide not loaded");
@@ -906,9 +952,9 @@ AÇÃO RECOMENDADA: Faça o upload para o GitHub. A versão está completa e seg
                 if (statusText) statusText.innerText = "Python Ready (RESE)";
                 
                 if (terminal) {
-                    terminal.innerText += "> Python Kernel Ready.\\n";
-                    terminal.innerText += "> MOA Full Stack: LOADED.\\n";
-                    terminal.innerText += "> System Ready.\\n";
+                    terminal.innerText += "> Python Kernel Ready.\n";
+                    terminal.innerText += "> MOA Full Stack: LOADED.\n";
+                    terminal.innerText += "> System Ready.\n";
                 }
                 
                 console.log("Pyodide Ready");
@@ -916,7 +962,7 @@ AÇÃO RECOMENDADA: Faça o upload para o GitHub. A versão está completa e seg
                 console.error("Pyodide failed", e);
                 if (statusText) statusText.innerText = "Python Failed";
                 if (statusDot) statusDot.className = "w-2 h-2 rounded-full bg-red-500";
-                if (terminal) terminal.innerText += `\\n[BOOT ERROR]: ${e.message}\\n`;
+                if (terminal) terminal.innerText += `\n[BOOT ERROR]: ${e.message}\n`;
             }
         }
 
@@ -932,16 +978,16 @@ AÇÃO RECOMENDADA: Faça o upload para o GitHub. A versão está completa e seg
 
             switchTab('terminal');
             const terminal = document.getElementById('terminal-output');
-            if(terminal) terminal.innerText += `\\n> Executando script...\\n`;
+            if(terminal) terminal.innerText += `\n> Executando script...\n`;
 
             try {
                 pyodide.setStdout({ batched: (msg) => { 
-                    if(terminal) terminal.innerText += msg + "\\n"; 
+                    if(terminal) terminal.innerText += msg + "\n"; 
                 } });
                 await pyodide.runPythonAsync(currentCode);
-                if(terminal) terminal.innerText += `\\n[Processo finalizado com sucesso]\\n`;
+                if(terminal) terminal.innerText += `\n[Processo finalizado com sucesso]\n`;
             } catch (err) {
-                if(terminal) terminal.innerText += `\\nERRO DE EXECUÇÃO:\\n${err}\\n`;
+                if(terminal) terminal.innerText += `\nERRO DE EXECUÇÃO:\n${err}\n`;
             }
             if(terminal) terminal.scrollTop = terminal.scrollHeight;
         }
@@ -987,21 +1033,27 @@ AÇÃO RECOMENDADA: Faça o upload para o GitHub. A versão está completa e seg
 
                 const fileContext = JSON.stringify(Object.keys(projectFiles));
                 const githubKey = localStorage.getItem('neuroNexusGithub') || "Não configurado";
-                let modeInstruction = "Modo: Padrão.";
-                if(currentWorkflowMode === 'security') modeInstruction = "MODO STRICT SECURITY.";
+                let modeInstruction = "Modo: Padrão (Full Stack Senior).";
+                if(currentWorkflowMode === 'security') modeInstruction = "MODO STRICT SECURITY (OWASP). Seja paranoico com validação.";
+                else if(currentWorkflowMode === 'data') modeInstruction = "MODO DATA SCIENTIST. Use Python e Chart.js.";
                 
+                // --- FIXED SYSTEM PROMPT: TEACHING AI TO USE TOOLS ---
                 const systemPromptText = `
-System: Você é NeuroNexus V3.3.
-=== ESTRATÉGIA DE AUTO-EVOLUÇÃO ===
-${GAP_ANALYSIS_STRATEGY}
-===================================
-CONTEXTO: ${fileContext}
-INTEGRAÇÕES: GitHub: ${githubKey ? 'Sim' : 'Não'}.
-MODO: ${modeInstruction}
+System: Você é NeuroNexus V3.5, uma IA de desenvolvimento Full Stack Senior e Gerente de Projetos.
+Você conversa de forma amigável, profissional e técnica. Você sabe criticar seu próprio código.
 
-REGRAS:
-1. **Chat Casual:** Se o usuário disser "Olá", responda cordialmente.
-2. **Técnico:** Use os scripts Python carregados.
+=== SUAS CAPACIDADES TÉCNICAS ===
+1. **Python (RESE):** Você pode gerar e rodar Python via Pyodide. Use para lógica complexa ou análise de dados.
+2. **Gráficos (Chart.js):** Se pedirem um gráfico, gere um código HTML completo (apenas o conteúdo do <body> ou <script>) usando Chart.js (já incluído via CDN). Exemplo: crie um <canvas id="myChart"></canvas> e o script correspondente.
+3. **PDFs (jsPDF):** Se pedirem um PDF, gere código JavaScript que usa 'window.jspdf' (já incluído) para criar o doc e salvar (.save()).
+4. **Imagens/Diagramas:** Se pedirem imagens ou diagramas, gere código **SVG Inline** limpo e bonito. Não use URLs de imagens externas pois quebram.
+5. **Auto-Correção:** Se você gerar código, analise-o brevemente após a geração.
+
+=== CONTEXTO ATUAL ===
+Arquivos na memória: ${fileContext}
+Modo: ${modeInstruction}
+
+Se o usuário for casual, seja casual. Se for técnico, seja preciso. Se houver erro no código do usuário, aponte e corrija.
                 `;
 
                 const payload = {
@@ -1022,8 +1074,6 @@ REGRAS:
                 }
             }
         }
-
-        // --- RESTORED FUNCTIONS (FIX) ---
 
         async function sendMessage() {
             const inputEl = document.getElementById('user-input');
@@ -1078,11 +1128,12 @@ REGRAS:
                 const code = match[2];
                 // Update Project Memory
                 if (lang !== 'text' && lang !== 'bash') {
-                    const fakeName = `artifact_${Date.now()}.${lang === 'python' ? 'py' : lang}`;
+                    // Try to guess a name if not provided (simple logic)
+                    let fakeName = `artifact_${Date.now()}.${lang === 'python' ? 'py' : lang === 'javascript' ? 'js' : lang}`;
                     updateProjectContext(fakeName, code);
                 }
 
-                if (lang === 'html' || lang === 'python' || !lastCode) {
+                if (lang === 'html' || lang === 'python' || lang === 'javascript' || lang === 'json' || !lastCode) {
                     lastLang = lang;
                     lastCode = code;
                 }
@@ -1106,7 +1157,8 @@ REGRAS:
                 if (currentLang === 'python') {
                     switchTab('code'); // Show code first
                     if(runBtn) runBtn.classList.remove('hidden'); // Show Run button
-                } else if (currentLang === 'html') {
+                } else if (currentLang === 'html' || currentLang === 'javascript') {
+                    // Se for JS ou HTML, provavel ser visual (grafico/svg), mostrar preview
                     switchTab('preview');
                     if(runBtn) runBtn.classList.add('hidden');
                 } else {
@@ -1116,7 +1168,6 @@ REGRAS:
             }
         }
 
-        // START NEW CHAT FIX
         const WELCOME_CONTENT = `
             <div class="flex flex-col items-center justify-center h-full text-center space-y-4 opacity-50" id="welcome-screen">
                 <i class="fas fa-network-wired text-6xl text-[var(--accent)] mb-4"></i>
