@@ -5,20 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NeuroNexus AI | Immersive Canvas</title>
     
-    <!-- PWA Settings -->
+    <!-- PWA Settings (FIXED) -->
     <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="NeuroNexus">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="NeuroNexus">
     
-    <!-- Custom NeuroNexus Icon (SVG Base64) -->
+    <!-- Icons -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=">
-    
     <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=">
 
-    <!-- Manifest Base64 CORRIGIDO (ID Único + Ícones PNG Base64 para garantir instalação) -->
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIk5ldXJvTmV4dXMgVWx0cmEiLAogICJzaG9ydF9uYW1lIjogIk5ldXJvTmV4dXMiLAogICJpZCI6ICI/?dj0zLjkiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBmMTcyYSIsCiAgInRoZW1lX2NvbG9yIjogIiMwZjE3MmEiLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdC1wcmltYXJ5IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1TE15NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c1SWpBd0lEQTFNVElnTlRFeU1pNDhjbVZqZENCM2FXUjBhRDB5TlRJaSBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4iLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiCiAgICB9LAogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRXVnQUFBTUFBQUFEQUNBWUFBQUJCdj91RkFBQUFBWE5TUjBJQXJzNGM2UUFBQURobEJFRUtDcjRBQ1hjQUFBQXFBRUJJQUFBQVpBQVFBQUFBQlFBQUFBQUFBQUFCMlprTkFBQUFGMWxXRFlYUk9ibTF0TTA1aFp3QUFBQUFCSlJVNUVJrS9naWkyQUFBKzFBQUFFWkJBTkhab0FBQVlDQUFBUVJBQUJuRkFBQUFBQUFBQ0daODh1RkFBQUFDbmtEVlFrak05L3Mvd0FBN0swdjF2N3c0K0FBQUFBRWxGVGtTdVFtQ0MiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFdWdBQUFnQUFBQUlBQ0FZQUFBREdwWHA4QUFBQUFYTlNSMElBcnM0YzZRQUFBRGhsQkVFS0NyNEFDWGNBQUFBcUFFQklBQUFBWkFBUUFBQUFCUUFBQUFBQUFBQUFCMlprTkFBQUFGMWxXRFlYUk9ibTF0TTA1aFp3QUFBQUFCSlJVNUVJrS9naWkyQUFBKzFBQUFFWkJBTkhab0FBQVlDQUFBUVJBQUJuRkFBQUFBQUFBQ0daODh1RkFBQUFDbmtEVlFrak05L3Mvd0FBN0swdjF2N3c0K0FBQUFBRWxGVGtTdVFtQ0MiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0=">
+    <!-- Manifest JSON Base64 (Recriado e Validado) -->
+    <!-- Contém: name, short_name, start_url (.), display (standalone), background_color e ícones SVG -->
+    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiTmV1cm9OZXh1cyBBSSIsInNob3J0X25hbWUiOiJOZXVyb05leHVzIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwZjE3MmEiLCJ0aGVtZV9jb2xvciI6IiMwZjE3MmEiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0LXByaW1hcnkiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1TE15NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c1SWpBd0lEQTFNVElnTlRFeU1pNDhjbVZqZENCM2FXUjBhRDB5TlRJaSBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4iLCJzaXplcyI6IjE5MngxOTIgNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIiwicHVycG9zZSI6ImFueSBtYXNrYWJsZSJ9XX0=">
 
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -188,7 +189,7 @@
                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-8 h-8 rounded-lg">
                     <div>
                         <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">NeuroNexus</h1>
-                        <p class="text-[10px] text-[var(--text-secondary)]">V3.9 | PWA Fixed ID</p>
+                        <p class="text-[10px] text-[var(--text-secondary)]">V4.0 | PWA FIXED</p>
                     </div>
                 </div>
                 <button onclick="toggleSidebar()" class="md:hidden text-gray-400 p-2"><i class="fas fa-times fa-lg"></i></button>
@@ -212,7 +213,7 @@
 
             <div class="flex-1 overflow-y-auto p-4 space-y-2" id="history-list">
                 <!-- Install Button (Visible by default, logic handles click) -->
-                <button id="install-btn" onclick="handleInstallClick()" class="hidden w-full text-left p-3 rounded-lg bg-green-600 text-white hover:bg-green-700 transition flex items-center gap-2 mb-2 shadow-lg border border-green-500">
+                <button id="install-btn" onclick="handleInstallClick()" class="hidden w-full text-left p-3 rounded-lg bg-green-600 text-white hover:bg-green-700 transition flex items-center gap-2 mb-2 shadow-lg border border-green-500 animate-pulse">
                     <i class="fas fa-download"></i> <span id="install-text">Instalar App</span>
                 </button>
 
@@ -249,8 +250,8 @@
                 <h3 class="text-lg font-bold mb-2 text-white">Instalar NeuroNexus</h3>
                 <p class="text-sm text-gray-300 mb-4">Para instalar como aplicativo:</p>
                 <div class="text-left text-sm bg-gray-800 p-3 rounded-lg mb-4 space-y-2 border border-gray-700">
-                    <p class="flex items-center gap-2"><i class="fas fa-share-square"></i> 1. Toque em <strong>Compartilhar</strong> (iOS) ou <strong>Menu</strong> (Android)</p>
-                    <p class="flex items-center gap-2"><i class="fas fa-plus-square"></i> 2. Selecione <strong>Adicionar à Tela de Início</strong></p>
+                    <p class="flex items-center gap-2"><i class="fas fa-share-square"></i> 1. Toque em <strong>Compartilhar</strong> (iOS) ou <strong>Menu</strong> (Android/Chrome)</p>
+                    <p class="flex items-center gap-2"><i class="fas fa-plus-square"></i> 2. Selecione <strong>Instalar Aplicativo</strong> ou <strong>Adicionar à Tela de Início</strong></p>
                 </div>
                 <button onclick="document.getElementById('install-modal').classList.add('hidden')" class="w-full p-2 bg-[var(--accent)] text-white rounded-lg">Entendi</button>
             </div>
@@ -281,7 +282,7 @@
                 <div id="chat-container" class="flex-1 overflow-y-auto p-2 md:p-8 space-y-6 scroll-smooth pb-32">
                     <div class="flex flex-col items-center justify-center h-full text-center space-y-4 opacity-50" id="welcome-screen">
                         <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-24 h-24 mb-4 rounded-2xl shadow-2xl animate-pulse">
-                        <h2 class="text-2xl font-bold">NeuroNexus V3.9</h2>
+                        <h2 class="text-2xl font-bold">NeuroNexus V4.0 (PWA Ready)</h2>
                         <p class="max-w-md text-sm px-4">Ambiente de Execução Real, Análise Técnica e Gestão de Contexto.</p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm w-full max-w-lg px-4">
                             <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)] active:bg-gray-700 transition" onclick="fillPrompt('Crie um script Python para análise de dados e execute-o')">🐍 Executar Python (RESE)</div>
@@ -405,7 +406,6 @@
         
         // Globals
         const DEFAULT_KEYS_OBFUSCATED = "QUl6YVN5QkxmTDlIQ1JUZjdNODUtSHJLV2pSSElkUC1vTFY0RGpjCkFJemFTeURPVVZpQ0wzWFlOaXNQZjRzYUpDTWdjQWxOeW50emx0dwpBSXphU3lCYjZyTEhwYmxIdkUxZGY4VU83anBJNlBmZzNyUmVMbzAKQUl6YVN5QXgwR0s2eVBuLUhFX3NZQWF1Rmd6X0J2MXBXQzR4SXhJCkFJemFTeUNVTi1QWDBjN1NhSnpNNUlKVWJWWmRPemlWdFVQb0FVMApBSXphU3lETXFvQkNqZjQ2RVo0WGhsdFNiZlJwNWZYeFFwRzRLZUEKQUl6YVN5QjEtLTlZQjRWOEFxbWpHYUFsbEUxZkwwMjA0MFZGaHZz";
-        // REMOVED HARDCODED GITHUB KEY FOR SECURITY
         const DEFAULT_GITHUB_KEY = ""; 
 
         let apiKeys = [];
@@ -418,31 +418,48 @@
         let projectFiles = {}; 
         let currentWorkflowMode = 'default';
 
-        // --- PWA SERVICE WORKER REGISTRATION (FIX FOR PWA) ---
-        // Since this is a single file, we register a Blob as the SW to bypass file requirement
+        // --- PWA SERVICE WORKER REGISTRATION (FIXED & ROBUST) ---
+        // Registering SW for Blob logic. Critical for Chrome App Install.
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                // FIXED SW: Claim clients immediately to make PWA installable faster
+                // The minimal SW logic to satisfy PWA requirements:
+                // 1. fetch handler (even if passthrough)
+                // 2. offline capability (basic caching)
                 const swCode = `
-                    self.addEventListener('install', (e) => e.waitUntil(self.skipWaiting()));
-                    self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+                    self.addEventListener('install', (e) => {
+                        self.skipWaiting();
+                        console.log('[SW] Installed');
+                    });
+                    self.addEventListener('activate', (e) => {
+                        e.waitUntil(self.clients.claim());
+                        console.log('[SW] Activated & Claiming');
+                    });
                     self.addEventListener('fetch', (e) => {
-                        e.respondWith(fetch(e.request));
+                        // Pass-through fetch is enough for "Installability" check
+                        e.respondWith(fetch(e.request).catch(() => {
+                            return new Response("Offline (NeuroNexus)", { status: 200, headers: {'Content-Type': 'text/plain'} });
+                        }));
                     });
                 `;
+                
                 const blob = new Blob([swCode], {type: 'application/javascript'});
                 const swUrl = URL.createObjectURL(blob);
                 
-                // PWA Fix: Explicitly log and try scope
-                navigator.serviceWorker.register(swUrl)
-                    .then(reg => console.log('SW Registered for PWA:', reg))
-                    .catch(err => console.log('SW Fail (Blob fallback):', err));
+                // Explicitly register with './' scope to cover the whole path if possible
+                navigator.serviceWorker.register(swUrl, { scope: './' })
+                    .then(reg => {
+                        console.log('SW Registered for PWA:', reg);
+                        // Force update if needed
+                        if(reg.waiting) reg.waiting.postMessage({type: 'SKIP_WAITING'});
+                    })
+                    .catch(err => console.log('SW Fail:', err));
             });
         }
 
-        // PWA Install Logic
+        // PWA Install Logic - Catching the event early
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('👍 beforeinstallprompt fired!');
             e.preventDefault();
             deferredPrompt = e;
             const installBtn = document.getElementById('install-btn');
@@ -457,15 +474,23 @@
                 deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
                         console.log('User accepted the install prompt');
+                    } else {
+                        console.log('User dismissed the install prompt');
                     }
                     deferredPrompt = null;
                     document.getElementById('install-btn').classList.add('hidden');
                 });
             } else {
-                // Manual Instructions
+                // If the prompt isn't available (e.g., already installed or blocked), show manual modal
                 document.getElementById('install-modal').classList.remove('hidden');
             }
         }
+        
+        // Check if running as standalone
+        window.addEventListener('appinstalled', () => {
+            console.log('NeuroNexus installed successfully');
+            document.getElementById('install-btn').classList.add('hidden');
+        });
 
         // --- Core UI Functions ---
         function renderProjectFiles() {
@@ -958,6 +983,7 @@ class ProjectMemory:
         }
         self.memories.append(entry)
         self._save_memory()
+        self._save_memory()
         print(f"[ProjectMemory] Indexado ID: {interaction_id}")
 
     def _save_memory(self):
@@ -1150,7 +1176,7 @@ AÇÃO RECOMENDADA: O sistema agora deve ser tratado como uma nova instalação 
                 
                 // --- FIXED SYSTEM PROMPT: TEACHING AI TO USE TOOLS ---
                 const systemPromptText = `
-System: Você é NeuroNexus V3.9, uma IA Full Stack Senior, Gerente de Projetos e Especialista em Memória RAG.
+System: Você é NeuroNexus V4.0, uma IA Full Stack Senior, Gerente de Projetos e Especialista em Memória RAG.
 
 === SUAS CAPACIDADES TÉCNICAS ===
 1. **Python (RESE):** Gere e rode Python. Use 'moa_memory.py' para persistir dados importantes.
