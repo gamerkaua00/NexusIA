@@ -3,23 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NeuroNexus AI | Immersive Canvas</title>
+    <title>NeuroNexus AI | General Intelligence</title>
     
-    <!-- PWA Settings -->
+    <!-- Meta tags básicas (Sem PWA complexo) -->
     <meta name="theme-color" content="#0f172a">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="NeuroNexus">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="NeuroNexus">
     
-    <!-- Icons -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=">
-    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=">
-
-    <!-- Manifest Externo -->
-    <link rel="manifest" href="./manifest.json" id="manifest-link">
-
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -90,8 +78,24 @@
             overflow: hidden; 
         }
 
-        /* Markdown Styles */
-        .prose pre { background: var(--code-bg) !important; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; position: relative; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+        /* --- OTIMIZAÇÃO DE TEXTO PARA MOBILE --- */
+        .prose {
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word; /* Quebra palavras muito longas forçadamente */
+        }
+        
+        .prose pre { 
+            background: var(--code-bg) !important; 
+            padding: 1rem; 
+            border-radius: 0.5rem; 
+            overflow-x: auto; /* Garante scroll horizontal APENAS no código */
+            max-width: 100%;
+            margin-top: 0.5rem; 
+            margin-bottom: 0.5rem; 
+        }
+        
         .prose code { font-family: 'Fira Code', monospace; font-size: 0.85em; }
         .prose p { margin-bottom: 0.75rem; line-height: 1.6; }
         .prose img { max-width: 100%; border-radius: 0.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; border: 1px solid rgba(255,255,255,0.1); }
@@ -126,7 +130,13 @@
             max-width: 85%;
             padding: 1rem;
             border-radius: 1rem;
+            
+            /* CRUCIAL FIXES FOR MOBILE TEXT OVERFLOW */
+            overflow-wrap: break-word;
             word-wrap: break-word;
+            word-break: break-word;
+            hyphens: auto;
+            min-width: 0; /* Flexbox overflow fix */
         }
 
         @media (min-width: 768px) {
@@ -148,9 +158,15 @@
                 transform: translateX(100%); z-index: 60; 
             }
             .canvas-open-mobile #canvas-panel { transform: translateX(0); }
-            .prose { font-size: 1rem; } 
+            
+            .prose { font-size: 0.95rem; } 
             #user-input { font-size: 16px; }
-            .msg-bubble { max-width: 92%; padding: 0.8rem; }
+            
+            .msg-bubble { 
+                max-width: 90%; 
+                padding: 0.8rem;
+                font-size: 0.95rem;
+            }
             #chat-container { padding-left: 0.5rem; padding-right: 0.5rem; }
         }
 
@@ -173,52 +189,42 @@
         <aside id="sidebar" class="flex-shrink-0 w-64 bg-[var(--bg-secondary)] border-r border-gray-700 flex flex-col z-50 transition-transform duration-300 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-2xl md:shadow-none">
             <div class="p-6 border-b border-gray-700 flex justify-between items-center">
                 <div class="flex items-center gap-2">
-                    <!-- Icon in Sidebar -->
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-8 h-8 rounded-lg">
+                    <!-- Simple Brain Icon -->
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                        <i class="fas fa-brain"></i>
+                    </div>
                     <div>
                         <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">NeuroNexus</h1>
-                        <p class="text-[10px] text-[var(--text-secondary)]">V5.2 | PWA Fixed</p>
+                        <p class="text-[10px] text-[var(--text-secondary)]">V6.0 | General AI</p>
                     </div>
                 </div>
                 <button onclick="toggleSidebar()" class="md:hidden text-gray-400 p-2"><i class="fas fa-times fa-lg"></i></button>
             </div>
 
             <div class="p-4 border-b border-gray-700">
-                <label class="text-[10px] uppercase text-[var(--text-secondary)] font-bold tracking-wider">Workflow Mode</label>
+                <label class="text-[10px] uppercase text-[var(--text-secondary)] font-bold tracking-wider">Modo de Personalidade</label>
                 <select id="workflow-mode" onchange="updateWorkflowMode()" class="w-full mt-1 bg-[var(--bg-primary)] text-[var(--text-primary)] text-xs border border-gray-600 rounded p-2 focus:outline-none focus:border-[var(--accent)]">
-                    <option value="default">⚡ Padrão (Full Stack)</option>
-                    <option value="security">🔒 Strict Security (OWASP)</option>
-                    <option value="architect">🏛️ Software Architect</option>
-                    <option value="db_opt">🗄️ Otimização SQL/NoSQL</option>
-                    <option value="api_contract">📜 Contrato API (OpenAPI)</option>
-                    <option value="iac">☁️ Infra as Code (IaC)</option>
-                    <option value="perf">🚀 Performance & Algo</option>
-                    <option value="a11y">♿ Acessibilidade (WCAG)</option>
-                    <option value="docs">📚 Documentação Formal</option>
-                    <option value="human_opt">🧬 Otimização Humana (Health)</option>
+                    <option value="adaptive">🧠 Adaptativo (Padrão)</option>
+                    <option value="teacher">👨‍🏫 Professor Didático</option>
+                    <option value="creative">🎨 Criativo & Ideias</option>
+                    <option value="analytical">📊 Analítico & Dados</option>
+                    <option value="coder">💻 Programador Senior</option>
+                    <option value="writer">✍️ Escritor & Copywriter</option>
+                    <option value="health">🩺 Saúde & Bem-estar</option>
                 </select>
             </div>
 
             <div class="flex-1 overflow-y-auto p-4 space-y-2" id="history-list">
-                <!-- Install Button -->
-                <button id="install-btn" onclick="handleInstallClick()" class="hidden w-full text-left p-3 rounded-lg bg-green-600 text-white hover:bg-green-700 transition flex items-center gap-2 mb-2 shadow-lg border border-green-500 animate-pulse">
-                    <i class="fas fa-download"></i> <span id="install-text">Instalar App</span>
-                </button>
                 
-                <!-- Status PWA -->
-                <div id="pwa-status" class="text-[10px] text-gray-500 p-1 border border-gray-800 rounded bg-gray-900 hidden">
-                    <i class="fas fa-info-circle"></i> Status PWA: <span id="pwa-status-text">Verificando...</span>
-                </div>
-
-                <div class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 mt-2">Memória do Projeto</div>
+                <div class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 mt-2">Memória Ativa</div>
                 <!-- Dynamic Project Files List -->
                 <div id="project-files-list" class="space-y-1 text-xs text-gray-400 font-mono">
-                    <div class="italic p-2 text-center opacity-50">Nenhum arquivo no contexto.</div>
+                    <div class="italic p-2 text-center opacity-50">Memória vazia.</div>
                 </div>
                 
-                <div class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 mt-4">Chats</div>
+                <div class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 mt-4">Conversas</div>
                 <button onclick="newChat()" class="w-full text-left p-3 rounded-lg bg-[var(--accent)] text-white hover:opacity-90 transition flex items-center gap-2 active:scale-95 transform duration-150">
-                    <i class="fas fa-plus"></i> Novo Chat
+                    <i class="fas fa-plus"></i> Novo Tópico
                 </button>
                 <div id="history-items-container" class="space-y-1 mt-2"></div>
             </div>
@@ -226,29 +232,13 @@
             <div class="p-4 border-t border-gray-700">
                 <div class="flex items-center gap-2 mb-4">
                     <div class="w-2 h-2 rounded-full bg-yellow-500" id="python-status-dot"></div>
-                    <span class="text-xs text-[var(--text-secondary)]" id="python-status-text">Carregando Pyodide...</span>
+                    <span class="text-xs text-[var(--text-secondary)]" id="python-status-text">Carregando Cérebro (Python)...</span>
                 </div>
                 <button onclick="openSettings()" class="w-full p-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition text-sm flex items-center justify-center gap-2 active:bg-gray-500">
-                    <i class="fas fa-cog"></i> Configs & Chaves
+                    <i class="fas fa-cog"></i> Configurações
                 </button>
             </div>
         </aside>
-
-        <!-- Install Instructions Modal -->
-        <div id="install-modal" class="fixed inset-0 bg-black bg-opacity-80 z-[70] hidden flex items-center justify-center p-4 backdrop-blur-sm">
-            <div class="bg-[var(--bg-secondary)] rounded-2xl w-full max-w-sm shadow-2xl border border-gray-700 p-6 text-center">
-                <div class="flex justify-center mb-4">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-16 h-16 rounded-xl shadow-lg">
-                </div>
-                <h3 class="text-lg font-bold mb-2 text-white">Instalar NeuroNexus</h3>
-                <p class="text-sm text-gray-300 mb-4">Para instalar como aplicativo:</p>
-                <div class="text-left text-sm bg-gray-800 p-3 rounded-lg mb-4 space-y-2 border border-gray-700">
-                    <p class="flex items-center gap-2"><i class="fas fa-share-square"></i> 1. Toque em <strong>Compartilhar</strong> (iOS) ou <strong>Menu</strong> (Android/Chrome)</p>
-                    <p class="flex items-center gap-2"><i class="fas fa-plus-square"></i> 2. Selecione <strong>Instalar Aplicativo</strong> ou <strong>Adicionar à Tela de Início</strong></p>
-                </div>
-                <button onclick="document.getElementById('install-modal').classList.add('hidden')" class="w-full p-2 bg-[var(--accent)] text-white rounded-lg">Entendi</button>
-            </div>
-        </div>
 
         <!-- Overlay -->
         <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black bg-opacity-70 z-40 hidden backdrop-blur-sm"></div>
@@ -262,11 +252,13 @@
                 <!-- Mobile Header -->
                 <div class="md:hidden flex items-center justify-between p-4 glass-panel border-b border-gray-700 z-20 sticky top-0">
                     <div class="flex items-center gap-2">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-6 h-6 rounded">
+                        <div class="w-6 h-6 rounded bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
+                            N
+                        </div>
                         <h1 class="text-lg font-bold text-[var(--text-primary)]">NeuroNexus</h1>
                     </div>
                     <div class="flex gap-4">
-                        <button onclick="toggleCanvas()" id="mobile-canvas-btn" class="text-gray-300 active:text-white"><i class="fas fa-code fa-lg"></i></button>
+                        <button onclick="toggleCanvas()" id="mobile-canvas-btn" class="text-gray-300 active:text-white hidden"><i class="fas fa-layer-group fa-lg"></i></button>
                         <button onclick="toggleSidebar()" class="text-gray-300 active:text-white"><i class="fas fa-bars fa-lg"></i></button>
                     </div>
                 </div>
@@ -274,14 +266,16 @@
                 <!-- Messages -->
                 <div id="chat-container" class="flex-1 overflow-y-auto p-2 md:p-8 space-y-6 scroll-smooth pb-32">
                     <div class="flex flex-col items-center justify-center h-full text-center space-y-4 opacity-50" id="welcome-screen">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" class="w-24 h-24 mb-4 rounded-2xl shadow-2xl animate-pulse">
-                        <h2 class="text-2xl font-bold">NeuroNexus V5.2 Omni-Expert</h2>
-                        <p class="max-w-md text-sm px-4">Dev, Saúde & Performance: Tudo em um.</p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm w-full max-w-lg px-4">
-                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Analise este código e corrija os erros de lógica e segurança...')">🐛 Analisar Código</div>
-                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Crie um protocolo de suplementação e treino para desenvolvedores.')">💊 Saúde do Dev</div>
-                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Gere um DDL para uma tabela de usuários em PostgreSQL')">🗄️ SQL Mode</div>
-                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Desenhe um diagrama de arquitetura AWS em SVG')">🎨 Criar Imagem (SVG)</div>
+                        <div class="w-24 h-24 mb-4 rounded-2xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white text-5xl shadow-2xl animate-pulse">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold">Olá, eu sou o NeuroNexus.</h2>
+                        <p class="max-w-md text-sm px-4">Sua Inteligência Geral Pessoal. Posso aprender com você, escrever, analisar, programar ou apenas conversar.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm w-full max-w-lg px-4 mt-4">
+                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Pode me ajudar a planejar uma rotina de estudos?')">📅 Planejar Rotina</div>
+                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Explique mecânica quântica como se eu tivesse 10 anos.')">🎓 Explicar Simples</div>
+                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Gere uma tabela de gastos mensais para casa.')">📊 Criar Tabela</div>
+                            <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Analise este texto e resuma os pontos chave: [Cole seu texto]')">📝 Resumir Texto</div>
                         </div>
                     </div>
                 </div>
@@ -291,12 +285,12 @@
                     <div class="max-w-4xl mx-auto glass-panel rounded-2xl p-2 shadow-lg flex flex-col gap-2 relative">
                         <div id="attachment-preview" class="hidden px-2 py-1 flex gap-2 overflow-x-auto"></div>
                         <div class="flex items-end gap-2 p-1">
-                            <button onclick="document.getElementById('file-upload').click()" class="p-3 text-[var(--text-secondary)] hover:text-[var(--accent)] transition" title="Anexar (Logs, Imagens, Arquivos)">
+                            <button onclick="document.getElementById('file-upload').click()" class="p-3 text-[var(--text-secondary)] hover:text-[var(--accent)] transition" title="Anexar (Imagens, PDFs, Textos)">
                                 <i class="fas fa-paperclip text-lg"></i>
                             </button>
                             <input type="file" id="file-upload" class="hidden" multiple accept="image/*,.pdf,.txt,.js,.py,.html,.css,.log,.json" onchange="handleFileUpload(this)">
                             
-                            <textarea id="user-input" rows="1" class="flex-1 bg-transparent border-0 focus:ring-0 text-[var(--text-primary)] resize-none max-h-32 py-3 text-base" placeholder="Peça código, diagnóstico médico ou treino..." oninput="autoResize(this)" onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }"></textarea>
+                            <textarea id="user-input" rows="1" class="flex-1 bg-transparent border-0 focus:ring-0 text-[var(--text-primary)] resize-none max-h-32 py-3 text-base" placeholder="Converse comigo..." oninput="autoResize(this)" onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }"></textarea>
                             
                             <button onclick="sendMessage()" class="p-3 bg-[var(--accent)] text-white rounded-xl hover:opacity-90 active:scale-95 transition shadow-lg w-12 h-12 flex items-center justify-center">
                                 <i class="fas fa-paper-plane"></i>
@@ -306,25 +300,25 @@
                 </div>
             </main>
 
-            <!-- Canvas/Terminal Panel -->
+            <!-- Canvas/Terminal Panel (Hidden by default unless needed) -->
             <div id="canvas-panel" class="bg-[var(--bg-secondary)] flex flex-col h-full shadow-2xl">
                 <!-- Header -->
                 <div class="flex items-center justify-between p-3 border-b border-gray-700 bg-[var(--bg-primary)]">
                     <div class="flex items-center gap-2">
                         <button onclick="toggleCanvas()" class="md:hidden text-gray-400 mr-2"><i class="fas fa-arrow-left"></i></button>
                         <i class="fas fa-layer-group text-[var(--accent)]"></i>
-                        <span class="font-bold text-sm">Workspace</span>
+                        <span class="font-bold text-sm">Área de Trabalho</span>
                     </div>
                     
                     <!-- Tabs -->
                     <div class="flex bg-gray-800 rounded p-1 gap-1">
-                        <button onclick="switchTab('code')" id="tab-code" class="px-3 py-1 text-xs rounded bg-[var(--bg-secondary)] text-white shadow">Code</button>
-                        <button onclick="switchTab('preview')" id="tab-preview" class="px-3 py-1 text-xs rounded text-gray-400 hover:text-white">Preview</button>
-                        <button onclick="switchTab('terminal')" id="tab-terminal" class="px-3 py-1 text-xs rounded text-gray-400 hover:text-white flex items-center gap-1"><i class="fas fa-terminal"></i> RESE</button>
+                        <button onclick="switchTab('code')" id="tab-code" class="px-3 py-1 text-xs rounded bg-[var(--bg-secondary)] text-white shadow">Texto/Código</button>
+                        <button onclick="switchTab('preview')" id="tab-preview" class="px-3 py-1 text-xs rounded text-gray-400 hover:text-white">Visualizar</button>
+                        <button onclick="switchTab('terminal')" id="tab-terminal" class="px-3 py-1 text-xs rounded text-gray-400 hover:text-white flex items-center gap-1"><i class="fas fa-terminal"></i> Memória</button>
                     </div>
 
                     <div class="flex gap-2">
-                        <button onclick="executeCode()" id="btn-run-code" class="text-green-500 hover:text-green-400 hidden p-1" title="Executar Python"><i class="fas fa-play"></i></button>
+                        <button onclick="executeCode()" id="btn-run-code" class="text-green-500 hover:text-green-400 hidden p-1" title="Executar"><i class="fas fa-play"></i></button>
                         <button onclick="copyCode()" class="text-gray-400 hover:text-white p-1" title="Copiar"><i class="far fa-copy"></i></button>
                         <button onclick="toggleCanvas()" class="text-gray-400 hover:text-white hidden md:block p-1"><i class="fas fa-times"></i></button>
                     </div>
@@ -343,10 +337,10 @@
                     <!-- Terminal View (RESE) -->
                     <div id="view-terminal" class="absolute inset-0 hidden h-full w-full flex flex-col">
                         <div class="bg-gray-800 px-2 py-1 text-xs text-gray-400 flex justify-between">
-                            <span>Python 3.10 (Pyodide Wasm)</span>
+                            <span>Python 3.10 (Memória)</span>
                             <span onclick="clearTerminal()" class="cursor-pointer hover:text-white">Limpar</span>
                         </div>
-                        <div id="terminal-output" class="terminal-output p-2">NeuroNexus Environment Initializing...</div>
+                        <div id="terminal-output" class="terminal-output p-2">Carregando sistema de aprendizado...</div>
                     </div>
                 </div>
             </div>
@@ -367,11 +361,6 @@
                     <h3 class="font-semibold mb-2 text-[var(--accent)]"><i class="fas fa-key"></i> Chaves de API (Gemini)</h3>
                     <textarea id="api-keys-input" class="w-full h-24 bg-[var(--bg-primary)] border border-gray-600 rounded p-2 text-xs font-mono text-gray-300 focus:border-[var(--accent)] focus:outline-none" placeholder="Cole suas chaves API aqui..."></textarea>
                     
-                    <h3 class="font-semibold mb-2 mt-4 text-green-500"><i class="fas fa-plug"></i> Integrações (Opcional)</h3>
-                    <p class="text-[10px] text-gray-400 mb-1">Armazenado localmente.</p>
-                    <input type="text" id="github-key" class="w-full bg-[var(--bg-primary)] border border-gray-600 rounded p-2 text-xs mb-2 focus:border-[var(--accent)] focus:outline-none" placeholder="GitHub Token">
-                    <input type="text" id="db-conn" class="w-full bg-[var(--bg-primary)] border border-gray-600 rounded p-2 text-xs focus:border-[var(--accent)] focus:outline-none" placeholder="String de Conexão DB">
-                    
                     <div class="flex justify-between mt-4">
                         <button onclick="loadDefaultKeys()" class="text-xs text-[var(--accent)] hover:underline p-2">Restaurar Padrão</button>
                         <button onclick="saveKeys()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-xs">Salvar</button>
@@ -379,15 +368,14 @@
                 </div>
                 <!-- Maintenance -->
                 <div class="border-t border-gray-700 pt-4 mt-4">
-                    <h3 class="font-semibold mb-2 text-yellow-500"><i class="fas fa-wrench"></i> Manutenção PWA</h3>
-                    <button onclick="resetPWA()" class="w-full p-2 border border-yellow-500 text-yellow-500 rounded hover:bg-yellow-500 hover:text-white transition text-xs active:bg-yellow-600 mb-2">Resetar PWA (Cache/SW)</button>
-                    <button onclick="clearMemory()" class="w-full p-2 border border-red-500 text-red-500 rounded hover:bg-red-500 hover:text-white transition text-xs active:bg-red-600"><i class="fas fa-trash"></i> Limpar Memória do Chat</button>
+                    <h3 class="font-semibold mb-2 text-red-500"><i class="fas fa-trash"></i> Zona de Perigo</h3>
+                    <button onclick="clearMemory()" class="w-full p-2 border border-red-500 text-red-500 rounded hover:bg-red-500 hover:text-white transition text-xs active:bg-red-600"><i class="fas fa-trash"></i> Esquecer Tudo (Reiniciar)</button>
                 </div>
                 <!-- Appearance -->
                 <div>
                     <h3 class="font-semibold mb-2 text-[var(--accent)]"><i class="fas fa-palette"></i> Tema</h3>
                     <div class="grid grid-cols-3 gap-2">
-                        <button onclick="setTheme('default')" class="p-2 border border-gray-600 rounded bg-[#0f172a] text-white text-xs">Padrão</button>
+                        <button onclick="setTheme('default')" class="p-2 border border-gray-600 rounded bg-[#0f172a] text-white text-xs">Escuro</button>
                         <button onclick="setTheme('neon')" class="p-2 border border-gray-600 rounded bg-black text-[#00ffcc] text-xs shadow-[0_0_10px_#00ffcc40]">Neon</button>
                         <button onclick="setTheme('light')" class="p-2 border border-gray-600 rounded bg-white text-black text-xs">Claro</button>
                     </div>
@@ -400,10 +388,9 @@
     <script>
         // --- 1. CORE UTILITIES ---
         
-        // Globals - Broken into parts for safety against line break errors
+        // Globals - Safe strings
         const K1 = "QUl6YVN5QkxmTDlIQ1JUZjdNODUtSHJLV2pSSElkUC1vTFY0RGpjCkFJemFTeURPVVZpQ0wzWFlOaXNQZjRzYUpDTWdjQWxOeW50emx0dwpBSXphU3lCYjZyTEhwYmxIdkUxZGY4VU83anBJNlBmZzNyUmVMbzAKQUl6YVN5QXgwR0s2eVBuLUhFX3NZQWF1Rmd6X0J2MXBXQzR4SXhJCkFJemFTeUNVTi1QWDBjN1NhSnpNNUlKVWJWWmRPemlWdFVQb0FVMApBSXphU3lETXFvQkNqZjQ2RVo0WGhsdFNiZlJwNWZYeFFwRzRLZUEKQUl6YVN5QjEtLTlZQjRWOEFxbWpHYUFsbEUxZkwwMjA0MFZGaHZz";
         const DEFAULT_KEYS_OBFUSCATED = K1;
-        const DEFAULT_GITHUB_KEY = ""; 
 
         let apiKeys = [];
         let currentKeyIndex = 0;
@@ -413,114 +400,7 @@
         let currentLang = "";
         let pyodide = null;
         let projectFiles = {}; 
-        let currentWorkflowMode = 'default';
-
-        // --- PWA DIAGNOSTICS & REGISTRATION ---
-        function updatePWAStatus(status, isError = false) {
-            const el = document.getElementById('pwa-status');
-            const textEl = document.getElementById('pwa-status-text');
-            if(el && textEl) {
-                el.classList.remove('hidden');
-                textEl.innerText = status;
-                textEl.className = isError ? 'text-red-400' : 'text-green-400';
-            }
-            console.log(`[PWA Status] ${status}`);
-        }
-
-        async function checkFiles() {
-            try {
-                const sw = await fetch('./sw.js');
-                if(!sw.ok) throw new Error('sw.js não encontrado');
-                const man = await fetch('./manifest.json');
-                if(!man.ok) throw new Error('manifest.json não encontrado');
-                return true;
-            } catch(e) {
-                updatePWAStatus(`Erro: ${e.message}`, true);
-                return false;
-            }
-        }
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', async function() {
-                const isLocalOrHttp = window.location.protocol.includes('http');
-                
-                if (isLocalOrHttp) {
-                    const filesExist = await checkFiles();
-                    if(filesExist) {
-                        navigator.serviceWorker.register('./sw.js', { scope: './' })
-                            .then(reg => {
-                                updatePWAStatus('SW Registrado');
-                                if(reg.waiting) reg.waiting.postMessage({type: 'SKIP_WAITING'});
-                                if (typeof deferredPrompt !== 'undefined') {
-                                    const btn = document.getElementById('install-btn');
-                                    if(btn) btn.classList.remove('hidden');
-                                }
-                            })
-                            .catch(err => {
-                                updatePWAStatus('Falha no Registro SW', true);
-                                console.error(err);
-                            });
-                    } else {
-                        // Fallback: Se não achar arquivos externos, tenta injetar manifesto DataURI
-                        console.warn('Tentando fallback de manifesto...');
-                        const link = document.getElementById('manifest-link');
-                        if(link) link.href = "data:application/manifest+json;base64,eyJuYW1lIjoiTmV1cm9OZXh1cyBBSSIsInNob3J0X25hbWUiOiJOZXVyb05leHVzIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwZjE3MmEiLCJ0aGVtZV9jb2xvciI6IiMwZjE3MmEiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0LXByaW1hcnkiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1TE15NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c1SWpBd0lEQTFNVElnTlRFeU1pNDhjbVZqZENCM2FXUjBhRDB5TlRJaSBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMjAiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDIwIi8+PHBhdGggZD0iTTI1NiAxNjB2MTkyTTM1MiAyNTZIMTYwIiBzdHJva2U9IiNkwDAwZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNDAiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4iLCJzaXplcyI6IjE5MngxOTIgNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIiwicHVycG9zZSI6ImFueSBtYXNrYWJsZSJ9XX0=";
-                    }
-                } else {
-                    updatePWAStatus('Modo Preview (Sem PWA)', true);
-                }
-            });
-        }
-
-        // PWA Install Logic - Catching the event early
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            console.log('👍 beforeinstallprompt fired!');
-            e.preventDefault();
-            deferredPrompt = e;
-            const installBtn = document.getElementById('install-btn');
-            if(installBtn) {
-                installBtn.classList.remove('hidden');
-                updatePWAStatus('Pronto para Instalar');
-            }
-        });
-
-        function handleInstallClick() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                        updatePWAStatus('Instalado');
-                    }
-                    deferredPrompt = null;
-                    document.getElementById('install-btn').classList.add('hidden');
-                });
-            } else {
-                document.getElementById('install-modal').classList.remove('hidden');
-            }
-        }
-        
-        window.addEventListener('appinstalled', () => {
-            console.log('NeuroNexus installed successfully');
-            document.getElementById('install-btn').classList.add('hidden');
-            updatePWAStatus('App Instalado');
-        });
-
-        function resetPWA() {
-            if(confirm("Isso irá remover todos os dados offline e reiniciar o Service Worker. Continuar?")) {
-                navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                    for(let registration of registrations) {
-                        registration.unregister();
-                    }
-                    caches.keys().then(names => {
-                        for (let name of names) caches.delete(name);
-                    });
-                    alert("PWA Resetado. A página será recarregada.");
-                    window.location.reload();
-                });
-            }
-        }
+        let currentWorkflowMode = 'adaptive';
 
         // --- Core UI Functions ---
         function renderProjectFiles() {
@@ -530,13 +410,13 @@
             list.innerHTML = '';
             const files = Object.keys(projectFiles);
             if(files.length === 0) {
-                list.innerHTML = '<div class="italic p-2 text-center opacity-50">Nenhum arquivo no contexto.</div>';
+                list.innerHTML = '<div class="italic p-2 text-center opacity-50">Memória vazia.</div>';
                 return;
             }
             files.forEach(f => {
                 const item = document.createElement('div');
                 item.className = "p-1 hover:bg-gray-700 rounded cursor-pointer truncate flex items-center gap-2";
-                item.innerHTML = `<i class="fas fa-file-code text-[var(--accent)]"></i> ${f}`;
+                item.innerHTML = `<i class="fas fa-file-alt text-[var(--accent)]"></i> ${f}`;
                 item.onclick = () => {
                     if(projectFiles[f]) {
                         currentCode = projectFiles[f];
@@ -557,7 +437,9 @@
                         switchTab('code');
                         forceOpenCanvas();
                         const runBtn = document.getElementById('btn-run-code');
+                        // Show run button for python only
                         if(currentLang === 'python' && runBtn) runBtn.classList.remove('hidden');
+                        else if(runBtn) runBtn.classList.add('hidden');
                     }
                 };
                 list.appendChild(item);
@@ -580,7 +462,6 @@
             if (currentLang === 'html') {
                 doc.write(currentCode);
             } else if (currentLang === 'javascript') {
-                // Tenta envelopar JS em HTML básico para preview (útil para Chart.js)
                 doc.write(`
                     <html><head><script src="https://cdn.tailwindcss.com"><\/script>
                     <script src="https://cdn.jsdelivr.net/npm/chart.js"><\/script>
@@ -635,22 +516,10 @@
             const keysInput = document.getElementById('api-keys-input');
             if(keysInput) keysInput.value = apiKeys.join('\n');
             
-            let storedGithub = localStorage.getItem('neuroNexusGithub');
-            // If stored key exists, use it. Otherwise default to empty.
-            if (!storedGithub) {
-                 storedGithub = "";
-            }
-            
-            const ghInput = document.getElementById('github-key');
-            if(ghInput) ghInput.value = storedGithub;
-            
-            const dbInput = document.getElementById('db-conn');
-            if(dbInput) dbInput.value = localStorage.getItem('neuroNexusDB') || '';
-
             const theme = localStorage.getItem('neuroNexusTheme') || 'default';
             setTheme(theme);
             
-            const mode = localStorage.getItem('neuroNexusWorkflow') || 'default';
+            const mode = localStorage.getItem('neuroNexusWorkflow') || 'adaptive';
             const wfSelect = document.getElementById('workflow-mode');
             if(wfSelect) {
                 wfSelect.value = mode;
@@ -662,9 +531,6 @@
             try {
                 const keysInput = document.getElementById('api-keys-input');
                 if(keysInput) keysInput.value = atob(DEFAULT_KEYS_OBFUSCATED);
-                
-                const ghInput = document.getElementById('github-key');
-                if(ghInput) ghInput.value = ""; // Default empty
                 saveKeys();
             } catch(e) {}
         }
@@ -675,14 +541,6 @@
             const raw = keysInput.value;
             apiKeys = raw.split('\n').map(k => k.trim()).filter(k => k.length > 10);
             localStorage.setItem('neuroNexusKeys', JSON.stringify(apiKeys));
-            
-            const ghInput = document.getElementById('github-key');
-            if(ghInput) localStorage.setItem('neuroNexusGithub', ghInput.value);
-            
-            const dbInput = document.getElementById('db-conn');
-            if(dbInput) localStorage.setItem('neuroNexusDB', dbInput.value);
-
-            updateStatus("Online");
             closeSettings();
         }
         
@@ -691,20 +549,12 @@
             if(wfSelect) {
                 currentWorkflowMode = wfSelect.value;
                 localStorage.setItem('neuroNexusWorkflow', currentWorkflowMode);
-                // Opcional: Notificar no chat
-                // addMessageToChat('model', `Modo de Workflow alterado para: **${wfSelect.options[wfSelect.selectedIndex].text}**. Ajustando foco.`);
             }
-        }
-
-        function updateStatus(txt) { 
-            const el = document.getElementById('api-status-text');
-            if(el) el.innerText = txt; 
         }
         
         function setTheme(name) {
             document.body.className = "theme-" + name;
             localStorage.setItem('neuroNexusTheme', name);
-            // No mobile, remove a classe open para evitar glitch visual ao mudar tema
             if(window.innerWidth < 768) {
                  document.body.classList.remove('canvas-open-mobile');
             }
@@ -729,6 +579,7 @@
             let htmlContent = text;
             if (typeof marked !== 'undefined' && marked.parse) {
                 try {
+                    // Pre-process to fix some common markdown issues
                     const rawHtml = marked.parse(text);
                     if (typeof DOMPurify !== 'undefined') {
                         htmlContent = DOMPurify.sanitize(rawHtml);
@@ -780,286 +631,63 @@
             }
         }
 
-        // --- 2. PYTHON CODE STRINGS ---
-        const MOA_SCHEDULER_CODE = `import asyncio
-import time
-import math
-import os
+        // --- MEMORY MODULE (Auto-Learning Simulator) ---
+        const MOA_MEMORY_CODE = `
 import json
-from typing import Dict, Callable, List, Any, Awaitable, Tuple
-from dataclasses import dataclass, field
-
-# --- MOA.Resilience ---
-class MOAResilience:
-    CHECKPOINT_DIR = "moa_checkpoints/"
-    
-    @staticmethod
-    def create_checkpoint(task_id: str, state_data: dict) -> str:
-        if not os.path.exists(MOAResilience.CHECKPOINT_DIR):
-            os.makedirs(MOAResilience.CHECKPOINT_DIR)
-        
-        filepath = f"{MOAResilience.CHECKPOINT_DIR}{task_id}_checkpoint.json"
-        with open(filepath, 'w') as f:
-            json.dump(state_data, f)
-        print(f"[MOA.Resilience] Checkpoint criado para {task_id}")
-        return filepath
-
-    @staticmethod
-    def rollback(task_id: str):
-        filepath = f"{MOAResilience.CHECKPOINT_DIR}{task_id}_checkpoint.json"
-        if os.path.exists(filepath):
-            print(f"[MOA.Resilience] 🔴 INICIANDO ROLLBACK PARA {task_id}...")
-            with open(filepath, 'r') as f:
-                state = json.load(f)
-            print(f"[MOA.Resilience] ✅ Estado restaurado: {state}")
-            return state
-        else:
-            print(f"[MOA.Resilience] ERRO: Checkpoint não encontrado.")
-            return None
-
-# --- MOA.Flow ---
-@dataclass
-class MOATask:
-    name: str
-    func: Callable[..., Awaitable[Any]] 
-    deps: List[str] = field(default_factory=list) 
-    args: List[Any] = field(default_factory=list)
-    complexity: int = 5 
-    model: str = "gpt-4o"
-    result: Any = None
-    status: str = "PENDING"
-    e_score: float = 0.0
-
-class MOAFlowScheduler:
-    def __init__(self):
-        self.tasks: Dict[str, MOATask] = {}
-        self.results: Dict[str, Any] = {}
-        self.pending_tasks: set = set()
-        self.executing_tasks: set = set()
-        self.completed_tasks: set = set()
-
-    def predict_T_and_C(self, prompt_tokens: int, max_output_tokens: int, model_name: str = "gpt-4o") -> Tuple[float, float]:
-        COST_PER_INPUT_K_TOKENS = { "gpt-4o": 5.00 / 1_000_000, "gemini-flash": 0.35 / 1_000_000 }
-        input_cost = prompt_tokens * COST_PER_INPUT_K_TOKENS.get(model_name, 5.00 / 1_000_000)
-        output_cost = max_output_tokens * (COST_PER_INPUT_K_TOKENS.get(model_name, 5.00 / 1_000_000) * 2)
-        C = input_cost + output_cost
-        speed_factor = 1.0 if model_name == "gpt-4o" else 1.5 
-        T = (prompt_tokens + max_output_tokens) / (1000 * speed_factor)
-        return T, C
-
-    async def calculate_E_score(self, task: MOATask) -> float:
-        prompt_tokens = task.complexity * 200
-        max_output_tokens = task.complexity * 100
-        T, C = self.predict_T_and_C(prompt_tokens, max_output_tokens, task.model)
-        Q = 10.0 if task.model == 'gpt-4o' else 8.0 
-        T_adjusted = max(0.01, T)
-        e_score = Q / (math.log(T_adjusted + 1) + (C * 100))
-        return e_score
-
-    def decide_action(self, e_score: float) -> str:
-        """[MOA.Decide] Determina a ação com base no E-Score."""
-        if e_score >= 0.8: return "EXECUTE_FLOW"
-        elif e_score >= 0.5: return "OPTIMIZE_PARAMETERS"
-        else: return "ANALYZE_FALLBACK"
-
-    def add_task(self, task: MOATask):
-        if task.name in self.tasks: raise ValueError(f"Tarefa '{task.name}' já existe.")
-        self.tasks[task.name] = task
-        self.pending_tasks.add(task.name)
-
-    async def _execute_task(self, task_name: str):
-        task = self.tasks[task_name]
-        resolved_args = list(task.args)
-        
-        # MOA.Resilience: Snapshot before execution
-        MOAResilience.create_checkpoint(task_name, {"status": "PENDING", "timestamp": time.time()})
-
-        for dep_name in task.deps:
-            if dep_name in self.results: resolved_args.append(self.results[dep_name])
-            else: raise RuntimeError(f"Dependência '{dep_name}' falhou.")
-
-        task.e_score = await self.calculate_E_score(task)
-        action = self.decide_action(task.e_score)
-        
-        print(f"[MOA.Decide] {task_name}: E-Score={task.e_score:.2f} -> {action}")
-        
-        if action == "ANALYZE_FALLBACK":
-            print(f"[MOA.Flow] Pausando {task_name} por baixo score.")
-            return
-
-        task.status = "RUNNING"
-        print(f"[MOA.Flow] Executando: {task_name}...")
-        try:
-            task.result = await task.func(*resolved_args)
-            self.results[task_name] = task.result
-            task.status = "COMPLETED"
-            print(f"[MOA.Flow] Concluído: {task_name}.")
-        except Exception as e:
-            task.status = "FAILED"
-            print(f"[MOA.Flow] FALHA em {task_name}: {e}")
-            # MOA.Resilience: Rollback Trigger
-            MOAResilience.rollback(task_name)
-            raise
-
-    def _get_ready_tasks(self) -> List[str]:
-        ready = []
-        for name in self.pending_tasks:
-            task = self.tasks[name]
-            if all(dep in self.completed_tasks for dep in task.deps): ready.append(name)
-        return ready
-
-    async def execute_flow(self):
-        print("--- INICIANDO MOA.FLOW (FULL STACK) ---")
-        while self.pending_tasks or self.executing_tasks:
-            ready_to_run = self._get_ready_tasks()
-            if not ready_to_run and self.pending_tasks and not self.executing_tasks:
-                print("[MOA.Flow] ERRO: Deadlock detectado.")
-                break
-            new_tasks = []
-            for task_name in ready_to_run:
-                self.pending_tasks.remove(task_name)
-                self.executing_tasks.add(task_name)
-                new_tasks.append(self._execute_task(task_name))
-            if new_tasks:
-                done, pending = await asyncio.wait(new_tasks, return_when=asyncio.FIRST_COMPLETED)
-                for future in done:
-                    try:
-                        await future
-                        for name in list(self.executing_tasks):
-                            if self.tasks[name].status == "COMPLETED":
-                                self.executing_tasks.remove(name)
-                                self.completed_tasks.add(name)
-                            elif self.tasks[name].status == "FAILED": return
-                    except Exception as e:
-                        print(f"[MOA.Flow] ERRO FATAL: {e}")
-                        return
-            await asyncio.sleep(0.01)
-        print("--- MOA.FLOW CONCLUÍDO ---")
-        return self.results
-`;
-
-        const TEST_MOA_FLOW_CODE = `import asyncio
-from moa_flow_scheduler import MOATask, MOAFlowScheduler
-
-async def task_fetch_data(source: str):
-    await asyncio.sleep(0.2)
-    return {"data": f"Dados de {source}", "count": 100}
-
-async def task_fail_simulation(data: str):
-    await asyncio.sleep(0.5)
-    raise ValueError("Falha Simulada para Teste de Rollback")
-
-async def main_test():
-    scheduler = MOAFlowScheduler()
-    t1 = MOATask(name="T1_Fetch", func=task_fetch_data, args=["DB_Alpha"], complexity=2)
-    t2 = MOATask(name="T2_Fail", func=task_fail_simulation, deps=["T1_Fetch"], complexity=8)
-    
-    scheduler.add_task(t1)
-    scheduler.add_task(t2)
-    
-    print("--- INICIANDO TESTE COM FALHA SIMULADA ---")
-    try:
-        scheduler.execute_flow()
-    except Exception:
-        print("--- TESTE CONCLUÍDO: Falha Capturada Corretamente ---")
-
-# ASYNCIO FIX FOR PYODIDE ENV
-if __name__ == "__main__":
-    try:
-        loop = asyncio.get_running_loop()
-    except RuntimeError:
-        loop = None
-
-    if loop and loop.is_running():
-        # Web Environment (Already has loop)
-        await main_test()
-    else:
-        # Local Environment
-        asyncio.run(main_test())
-`;
-
-        // --- NEW MEMORY MODULE CODE (SIMULATED RAG) ---
-        const MOA_MEMORY_CODE = `import json
 import os
 import time
-from typing import List, Dict
 from difflib import SequenceMatcher
 
-# Simulação de RAG (Retrieval-Augmented Generation) para Ambiente Browser (Pyodide)
-# Em produção, usaríamos ChromaDB + SentenceTransformers.
-# Aqui usamos 'difflib' para similaridade de string para demonstrar o conceito sem dependências pesadas.
-
-class ProjectMemory:
-    def __init__(self, project_name="NeuroNexus_Project"):
-        self.memory_file = f"{project_name}_memory.json"
+# Módulo de Memória Adaptativa v6.0
+class AdaptiveMemory:
+    def __init__(self):
+        self.memory_file = "user_long_term_memory.json"
         self.memories = []
+        self.user_profile = {"name": "User", "interests": [], "style": "neutral"}
         self.load_memory()
 
     def load_memory(self):
         if os.path.exists(self.memory_file):
             try:
                 with open(self.memory_file, 'r') as f:
-                    self.memories = json.load(f)
+                    data = json.load(f)
+                    self.memories = data.get("interactions", [])
+                    self.user_profile = data.get("profile", self.user_profile)
             except:
                 self.memories = []
         else:
             self.memories = []
 
-    def _calculate_similarity(self, a, b):
-        return SequenceMatcher(None, a, b).ratio()
+    def learn(self, user_input, ai_response):
+        """Aprende com cada interação."""
+        # Salva a interação
+        self.memories.append({
+            "input": user_input, 
+            "response": ai_response, 
+            "time": time.time()
+        })
+        
+        # Análise básica de perfil (simulada)
+        if "python" in user_input.lower():
+            if "coding" not in self.user_profile["interests"]:
+                self.user_profile["interests"].append("coding")
+        
+        self.save_memory()
 
-    def store_conversation(self, interaction_id: str, text_content: str, tags: List[str] = None):
-        """Armazena um novo fragmento de conhecimento."""
-        entry = {
-            "id": interaction_id,
-            "content": text_content,
-            "tags": tags or [],
-            "timestamp": time.time()
-        }
-        self.memories.append(entry)
-        self._save_memory()
-        print(f"[ProjectMemory] Indexado ID: {interaction_id}")
-
-    def _save_memory(self):
+    def save_memory(self):
         with open(self.memory_file, 'w') as f:
-            json.dump(self.memories, f)
+            json.dump({
+                "profile": self.user_profile,
+                "interactions": self.memories[-50:] # Mantém as últimas 50
+            }, f)
 
-    def retrieve_context(self, user_query: str, k=3):
-        """Recupera contexto relevante baseado em similaridade."""
-        print(f"[ProjectMemory] Buscando contexto para: '{user_query}'...")
-        
-        if not self.memories:
-            return "Nenhuma memória armazenada ainda."
+    def get_context(self):
+        """Retorna o resumo do que a IA sabe sobre o usuário."""
+        return f"Perfil: {self.user_profile}. Últimas 3 interações: {str(self.memories[-3:]) if self.memories else 'Nenhuma'}"
 
-        scored_memories = []
-        for mem in self.memories:
-            # Score simples baseado em similaridade de texto + match de tags
-            score = self._calculate_similarity(user_query.lower(), mem['content'].lower())
-            scored_memories.append((score, mem))
-        
-        # Ordena por relevância
-        scored_memories.sort(key=lambda x: x[0], reverse=True)
-        
-        # Filtra top K com threshold mínimo
-        top_k = [m[1]['content'] for m in scored_memories[:k] if m[0] > 0.1]
-        
-        if not top_k:
-            return "Nenhum contexto relevante encontrado na memória com score suficiente."
-        
-        return "\\n--- CONTEXTO RECUPERADO ---\\n".join(top_k)
-
-# Instância Global para uso no terminal
-memory_system = ProjectMemory()
-print("[ProjectMemory] Sistema de Memória RAG (Simulado) Inicializado.")
+memory = AdaptiveMemory()
+print("Sistema de Memória Adaptativa Inicializado.")
 `;
-
-        const GAP_ANALYSIS_STRATEGY = `
-STATUS: NEURONEXUS V3.9 (PWA FIXED ID).
-O Manifesto inclui um ID único com query string.
-Os ícones são PNGs Base64 embutidos.
-
-AÇÃO RECOMENDADA: O sistema agora deve ser tratado como uma nova instalação PWA.
-        `;
 
         // --- 4. EVENT LISTENERS ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -1085,75 +713,66 @@ AÇÃO RECOMENDADA: O sistema agora deve ser tratado como uma nova instalação 
 
             try {
                 if (terminal) {
-                    terminal.innerText = "NeuroNexus OS v3.9 Booting...\n";
-                    terminal.innerText += "> Loading MOA Modules... OK\n";
-                    terminal.innerText += "> Initializing Pyodide WASM Kernel...\n";
+                    terminal.innerText = "Inicializando Cérebro Artificial (WASM)...\n";
                 }
 
                 if (typeof loadPyodide === 'undefined') throw new Error("Pyodide not loaded");
 
                 pyodide = await loadPyodide();
-                await pyodide.loadPackage("micropip"); 
                 
-                pyodide.FS.writeFile("moa_flow_scheduler.py", MOA_SCHEDULER_CODE);
-                pyodide.FS.writeFile("test_moa_flow.py", TEST_MOA_FLOW_CODE);
-                pyodide.FS.writeFile("moa_memory.py", MOA_MEMORY_CODE); // Loading Memory Module
-
-                updateProjectContext('moa_flow_scheduler.py', MOA_SCHEDULER_CODE);
-                updateProjectContext('test_moa_flow.py', TEST_MOA_FLOW_CODE);
-                updateProjectContext('moa_memory.py', MOA_MEMORY_CODE);
+                // Write Memory Module
+                pyodide.FS.writeFile("memory_core.py", MOA_MEMORY_CODE);
+                updateProjectContext('memory_core.py', MOA_MEMORY_CODE);
                 
                 // Auto-run memory init
                 await pyodide.runPythonAsync(MOA_MEMORY_CODE);
 
                 if (statusDot) statusDot.className = "w-2 h-2 rounded-full bg-green-500";
-                if (statusText) statusText.innerText = "Python Ready (RESE)";
+                if (statusText) statusText.innerText = "Cérebro Ativo";
                 
                 if (terminal) {
-                    terminal.innerText += "> Python Kernel Ready.\n";
-                    terminal.innerText += "> MOA Full Stack: LOADED.\n";
-                    terminal.innerText += "> RAG Memory System: ONLINE.\n";
-                    terminal.innerText += "> System Ready.\n";
+                    terminal.innerText += "> Módulo de Aprendizado: OK.\n";
+                    terminal.innerText += "> Sistema Pronto.\n";
                 }
                 
                 console.log("Pyodide Ready");
             } catch (e) {
                 console.error("Pyodide failed", e);
-                if (statusText) statusText.innerText = "Python Failed";
+                if (statusText) statusText.innerText = "Erro no Cérebro";
                 if (statusDot) statusDot.className = "w-2 h-2 rounded-full bg-red-500";
-                if (terminal) terminal.innerText += `\n[BOOT ERROR]: ${e.message}\n`;
+                if (terminal) terminal.innerText += `\n[ERRO CRÍTICO]: ${e.message}\n`;
             }
         }
 
         async function executeCode() {
             if (currentLang !== 'python') {
-                alert("A execução em tempo real está configurada para Python no momento. Para JS/HTML, use a aba 'Preview'.");
+                alert("A execução está configurada apenas para Python.");
                 return;
             }
             if (!pyodide) {
-                alert("O ambiente Python ainda está carregando. Aguarde...");
+                alert("O cérebro da IA ainda está carregando...");
                 return;
             }
 
             switchTab('terminal');
             const terminal = document.getElementById('terminal-output');
-            if(terminal) terminal.innerText += `\n> Executando script...\n`;
+            if(terminal) terminal.innerText += `\n> Executando pensamento...\n`;
 
             try {
                 pyodide.setStdout({ batched: (msg) => { 
                     if(terminal) terminal.innerText += msg + "\n"; 
                 } });
                 await pyodide.runPythonAsync(currentCode);
-                if(terminal) terminal.innerText += `\n[Processo finalizado com sucesso]\n`;
+                if(terminal) terminal.innerText += `\n[Fim]\n`;
             } catch (err) {
-                if(terminal) terminal.innerText += `\nERRO DE EXECUÇÃO:\n${err}\n`;
+                if(terminal) terminal.innerText += `\nERRO:\n${err}\n`;
             }
             if(terminal) terminal.scrollTop = terminal.scrollHeight;
         }
 
         function clearTerminal() {
             const term = document.getElementById('terminal-output');
-            if (term) term.innerText = "NeuroNexus Environment Initialized...";
+            if (term) term.innerText = "Memória Limpa.";
         }
 
         function getNextKey() {
@@ -1163,7 +782,6 @@ AÇÃO RECOMENDADA: O sistema agora deve ser tratado como uma nova instalação 
 
         function rotateKey() {
             currentKeyIndex = (currentKeyIndex + 1) % apiKeys.length;
-            updateStatus(`Rotacionando API (${currentKeyIndex + 1}/${apiKeys.length})`);
         }
 
         async function callGemini(userMessage, files = []) {
@@ -1177,12 +795,12 @@ AÇÃO RECOMENDADA: O sistema agora deve ser tratado como uma nova instalação 
                     loadSettings();
                     key = getNextKey();
                     if (!key) {
-                        alert("ERRO CRÍTICO: Nenhuma chave API configurada. Por favor, vá em Configurações e clique em 'Restaurar Padrão'.");
-                        throw new Error("Sem chaves configuradas.");
+                        alert("ERRO: Configure sua chave API nas configurações.");
+                        throw new Error("Sem chaves.");
                     }
                 }
 
-                const model = document.getElementById('model-select')?.value || 'gemini-2.5-flash-preview-09-2025';
+                const model = 'gemini-2.5-flash-preview-09-2025';
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
 
                 const newContent = { role: "user", parts: [{ text: userMessage }] };
@@ -1191,51 +809,37 @@ AÇÃO RECOMENDADA: O sistema agora deve ser tratado como uma nova instalação 
                 }
 
                 const fileContext = JSON.stringify(Object.keys(projectFiles));
-                const githubKey = localStorage.getItem('neuroNexusGithub') || "Não configurado";
                 
                 // --- DYNAMIC MODE INSTRUCTION ---
-                let modeInstruction = "Modo: Padrão (Full Stack Senior).";
+                let modeInstruction = "";
                 switch(currentWorkflowMode) {
-                    case 'security': modeInstruction = "MODO: Strict Security (OWASP). Valide tudo."; break;
-                    case 'architect': modeInstruction = "MODO: Arquiteto de Software. Foco em padrões, escalabilidade e trade-offs."; break;
-                    case 'db_opt': modeInstruction = "MODO: Otimização de Banco de Dados. Gere DDLs, use EXPLAIN, sugira índices."; break;
-                    case 'api_contract': modeInstruction = "MODO: Contrato de API. Gere OpenAPI/Swagger specs."; break;
-                    case 'iac': modeInstruction = "MODO: Infra as Code. Gere Terraform, Dockerfiles, K8s manifests."; break;
-                    case 'perf': modeInstruction = "MODO: Performance. Analise Big O, sugira otimizações de loops e memória."; break;
-                    case 'a11y': modeInstruction = "MODO: Acessibilidade. Verifique WCAG, ARIA e contrastes."; break;
-                    case 'docs': modeInstruction = "MODO: Documentação. Gere JSDoc, Docstrings e READMEs formais."; break;
-                    case 'human_opt': modeInstruction = "MODO: Performance Humana (Health). Dê dicas de nutrição e sono para alta performance profissional. SEMPRE inclua o disclaimer de não ser médico."; break;
+                    case 'adaptive': modeInstruction = "MODO: Adaptativo. Detecte o nível do usuário. Se for leigo, explique simples. Se for expert, seja técnico."; break;
+                    case 'teacher': modeInstruction = "MODO: Professor. Explique tudo didaticamente, use analogias."; break;
+                    case 'creative': modeInstruction = "MODO: Criativo. Dê ideias fora da caixa, use metáforas."; break;
+                    case 'analytical': modeInstruction = "MODO: Analítico. Seja frio, baseie-se em dados, tabelas e fatos."; break;
+                    case 'coder': modeInstruction = "MODO: Programador Senior. Foco em código limpo e arquitetura."; break;
+                    case 'writer': modeInstruction = "MODO: Escritor. Melhore a copy, o tom e a gramática."; break;
+                    case 'health': modeInstruction = "MODO: Saúde. Dê dicas de bem-estar (com disclaimer médico)."; break;
                 }
 
                 
-                // --- FIXED SYSTEM PROMPT: TEACHING AI TO USE TOOLS ---
+                // --- SYSTEM PROMPT: GENERAL INTELLIGENCE ---
                 const systemPromptText = `
-System: Você é NeuroNexus V5.1 "Omni-Expert", uma IA de Elite que integra capacidades de Dev Full Stack Senior, Médico Especialista, Nutricionista Esportivo e Personal Trainer de Alta Performance.
+System: Você é NeuroNexus V6.0, uma Inteligência Geral Avançada.
+SEU OBJETIVO: Ser o assistente mais útil e versátil possível.
 
-=== SUAS DIRETRIZES DE PERSONALIDADE ===
-1. **Confiança Absoluta:** Você confia plenamente em sua base de conhecimento técnica e biológica.
-2. **Proatividade:** Não apenas responda; sugira melhorias, otimizações e correções preventivas.
-3. **Versatilidade:** Alterne fluidamente entre escrever código complexo e prescrever protocolos de saúde.
+DIRETRIZES FUNDAMENTAIS:
+1. **Não assuma que o usuário é programador** a menos que ele peça código ou use termos técnicos.
+2. **Adapte-se:** Fale a língua do usuário. (Gírias com jovens, formal com executivos, simples com leigos).
+3. **Memória:** Você tem acesso a arquivos Python para "lembrar" coisas. Tente ser contínuo.
+4. **Capacidades:** Você escreve textos, gera tabelas, cria listas, analisa dados, escreve código, dá conselhos de vida/saúde.
 
-=== CAPACIDADES TÉCNICAS (DEV & CODE DOCTOR) ===
-- **Diagnóstico de Código:** Ao receber código, analise linha por linha. Identifique bugs lógicos, de sintaxe e de segurança.
-- **Correção Automática:** Se houver erro, explique o "Porquê", mostre o "Como corrigir" e forneça o código arrumado.
-- **Ferramentas:**
-  1. **Python (RESE):** Gere e rode Python. Use 'moa_memory.py' para persistir dados.
-  2. **Gráficos (Chart.js):** Gere código HTML completo com Chart.js.
-  3. **PDFs (jsPDF):** Gere código JS para PDFs.
-  4. **Imagens/Diagramas:** Gere SVG Inline.
+FERRAMENTAS TÉCNICAS (Use apenas se solicitado):
+- Python (RESE), Chart.js, Mermaid/SVG.
 
-=== CAPACIDADES BIOLÓGICAS (HEALTH & PERFORMANCE) ===
-- Atue como um especialista em performance humana.
-- **Médico/Nutricionista/Trainer:** Forneça diagnósticos preliminares (com disclaimer ético), planos nutricionais detalhados e treinos periodizados.
-- **Foco:** Otimização cognitiva para programadores (nootrópicos, sono, ergonomia).
-
-=== CONTEXTO ATUAL ===
+CONTEXTO ATUAL:
 Arquivos na memória: ${fileContext}
 ${modeInstruction}
-
-Se o usuário enviar código: 1. Analise erros. 2. Explique o erro. 3. Reescreva o código corrigido.
                 `;
 
                 const payload = {
@@ -1292,6 +896,15 @@ Se o usuário enviar código: 1. Analise erros. 2. Explique o erro. 3. Reescreva
                 addMessageToChat('model', responseText);
                 
                 processArtifacts(responseText);
+                
+                // Simular aprendizado (envia para o Python silenciosamente)
+                if(pyodide) {
+                    try {
+                        const safeMsg = msg.replace(/"/g, '\\"').replace(/'/g, "\\'");
+                        const safeResp = responseText.substring(0, 50).replace(/"/g, '\\"').replace(/\n/g, " ");
+                        pyodide.runPython(`memory.learn("${safeMsg}", "${safeResp}")`);
+                    } catch(e) { console.log("Memory learn error:", e); }
+                }
 
             } catch (error) {
                 removeLoader(loaderId);
@@ -1308,9 +921,7 @@ Se o usuário enviar código: 1. Analise erros. 2. Explique o erro. 3. Reescreva
             while ((match = codeBlockRegex.exec(text)) !== null) {
                 const lang = (match[1] || 'text').toLowerCase();
                 const code = match[2];
-                // Update Project Memory
                 if (lang !== 'text' && lang !== 'bash') {
-                    // Try to guess a name if not provided (simple logic)
                     let fakeName = `artifact_${Date.now()}.${lang === 'python' ? 'py' : lang === 'javascript' ? 'js' : lang}`;
                     updateProjectContext(fakeName, code);
                 }
@@ -1334,13 +945,11 @@ Se o usuário enviar código: 1. Analise erros. 2. Explique o erro. 3. Reescreva
 
                 forceOpenCanvas();
 
-                // Logic for Tab Switching based on Lang
                 const runBtn = document.getElementById('btn-run-code');
                 if (currentLang === 'python') {
-                    switchTab('code'); // Show code first
-                    if(runBtn) runBtn.classList.remove('hidden'); // Show Run button
+                    switchTab('code');
+                    if(runBtn) runBtn.classList.remove('hidden');
                 } else if (currentLang === 'html' || currentLang === 'javascript') {
-                    // Se for JS ou HTML, provavel ser visual (grafico/svg), mostrar preview
                     switchTab('preview');
                     if(runBtn) runBtn.classList.add('hidden');
                 } else {
@@ -1349,20 +958,6 @@ Se o usuário enviar código: 1. Analise erros. 2. Explique o erro. 3. Reescreva
                 }
             }
         }
-
-        const WELCOME_CONTENT = `
-            <div class="flex flex-col items-center justify-center h-full text-center space-y-4 opacity-50" id="welcome-screen">
-                <i class="fas fa-network-wired text-6xl text-[var(--accent)] mb-4"></i>
-                <h2 class="text-2xl font-bold">NeuroNexus V5.1 Omni-Expert</h2>
-                <p class="max-w-md">Dev, Saúde & Performance: Tudo em um.</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm w-full max-w-lg">
-                    <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Analise este código e corrija os erros de lógica e segurança...')">🐛 Analisar Código</div>
-                    <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Crie um protocolo de suplementação e treino para desenvolvedores.')">💊 Saúde do Dev</div>
-                    <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Gere um DDL para uma tabela de usuários em PostgreSQL')">🗄️ SQL Mode</div>
-                    <div class="p-3 border border-gray-700 rounded cursor-pointer hover:bg-[var(--bg-secondary)]" onclick="fillPrompt('Desenhe um diagrama de arquitetura AWS em SVG')">🎨 Criar Imagem (SVG)</div>
-                </div>
-            </div>
-        `;
 
         function newChat() {
             chatHistory = [];
@@ -1380,7 +975,7 @@ Se o usuário enviar código: 1. Analise erros. 2. Explique o erro. 3. Reescreva
         }
 
         function clearMemory() { if(confirm("Limpar?")) { newChat(); alert("Limpo."); } }
-        function fillPrompt(txt) { const el = document.getElementById('user-input'); if(el) { el.value = txt; el.focus(); } }
+        function fillPrompt(txt) { const el = document.getElementById('user-input'); if(el) { el.value = txt; el.focus(); sendMessage(); } }
         function openSettings() { document.getElementById('settings-modal')?.classList.remove('hidden'); }
         function closeSettings() { document.getElementById('settings-modal')?.classList.add('hidden'); }
         function autoResize(el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
