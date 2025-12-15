@@ -1,12 +1,12 @@
 {
-    "name": "NexusIA App",
-    "short_name": "NexusIA",
-    "description": "Seu PWA de alta performance.",
+    "name": "Meu PWA Básico",
+    "short_name": "PWA Básico",
+    "description": "App minimalista.",
     "start_url": "/",
     "scope": "/",
-    "display": "standalone", 
-    "background_color": "#1f2937",
-    "theme_color": "#3b82f6",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
     "icons": [
         {
             "src": "/icons/icon-192x192.png",
@@ -17,12 +17,6 @@
             "src": "/icons/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
-        },
-        {
-            "src": "/icons/icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "maskable" 
         }
     ]
 }
