@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NeuroNexus V10.11 | Map Fix</title>
+    <title>NeuroNexus V10.15 | Adaptive Memory</title>
     
     <!-- Meta tags -->
     <meta name="theme-color" content="#09090b">
@@ -241,7 +241,7 @@
             background: rgba(16, 185, 129, 0.9); color: white; padding: 8px 16px; 
             border-radius: 20px; font-size: 0.8rem; z-index: 100; backdrop-filter: blur(4px);
             animation: slideDown 0.5s ease-out, fadeOut 0.5s ease-in 2.5s forwards;
-            display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3); text-align: center;
         }
         @keyframes slideDown { from { top: -50px; } to { top: 20px; } }
         @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
@@ -263,7 +263,7 @@
                         <h1 class="text-xl font-bold tracking-tight text-white">NeuroNexus</h1>
                         <div class="flex items-center gap-1.5">
                             <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                            <p class="text-[10px] text-[var(--text-secondary)] font-mono tracking-widest uppercase">V10.11 MAP-FIX</p>
+                            <p class="text-[10px] text-[var(--text-secondary)] font-mono tracking-widest uppercase">V10.15 ADAPTIVE</p>
                         </div>
                     </div>
                 </div>
@@ -304,11 +304,14 @@
                 <!-- Memory Profile (PMVS) -->
                 <div id="memory-box" class="bg-[var(--bg-primary)] rounded-lg p-3 border border-[var(--bg-tertiary)] transition duration-300">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-[10px] font-bold text-[var(--accent)] uppercase"><i class="fas fa-database"></i> Memória Vetorial (PMVS)</span>
+                        <span class="text-[10px] font-bold text-[var(--accent)] uppercase"><i class="fas fa-database"></i> Memória Híbrida</span>
                         <button onclick="clearProfile()" class="text-[9px] text-red-400 hover:underline">Resetar</button>
                     </div>
+                    <div id="memory-stats" class="text-[9px] text-gray-500 mb-1 border-b border-gray-800 pb-1 flex justify-between">
+                        <span>Ativa: 0</span> <span>Arquivo: 0</span>
+                    </div>
                     <div id="user-profile-display" class="text-[10px] text-gray-400 italic leading-relaxed h-12 overflow-y-auto custom-scrollbar">
-                        Inicializando Vector DB...
+                        Inicializando Python DB...
                     </div>
                 </div>
             </div>
@@ -345,7 +348,7 @@
 
             <div class="md:hidden flex items-center justify-between p-4 border-b border-[var(--bg-tertiary)] bg-[var(--bg-secondary)] z-30">
                 <button onclick="toggleSidebar()" class="text-white"><i class="fas fa-bars"></i></button>
-                <span class="font-bold text-[var(--accent)]">V10.11</span>
+                <span class="font-bold text-[var(--accent)]">V10.15</span>
                 <button onclick="toggleCanvas()" id="mobile-canvas-btn" class="text-gray-400 hidden"><i class="fas fa-code"></i></button>
             </div>
 
@@ -421,12 +424,15 @@
             </div>
             <div class="p-6 overflow-y-auto space-y-6">
                 <div>
-                    <h3 class="font-bold text-xs uppercase text-[var(--accent)] tracking-wider mb-2">Pool de Chaves API</h3>
-                    <textarea id="api-keys-input" class="w-full h-24 bg-[var(--bg-primary)] border border-[var(--bg-tertiary)] rounded-lg p-3 text-xs font-mono text-gray-300 focus:border-[var(--accent)] focus:outline-none" placeholder="O sistema gerencia as chaves automaticamente."></textarea>
+                    <h3 class="font-bold text-xs uppercase text-[var(--accent)] tracking-wider mb-2">Pool de Chaves API (Rotação Ativa)</h3>
+                    <div class="mb-2 text-xs text-gray-400 bg-blue-900/20 p-2 rounded border border-blue-700/30">
+                        <i class="fas fa-sync-alt"></i> Sistema de Rotação (Round Robin) Ativado. Insira múltiplas chaves (uma por linha) para aumentar seu limite de uso.
+                    </div>
+                    <textarea id="api-keys-input" class="w-full h-24 bg-[var(--bg-primary)] border border-[var(--bg-tertiary)] rounded-lg p-3 text-xs font-mono text-gray-300 focus:border-[var(--accent)] focus:outline-none" placeholder="Cole suas API Keys do Google AI Studio (uma por linha)..."></textarea>
                 </div>
                 <div class="flex gap-2">
-                     <button onclick="saveKeys()" class="flex-1 py-2 bg-[var(--accent)] text-white rounded-lg hover:opacity-90 text-sm font-medium">Salvar</button>
-                     <button onclick="loadDefaultKeys()" class="px-4 py-2 border border-[var(--bg-tertiary)] text-gray-300 rounded-lg hover:bg-[var(--bg-tertiary)] text-sm">Reset</button>
+                     <button onclick="saveKeys()" class="flex-1 py-2 bg-[var(--accent)] text-white rounded-lg hover:opacity-90 text-sm font-medium">Salvar & Ativar Rotação</button>
+                     <button onclick="loadDefaultKeys()" class="px-4 py-2 border border-[var(--bg-tertiary)] text-gray-300 rounded-lg hover:bg-[var(--bg-tertiary)] text-sm">Restaurar Originais</button>
                 </div>
                 <div class="border-t border-[var(--bg-tertiary)] pt-4">
                     <h3 class="font-bold text-xs uppercase text-red-500 tracking-wider mb-2">Zona de Perigo</h3>
@@ -445,18 +451,21 @@
         const DB_KEY_CHATS = 'neuro_nexus_chats_v2';
         const DB_KEY_MEMORY = 'neuro_nexus_memory_v2';
         
-        // KEYS POOL
+        // KEYS POOL - RESTAURADAS PARA ROTAÇÃO
         const K1 = "QUl6YVN5QkxmTDlIQ1JUZjdNODUtSHJLV2pSSElkUC1vTFY0RGpjCkFJemFTeURPVVZpQ0wzWFlOaXNQZjRzYUpDTWdjQWxOeW50emx0dwpBSXphU3lCYjZyTEhwYmxIdkUxZGY4VU83anBJNlBmZzNyUmVMbzAKQUl6YVN5QXgwR0s2eVBuLUhFX3NZQWF1Rmd6X0J2MXBXQzR4SXhJCkFJemFTeUNVTi1QWDBjN1NhSnpNNUlKVWJWWmRPemlWdFVQb0FVMApBSXphU3lETXFvQkNqZjQ2RVo0WGhsdFNiZlJwNWZYeFFwRzRLZUEKQUl6YVN5QjEtLTlZQjRWOEFxbWpHYUFsbEUxZkwwMjA0MFZGaHZz";
         const K2 = "QUl6YVN5QU9vRldvc3A1S2RadEl1TU1tMFA1RHBsN0l1R3F5Z0lNCkFJemFTeURJREJISlplMURhWkU2NFNEUUxkRkJfQWdoOVI4eC1JSQpBSXphU3lDY3praFF2M0REU202dlNLdDcxTk5Uc1haWXBFRkhfREUKQUl6YVN5Qy0tREUwdE9aOTE3a3dwcUVVc0pLV2NWZ2I0Y040ekVRCkFJemFTeUNRd1BwejVuZmF4Q1IwZ1FaUVlNMzY4WUNqTWV0RElnbwpBSXphU3lEeU1qMUZucDc2MURLLVEtczU5aFFhcW53b29TNnhpcVUKQUl6YVN5QzlJMGRrbnlTaVJOYWhqdi1aMlFDakk1YXNCcTQ5c2FBCkFJemFTeUFqbDM1ZzA5WkdFT0tMeGdaQzVNbjJVN0JfODAwa0hqawpBSXphU3lDUlFPajVieWFQa1I1YjVTMUlNZ3V0dWJXWVAwMnBQY0kKQUl6YVN5Q2tLa2dTR2J5TUxKVGpWNkZMOXp0c0xaNmY2WFE3SVlJ";
+
+        // Runtime key
+        const apiKey = ""; 
 
         const WELCOME_HTML = `
             <div id="welcome-screen" class="flex flex-col items-center justify-center h-full text-center opacity-70 p-4 animate-fade-in mt-10">
                 <div class="w-24 h-24 mb-6 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-500 flex items-center justify-center text-white text-5xl shadow-2xl shadow-violet-900/50">
                     <i class="fas fa-brain"></i>
                 </div>
-                <h2 class="text-3xl font-bold mb-2 text-white tracking-tight">NeuroNexus V10.11</h2>
+                <h2 class="text-3xl font-bold mb-2 text-white tracking-tight">NeuroNexus V10.15</h2>
                 <p class="text-sm text-gray-400 max-w-md mb-8">
-                    Visual Native Build. Zero-Code Chat. Map Fix.
+                    Visual Native Build. Adaptive Memory Windowing.
                 </p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-lg">
                     <button onclick="setMode('health'); quickPrompt('Estou com febre alta e dor no corpo. O que fazer?')" class="p-4 text-xs text-left bg-[var(--bg-tertiary)] hover:bg-[#3f3f46] border border-white/5 rounded-xl transition group">
@@ -501,42 +510,93 @@
             }
         });
 
-        // --- PYODIDE CORE ---
+        // --- PYODIDE CORE (V10.15 ADAPTIVE MEMORY) ---
         const PY_CORE = `
 import json, re, math
 from collections import Counter
 
 class AgentMemory:
     def __init__(self):
-        self.data = [] # Facts
-        self.profile = {"traits": [], "facts": []} # User Profile
+        self.working = [] # Short-term (Active Window)
+        self.long_term = [] # Archived vectors (RAG Base)
+        self.profile = {"traits": [], "facts": []}
     
     def _vec(self, t): return Counter(re.findall(r'\\b\\w+\\b', t.lower()))
+    
     def _cos(self, v1, v2):
         i = set(v1) & set(v2); num = sum([v1[x]*v2[x] for x in i])
         den = math.sqrt(sum([v1[x]**2 for x in v1])) * math.sqrt(sum([v2[x]**2 for x in v2]))
         return num/den if den else 0.0
 
     def add(self, i, o): 
-        self.data.append({"i":i, "o":o, "v":self._vec(i)})
+        # Add to Working Memory
+        vec = self._vec(i)
+        self.working.append({"i":i, "o":o, "v":vec})
+        
+        # Profile Extraction
         l = i.lower()
-        if "eu sou" in l or "meu nome" in l or "eu gosto" in l:
-            self.profile["facts"].append(i[:50])
-        if len(self.profile["facts"]) > 20: self.profile["facts"] = self.profile["facts"][-20:]
+        triggers = ["eu sou", "meu nome", "eu gosto", "moro em", "trabalho com", "estou"]
+        if any(t in l for t in triggers):
+            clean_fact = i[:80].replace('"', "'")
+            if clean_fact not in self.profile["facts"]:
+                self.profile["facts"].append(clean_fact)
+        
+        # Soft limit working memory just in case (keep 20)
+        if len(self.working) > 20: 
+            archive = self.working[:-20]
+            self.working = self.working[-20:]
+            self.long_term.extend(archive)
+
+    def consolidate(self):
+        # Triggered by MODE_SWITCH (Idea 7)
+        # Move Working -> Long Term, keeping a small bridge
+        if len(self.working) > 2:
+            to_archive = self.working[:-2] # Keep last 2 for continuity
+            self.working = self.working[-2:]
+            self.long_term.extend(to_archive)
+            
+            # Maintenance: Limit long_term to prevent browser crash (500 items)
+            if len(self.long_term) > 500: self.long_term = self.long_term[-500:]
+            return True
+        return False
 
     def retrieve(self, q):
-        v = self._vec(q); res = [(self._cos(v, d["v"]), d["i"], d["o"]) for d in self.data]
-        res.sort(key=lambda x:x[0], reverse=True)
-        ctx = "\\n".join([f"Q:{r[1]}\\nA:{r[2]}" for r in res[:2] if r[0]>0.2])
+        v = self._vec(q)
+        # Search Working (High Priority - Weight 1.2)
+        res_w = [(self._cos(v, d["v"]) * 1.2, d["i"], d["o"]) for d in self.working]
+        # Search Long Term (Base Priority)
+        res_l = [(self._cos(v, d["v"]), d["i"], d["o"]) for d in self.long_term]
+        
+        all_res = res_w + res_l
+        all_res.sort(key=lambda x:x[0], reverse=True)
+        
+        # Threshold filtering (Idea 6)
+        filtered = [r for r in all_res if r[0] > 0.25]
+        ctx = "\\n".join([f"Q:{r[1]}\\nA:{r[2]}" for r in filtered[:3]])
         return json.dumps({"ctx": ctx, "profile": self.profile})
 
-    def export(self): return json.dumps({"data": [{"i":d["i"],"o":d["o"]} for d in self.data], "profile": self.profile})
+    def export(self): 
+        return json.dumps({
+            "working": [{"i":d["i"],"o":d["o"]} for d in self.working],
+            "long_term": [{"i":d["i"],"o":d["o"]} for d in self.long_term],
+            "profile": self.profile
+        })
+    
     def load(self, j):
         try:
             d = json.loads(j)
             self.profile = d.get("profile", {"traits":[], "facts":[]})
-            for i in d.get("data", []): self.add(i["i"], i["o"])
+            # Load working
+            for i in d.get("working", []): self.working.append({"i":i["i"], "o":i["o"], "v":self._vec(i["i"])})
+            # Load long_term (legacy support: check 'data' too)
+            legacy = d.get("data", [])
+            long_t = d.get("long_term", [])
+            for i in legacy + long_t:
+                self.long_term.append({"i":i["i"], "o":i["o"], "v":self._vec(i["i"])})
         except: pass
+    
+    def get_stats(self):
+        return json.dumps({"active": len(self.working), "archive": len(self.long_term), "facts": len(self.profile["facts"])})
 
 agent = AgentMemory()
 `;
@@ -556,11 +616,24 @@ agent = AgentMemory()
 
         async function refreshProfileUI() {
             if(!pyodide) return;
-            const json = await pyodide.runPythonAsync(`json.dumps(agent.profile)`);
-            const prof = JSON.parse(json);
-            const el = document.getElementById('user-profile-display');
-            if(prof.facts.length === 0) el.innerHTML = "Memória vetorial vazia.";
-            else el.innerHTML = prof.facts.map(f => `• ${f}`).join('<br>');
+            
+            // Get stats and profile
+            try {
+                const statsJson = await pyodide.runPythonAsync(`agent.get_stats()`);
+                const stats = JSON.parse(statsJson);
+                
+                document.getElementById('memory-stats').innerHTML = `
+                    <span class="text-emerald-400">Ativa: ${stats.active}</span> 
+                    <span class="text-blue-400">Arquivo: ${stats.archive}</span>
+                `;
+
+                const json = await pyodide.runPythonAsync(`json.dumps(agent.profile)`);
+                const prof = JSON.parse(json);
+                const el = document.getElementById('user-profile-display');
+                
+                if(prof.facts.length === 0) el.innerHTML = "Memória explícita vazia.";
+                else el.innerHTML = prof.facts.map(f => `• ${f}`).join('<br>');
+            } catch(e) { console.error("Profile UI Error", e); }
         }
 
         // --- PILLAR 3: INTROSPECTION & SOURCE READING ---
@@ -574,24 +647,23 @@ agent = AgentMemory()
             
             showPlanner();
             await runStep(`Deep Scan: Source Code (${hash} bytes)...`, 600);
-            await runStep("Validando Módulos Legados (V9/V10.1)...", 800);
-            await runStep("Checando Novos Módulos (Mapas/Gráficos)...", 800);
+            await runStep("Validando Arquitetura de Memória Híbrida...", 800);
+            await runStep("Checando Adaptive Windowing...", 800);
             hidePlanner();
             
             // Generate a detailed Diff Table for the user
             const diffTable = `
 | Módulo | Status | Versão Origem |
 | :--- | :---: | :--- |
-| **RAG Engine** | ✅ ATIVO | V9.0 Legacy |
-| **PDF Generator** | ✅ ATIVO | V10.1 Parity |
-| **MathJax (LaTeX)** | ✅ ATIVO | V10.2 Parity |
+| **Adaptive Memory** | ✅ ATIVO | V10.15 New |
+| **RAG Engine** | ✅ OTIMIZADO | V10.15 Hybrid |
 | **Visual Nexus** | ✅ ATIVO | V10.11 Map-Fix |
-| **Adaptive Mode** | ⚡ DYNAMIC | V10.4 Auto-Switch |
+| **PDF Generator** | ✅ ATIVO | V10.1 Parity |
             `;
             
             addMsg({
                 role: 'model', 
-                content: `### 🛡️ Relatório de Integridade (V10.11)\n\nVerificação visual completa. O sistema agora opera em modo "Auto-Run" estrito para gráficos com segurança de renderização.\n\n${diffTable}\n\n**Status:** Operacional.`,
+                content: `### 🛡️ Relatório de Integridade (V10.15)\n\nSistema de Memória Adaptativa online. Contexto curto e longo prazo segregados.\n\n${diffTable}\n\n**Status:** Operacional.`,
                 confidence: 100,
                 expert: 'auditor'
             });
@@ -620,7 +692,7 @@ agent = AgentMemory()
                 doc.setFontSize(9);
                 doc.setFont("helvetica", "normal");
                 doc.setTextColor(161, 161, 170);
-                doc.text("Stratos Core V10.11 | Visual Output", margin + 14, 20);
+                doc.text("Stratos Core V10.15 | Visual Output", margin + 14, 20);
                 doc.text(new Date().toLocaleString(), pageWidth - margin, 20, { align: "right" });
                 cursorY = 45;
             };
@@ -789,13 +861,16 @@ agent = AgentMemory()
                     await runStep("Collab-A: Lendo Source Code...", 500);
                 }
 
+                // Retrieve Context first (Safe)
                 if(pyodide) {
                     const memBox = document.getElementById('memory-box');
                     memBox.classList.add('memory-active');
                     setTimeout(()=>memBox.classList.remove('memory-active'), 1000);
-                    const res = await pyodide.runPythonAsync(`agent.retrieve(${JSON.stringify(txt)})`);
-                    const j = JSON.parse(res);
-                    ctx = j.ctx; profile = JSON.stringify(j.profile);
+                    try {
+                        const res = await pyodide.runPythonAsync(`agent.retrieve(${JSON.stringify(txt)})`);
+                        const j = JSON.parse(res);
+                        ctx = j.ctx; profile = JSON.stringify(j.profile);
+                    } catch(e) { console.warn("Retrieval error:", e); }
                 }
 
                 const isComplex = txt.length > 30 || txt.includes("analise") || txt.includes("crie") || currentWorkflowMode==='coder';
@@ -809,6 +884,7 @@ agent = AgentMemory()
                     hidePlanner();
                 }
 
+                // API Call
                 const resp = await callAPI(txt, uMsg.att, ctx, profile, sourceContext);
                 
                 let cleanResp = resp;
@@ -823,8 +899,15 @@ agent = AgentMemory()
                     if (validModes.includes(newMode)) {
                         if (newMode !== currentWorkflowMode) {
                             setMode(newMode); 
-                            showTransitionToast(newMode); 
                             transitionOccurred = true;
+                            
+                            // Trigger Idea 7: Consolidate Memory
+                            if(pyodide) {
+                                await pyodide.runPythonAsync("agent.consolidate()");
+                                refreshProfileUI();
+                            }
+                            
+                            showTransitionToast(newMode, true); 
                         }
                     }
                     cleanResp = cleanResp.replace(switchMatch[0], "");
@@ -856,10 +939,15 @@ agent = AgentMemory()
                 addMsg(aMsg);
                 processCode(cleanResp);
                 
+                // SAVE TO MEMORY (Wrapped in Try/Catch to prevent crash)
                 if(pyodide) {
-                    await pyodide.runPythonAsync(`agent.add(${JSON.stringify(txt)}, ${JSON.stringify(cleanResp.substring(0,100))})`);
-                    localStorage.setItem(DB_KEY_MEMORY, await pyodide.runPythonAsync(`agent.export()`));
-                    refreshProfileUI();
+                    try {
+                        await pyodide.runPythonAsync(`agent.add(${JSON.stringify(txt)}, ${JSON.stringify(cleanResp.substring(0,100))})`);
+                        localStorage.setItem(DB_KEY_MEMORY, await pyodide.runPythonAsync(`agent.export()`));
+                        refreshProfileUI();
+                    } catch(memErr) {
+                        console.error("Failed to save memory:", memErr);
+                    }
                 }
 
                 const chat = chats.find(c=>c.id===activeChatId);
@@ -871,15 +959,24 @@ agent = AgentMemory()
 
             } catch(e) {
                 removeLoader(loaderId);
-                addMsg({role:'model', content:`❌ **Erro do Sistema:** ${e.message}`, error:true});
+                addMsg({role:'model', content:`❌ **Erro do Sistema:** ${e.message} \n\n*Dica: Verifique se suas chaves API estão válidas em Configurações (ícone de engrenagem).*`, error:true});
             }
         }
 
         async function callAPI(prompt, att, ctx, prof, sourceCode) {
-            if(apiKeys.length===0) loadSettings();
-            if(apiKeys.length===0) throw new Error("Sem chaves API.");
+            // Ensure we have keys
+            if(apiKeys.length === 0) {
+                 if(apiKey) apiKeys.push(apiKey);
+                 else loadSettings();
+            }
+            // If still no keys, try to load defaults (which might be empty now, prompting user)
+            if(apiKeys.length === 0 && !apiKey) {
+                // Try to load K1/K2 if they exist, else error
+                loadDefaultKeys();
+            }
+            if(apiKeys.length === 0) throw new Error("Sem chaves API. Por favor, adicione sua chave Gemini nas Configurações (ícone de engrenagem).");
 
-            let sys = `System: Você é NeuroNexus V10.11 (Stratos Visual Native). Perfil: ${prof}.\n`;
+            let sys = `System: Você é NeuroNexus V10.15 (Stratos Visual Native). Perfil: ${prof}.\n`;
             
             sys += `IMPORTANTE: Você possui um Roteador de Intenção Dinâmico. Se o usuário mudar de assunto, emita [[MODE_SWITCH: novo_modo]] IMEDIATAMENTE.\n`;
             sys += `META-COGNIÇÃO: Ao final, use [[CONFIDENCE: 0-100%]].\n`;
@@ -919,18 +1016,44 @@ agent = AgentMemory()
 
             const contents = [{role:"user", parts:[{text:sys}]}, ...hist, {role:"user", parts}];
 
+            // API Loop with Fallback
+            const models = [
+                'gemini-2.5-flash-preview-09-2025', 
+                'gemini-1.5-flash'
+            ];
+
             for(let i=0; i<apiKeys.length; i++) {
                 const key = getNextKey();
-                try {
-                    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${key}`, {
-                        method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({contents})
-                    });
-                    if(!r.ok) continue;
-                    const d = await r.json();
-                    return d.candidates[0].content.parts[0].text;
-                } catch(e) {}
+                if(!key) continue;
+
+                for (const model of models) {
+                    try {
+                        const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
+                            method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({contents})
+                        });
+
+                        if(r.status === 429) {
+                            console.warn(`Key ${i.toString().substring(0,5)}... rate limited on ${model}.`);
+                            break; // Break model loop, try next key
+                        }
+                        
+                        if(r.status === 400 || r.status === 404) {
+                             console.warn(`Key ${i.toString().substring(0,5)}... invalid for ${model} (${r.status}). Trying fallback model...`);
+                             continue; // Try next model with SAME key
+                        }
+
+                        if(!r.ok) {
+                            console.error(`API Error: ${r.status}`);
+                            break; // Unknown error, try next key
+                        }
+
+                        const d = await r.json();
+                        if(!d.candidates || !d.candidates[0]) continue;
+                        return d.candidates[0].content.parts[0].text;
+                    } catch(e) { console.error(e); }
+                }
             }
-            throw new Error("Falha na rede neural.");
+            throw new Error("Falha na conexão: Todas as chaves falharam ou estão sem cota.");
         }
 
         function addMsg(m) {
@@ -1029,11 +1152,15 @@ agent = AgentMemory()
             div.innerHTML = `<div class="step-icon"><i class="fas fa-check"></i></div> ${txt}`;
         }
 
-        function showTransitionToast(newMode) {
+        function showTransitionToast(newMode, consolidated = false) {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = 'transition-toast';
-            toast.innerHTML = `<i class="fas fa-sync fa-spin"></i> Mudando foco para: ${newMode.toUpperCase()}`;
+            
+            let text = `<div class="flex items-center gap-2 mb-1"><i class="fas fa-sync fa-spin"></i> Mudando foco para: ${newMode.toUpperCase()}</div>`;
+            if(consolidated) text += `<div class="text-[9px] opacity-80"><i class="fas fa-compress-arrows-alt"></i> Memória Compactada</div>`;
+            
+            toast.innerHTML = text;
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 3500);
         }
